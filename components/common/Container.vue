@@ -13,13 +13,3 @@
     </div>
   </div>
 </template>
-
-<style scoped>
-.common-container-body::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-.common-container-body::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-}
-</style>
