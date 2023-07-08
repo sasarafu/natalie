@@ -7,4 +7,14 @@ export default defineNuxtConfig({
   pinia: {
     autoImports: ['defineStore'],
   },
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css?family=Material+Symbols+Outlined',
+        },
+      ],
+    },
+  },
 });
