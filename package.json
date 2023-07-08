@@ -13,6 +13,10 @@
     "lint": "npm run lint:ts && npm run lint:eslint && npm run lint:prettier",
     "lintfix": "prettier --write --list-different --ignore-path .gitignore ."
   },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
+    "pinia": "^2.1.4"
+  },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
@@ -21,11 +25,16 @@
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "@vue/eslint-config-prettier": "^7.1.0",
+    "@vueuse/core": "^10.2.1",
+    "@vueuse/nuxt": "^10.2.1",
     "daisyui": "^3.2.1",
     "eslint": "^8.44.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-nuxt": "^4.0.0",
     "nuxt": "^3.6.1",
     "prettier": "^2.8.8"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
