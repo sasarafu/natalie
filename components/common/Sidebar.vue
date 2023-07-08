@@ -21,7 +21,7 @@
     <section
       v-if="activeAccount"
       v-show="isExpanded"
-      class="flex flex-col gap-y-2 w-64 p-2 bg-neutral"
+      class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
     >
       <CommonAccountSelector v-model="activeAccount" :accounts="accounts" />
 

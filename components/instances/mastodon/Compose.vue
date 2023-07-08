@@ -1,7 +1,7 @@
 <template>
   <textarea
     v-model="message"
-    class="textarea w-full h-48"
+    class="textarea w-full h-96"
     placeholder="mastodon"
     @keydown.enter.meta.exact="handleKeydownEnter"
   />
