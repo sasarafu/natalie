@@ -27,12 +27,12 @@
         <template v-for="item in items" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <MisskeyColumnItem
-            v-if="item.account.instanceType == 'misskey'"
+            v-if="item.user.instance.type == 'misskey'"
             :item="item"
             :now="now"
           />
           <MastodonColumnItem
-            v-if="item.account.instanceType == 'mastodon'"
+            v-if="item.user.instance.type == 'mastodon'"
             :item="item"
             :now="now"
           />

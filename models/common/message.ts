@@ -1,8 +1,8 @@
-import type { IAccount } from './account';
+import type { IUser } from './user';
 
 export type IMessage = {
   id: string;
-  account: IAccount;
+  user: IUser;
   text: string;
   date: Date;
 };

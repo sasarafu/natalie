@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IAccount } from '~/models/account';
+import type { ILoginUser } from 'models/common/user';
 
 defineProps<{
-  account: IAccount;
+  user: ILoginUser;
 }>();
 
 const message = ref<string>('');
