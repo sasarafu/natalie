@@ -13,8 +13,8 @@
       <header class="flex gap-x-1 items-end">
         <a href="#" tabindex="-1" class="flex-initial shrink-[99999] truncate">
           <span class="font-bold">{{ item.account.name }}</span>
-          <small>@{{ item.account.id }}</small>
         </a>
+        <small class="flex-auto truncate">@{{ item.account.id }}</small>
         <small class="flex-none">
           {{ useRelativeTime(item.date) }}
         </small>
