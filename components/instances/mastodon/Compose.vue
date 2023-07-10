@@ -21,7 +21,7 @@ const message = ref<string>('');
 const submitting = ref<boolean>(false);
 
 const submit = () => {
-  if (message.value.length === 0) return;
+  if (message.value.length === 0 || submitting.value) return;
 
   submitting.value = true;
   console.log(`submitted: ${message.value}`);
