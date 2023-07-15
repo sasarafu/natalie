@@ -13,19 +13,29 @@
 <script setup lang="ts">
 import type { ILoginUser } from 'models/common/user';
 
-defineProps<{
+const props = defineProps<{
   user: ILoginUser;
 }>();
+
+const { $repositories } = useNuxtApp();
 
 const message = ref<string>('');
 const submitting = ref<boolean>(false);
 
-const submit = () => {
+const submit = async () => {
   if (message.value.length === 0 || submitting.value) return;
 
   submitting.value = true;
-  console.log(`submitted: ${message.value}`);
-  message.value = '';
+
+  try {
+    await $repositories('misskey').client(props.user).request('notes/create', {
+      text: message.value,
+      visibility: 'followers',
+    });
+
+    message.value = '';
+  } catch (_) {}
+
   submitting.value = false;
 };
 </script>
