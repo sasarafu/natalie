@@ -19,19 +19,19 @@
     </CommonContainer>
 
     <section
-      v-if="activeAccount"
+      v-if="activeLoginUser"
       v-show="isExpanded"
       class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
     >
-      <CommonAccountSelector v-model="activeAccount" :accounts="accounts" />
+      <CommonUserSelector v-model="activeLoginUser" :users="loginUsers" />
 
       <MisskeyCompose
-        v-if="activeAccount?.instanceType === 'misskey'"
-        :account="activeAccount"
+        v-if="activeLoginUser?.instance.type === 'misskey'"
+        :user="activeLoginUser"
       />
       <MastodonCompose
-        v-if="activeAccount?.instanceType === 'mastodon'"
-        :account="activeAccount"
+        v-if="activeLoginUser?.instance.type === 'mastodon'"
+        :user="activeLoginUser"
       />
     </section>
   </header>
@@ -39,13 +39,13 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useAccounts } from '~/stores/accounts';
-import type { IAccount } from '~/models/common/account';
+import { useLoginUsers } from '~/stores/loginUsers';
+import type { ILoginUser } from '~/models/common/user';
 
-const { accounts } = storeToRefs(useAccounts());
+const { loginUsers } = storeToRefs(useLoginUsers());
 
 const isExpanded = ref<boolean>(true);
-const activeAccount = toRef<IAccount>(accounts.value[0]);
+const activeLoginUser = toRef<ILoginUser>(loginUsers.value[0]);
 
 const expandMenu = () => {
   isExpanded.value = !isExpanded.value;

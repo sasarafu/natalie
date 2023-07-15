@@ -28,6 +28,7 @@
     "@vueuse/core": "^10.2.1",
     "@vueuse/nuxt": "^10.2.1",
     "daisyui": "^3.2.1",
+    "dayjs-nuxt": "^1.1.2",
     "eslint": "^8.44.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-nuxt": "^4.0.0",
