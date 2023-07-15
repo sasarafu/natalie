@@ -1,3 +1,10 @@
-import type { IInstanceRepository } from '~/repositories/instances/base';
+import { login } from 'masto';
+import type { ILoginUser } from 'models/common/user';
 
-export const mastodonRepository: IInstanceRepository = () => ({});
+export const mastodonRepository = () => ({
+  client: async (user: ILoginUser) =>
+    await login({
+      url: user.instance.baseUrl,
+      accessToken: user.accessToken,
+    }),
+});
