@@ -1,1 +1,2 @@
-export type IInstanceType = 'misskey' | 'mastodon';
+export const instanceTypes = ['mastodon', 'misskey'] as const;
+export type IInstanceType = (typeof instanceTypes)[number];
