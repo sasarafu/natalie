@@ -1,6 +1,9 @@
 <template>
   <div class="h-screen w-screen static">
-    <div class="flex justify-center items-center h-full">
+    <form
+      class="flex justify-center items-center h-full"
+      @submit.prevent="submit"
+    >
       <div class="flex flex-col gap-y-3 justify-center items-center h-full">
         <button
           v-for="instanceType in instanceTypes"
@@ -36,14 +39,14 @@
         </div>
 
         <button
-          type="button"
+          type="submit"
           class="btn btn-secondary join-item"
           :disabled="isLinkInvalid"
         >
-          <NuxtLink :to="link">Let's go</NuxtLink>
+          Let's go
         </button>
       </div>
-    </div>
+    </form>
 
     <div class="absolute left-2 top-2">
       <NuxtLink to="/" type="button" class="btn">
@@ -67,20 +70,20 @@ const isLinkInvalid = computed(() => {
   return !selectedInstanceType.value || !instanceUrl.value.length;
 });
 
-const link = computed(() => {
+const submit = () => {
   if (!selectedInstanceType.value) {
-    return undefined;
+    return;
   }
 
   try {
-    return $repositories(selectedInstanceType.value).getAuthUrl(
+    const url = $repositories(selectedInstanceType.value).getAuthUrl(
       instanceUrl.value,
       window.location.origin,
     );
-  } catch {
-    return undefined;
-  }
-});
+
+    navigateTo(url, { external: true });
+  } catch {}
+};
 
 const switchInstance = (instanceType: IInstanceType) => {
   if (selectedInstanceType.value !== instanceType) {
