@@ -35,4 +35,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  runtimeConfig: {
+    public: {
+      appName: 'Natalie',
+    },
+  },
 });
