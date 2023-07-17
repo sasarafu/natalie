@@ -1,8 +1,9 @@
+import type { entities } from 'misskey-js';
 import { api } from 'misskey-js';
 import type { ILoginUser } from 'models/common/user';
 
 export const misskeyRepository = () => ({
-  client(user: ILoginUser) {
+  client: (user: ILoginUser) => {
     return new api.APIClient({
       origin: user.instance.baseUrl,
       credential: user.accessToken,
@@ -29,5 +30,21 @@ export const misskeyRepository = () => ({
       'read:account,write:account,read:blocks,write:blocks,read:drive,write:drive,read:favorites,write:favorites,read:following,write:following,read:messaging,write:messaging,read:mutes,write:mutes,write:notes,read:notifications,write:notifications,write:reactions,write:votes,read:pages,write:pages,write:page-likes,read:page-likes,write:gallery-likes,read:gallery-likes',
     );
     return url.toString();
+  },
+  getAccessToken: async (instanceUrl: string, session: string) => {
+    return (
+      await useFetch<
+        {
+          ok: boolean;
+          token: string;
+          user: entities.User;
+        },
+        any,
+        any,
+        'post'
+      >(`https://${instanceUrl}/api/miauth/${session}/check`, {
+        method: 'POST',
+      })
+    ).data.value;
   },
 });
