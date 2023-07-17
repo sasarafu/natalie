@@ -1,0 +1,52 @@
+name: deploy-dev
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: 'deploy-dev'
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '18.x'
+  NUXT_PUBLIC_HASH: ${{ github.sha }}
+
+jobs:
+  build-deploy-dev:
+    runs-on: ubuntu-latest
+    environment:
+      name: deploy-dev
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: npm ci
+        run: npm ci
+
+      - name: generate static files
+        run: npm run generate
+
+      - name: auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: deploy to Google Cloud Storage
+        uses: google-github-actions/upload-cloud-storage@v1
+        with:
+          path: ./dist
+          destination: ${{ secrets.BUCKET_NAME }}
+          parent: false
