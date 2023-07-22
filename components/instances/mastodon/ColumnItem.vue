@@ -1,27 +1,13 @@
 <template>
-  <article class="flex gap-x-2 p-2">
-    <div class="flex-none">
-      <a href="#" tabindex="-1">
-        <img
-          :src="item.user.iconUrl"
-          class="w-9 h-9 rounded-full"
-          draggable="false"
-        />
-      </a>
-    </div>
-    <div class="flex-auto min-w-0">
-      <header class="flex gap-x-1 items-end">
-        <a href="#" tabindex="-1" class="flex-initial shrink-[9999] truncate">
-          <span class="font-bold">{{ item.user.displayName }}</span>
-        </a>
-        <small class="flex-auto truncate">@{{ item.user.username }}</small>
-        <small class="flex-none">
-          {{ useRelativeTime(item.createdAt) }}
-        </small>
-      </header>
+  <CommonColumnItemContainer
+    :icon-url="item.user.iconUrl"
+    :display-name="item.user.displayName"
+    :username="item.user.username"
+    :created-at="item.createdAt"
+  >
+    <p class="w-full break-words" v-html="useSanitizeHTML(item.text)"></p>
 
-      <p class="w-full break-words" v-html="useSanitizeHTML(item.text)"></p>
-
+    <template #footer>
       <div class="flex gap-x-1 mt-1">
         <span></span>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
@@ -37,8 +23,8 @@
           <span class="material-symbols-outlined text-base">more_horiz</span>
         </button>
       </div>
-    </div>
-  </article>
+    </template>
+  </CommonColumnItemContainer>
 </template>
 
 <script setup lang="ts">
