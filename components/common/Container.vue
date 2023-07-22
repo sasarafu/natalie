@@ -1,5 +1,5 @@
 <template>
-  <div class="common-container overflow-x-hidden flex flex-col">
+  <div class="common-container flex flex-col">
     <div class="common-container-header">
       <slot name="header" class="common-container-header"></slot>
     </div>

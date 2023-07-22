@@ -16,6 +16,24 @@
           </button>
         </div>
       </template>
+
+      <template #footer>
+        <div class="flex flex-col gap-y-2">
+          <details class="dropdown dropdown-end dropdown-right">
+            <summary class="btn btn-circle btn-ghost">
+              <span class="material-symbols-outlined">settings</span>
+            </summary>
+            <ul class="menu dropdown-content bg-base-100 rounded-box">
+              <li>
+                <NuxtLink to="/login">
+                  <span class="material-symbols-outlined">person_add</span>
+                  add account
+                </NuxtLink>
+              </li>
+            </ul>
+          </details>
+        </div>
+      </template>
     </CommonContainer>
 
     <section
