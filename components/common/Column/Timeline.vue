@@ -4,7 +4,7 @@
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
           <div class="flex items-center h-12 py-2">
-            <p class="text-lg font-bold flex-auto">{{ columnName }}</p>
+            <p class="text-lg font-bold flex-auto">{{ timeline.name }}</p>
             <button
               type="button"
               class="btn btn-ghost btn-square btn-sm w-fit"
@@ -43,12 +43,16 @@
 </template>
 
 <script setup lang="ts">
-import type { IMessage } from '~/models/common/message';
+import { storeToRefs } from 'pinia';
+import { useDatasources } from '~/stores/datasources';
+import type { ITimeline } from '~/models/common/timeline';
 
-defineProps<{
-  columnName: string;
-  items: IMessage[];
+const props = defineProps<{
+  timeline: ITimeline;
 }>();
+
+const { datasources } = storeToRefs(useDatasources());
+const items = computed(() => datasources.value[props.timeline.id]);
 
 const isDetailExpanded = ref<boolean>(false);
 const now = ref<number>(Date.now());

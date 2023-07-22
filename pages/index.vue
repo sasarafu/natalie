@@ -7,8 +7,7 @@
           <CommonColumnTimeline
             v-for="timeline in timelines"
             :key="timeline.id"
-            :column-name="timeline.name"
-            :items="datasources[timeline.id]"
+            :timeline="timeline"
           />
         </div>
       </div>
@@ -18,20 +17,13 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useDatasources } from '~/stores/datasources';
 import { useLoginUsers } from '~/stores/loginUsers';
 import { useTimelines } from '~/stores/timelines';
 
-const { datasources } = storeToRefs(useDatasources());
 const { loginUsers } = storeToRefs(useLoginUsers());
 const { timelines } = storeToRefs(useTimelines());
 
 if (loginUsers.value.length === 0) {
   navigateTo('/login');
 }
-
-// initialize timelines
-timelines.value.forEach((timeline) => {
-  datasources.value[timeline.id] = [];
-});
 </script>
