@@ -15,3 +15,8 @@
   font-size: inherit;
   line-height: inherit;
 }
+
+/* bug? */
+.dropdown-end .dropdown-content {
+  right: initial;
+}
