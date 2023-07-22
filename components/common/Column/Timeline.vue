@@ -17,8 +17,8 @@
             </button>
           </div>
 
-          <div v-if="isDetailExpanded" class="py-2">
-            <!-- そのうち作る -->
+          <div v-if="isDetailExpanded">
+            <CommonColumnTimelineConfig :timeline="timeline" />
           </div>
         </header>
       </template>
