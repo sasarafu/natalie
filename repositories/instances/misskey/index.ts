@@ -4,6 +4,10 @@ import type { ILoginUser } from 'models/common/user';
 
 export const misskeyRepository = () => ({
   client: (user: ILoginUser) => {
+    if (user.instance.type !== 'misskey') {
+      throw new Error('not misskey');
+    }
+
     return new api.APIClient({
       origin: user.instance.baseUrl,
       credential: user.accessToken,
