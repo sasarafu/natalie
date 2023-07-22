@@ -3,7 +3,7 @@
     <div class="flex-none">
       <a href="#" tabindex="-1">
         <img
-          :src="item.user.icon"
+          :src="item.user.iconUrl"
           class="w-9 h-9 rounded-full"
           draggable="false"
         />
@@ -12,15 +12,15 @@
     <div class="flex-auto min-w-0">
       <header class="flex gap-x-1 items-end">
         <a href="#" tabindex="-1" class="flex-initial shrink-[9999] truncate">
-          <span class="font-bold">{{ item.user.name }}</span>
+          <span class="font-bold">{{ item.user.displayName }}</span>
         </a>
-        <small class="flex-auto truncate">@{{ item.user.id }}</small>
+        <small class="flex-auto truncate">@{{ item.user.username }}</small>
         <small class="flex-none">
-          {{ useRelativeTime(item.date) }}
+          {{ useRelativeTime(item.createdAt) }}
         </small>
       </header>
 
-      <p class="w-full break-words">{{ item.text }}</p>
+      <p class="w-full break-words" v-html="useSanitizeHTML(item.text)"></p>
 
       <div class="flex gap-x-1 mt-1">
         <span></span>
