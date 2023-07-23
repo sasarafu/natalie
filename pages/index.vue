@@ -9,7 +9,7 @@
             :key="timeline.id"
             :timeline="timeline"
           />
-          <CommonColumnMenu />
+          <CommonColumnMenu class="ml-auto" />
         </div>
       </div>
     </template>
