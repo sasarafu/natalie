@@ -45,14 +45,20 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useDatasources } from '~/stores/datasources';
+import { useLoginUsers } from '~/stores/loginUsers';
 import type { ITimeline } from '~/models/common/timeline';
 
 const props = defineProps<{
   timeline: ITimeline;
 }>();
 
+const { $repositories } = useNuxtApp();
+
 const { datasources } = storeToRefs(useDatasources());
 const items = computed(() => datasources.value[props.timeline.id]);
+
+const { loginUsers } = storeToRefs(useLoginUsers());
+const user = loginUsers.value[props.timeline.query.user];
 
 const isDetailExpanded = ref<boolean>(false);
 const now = ref<number>(Date.now());
@@ -60,6 +66,17 @@ const now = ref<number>(Date.now());
 const toggleDetail = () => {
   isDetailExpanded.value = !isDetailExpanded.value;
 };
+
+datasources.value[props.timeline.id] = [];
+useAsyncData(async () => {
+  try {
+    const messages = await $repositories(user.instance.type).getTimeline(
+      props.timeline.query,
+      user,
+    );
+    datasources.value[props.timeline.id].push(...messages);
+  } catch {}
+});
 
 setInterval(() => {
   now.value = Date.now();
