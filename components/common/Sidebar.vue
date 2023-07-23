@@ -41,7 +41,10 @@
       v-show="isExpanded"
       class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
     >
-      <CommonUserSelector v-model="activeLoginUser" :users="loginUsers" />
+      <CommonUserSelector
+        v-model="activeLoginUser"
+        :users="orderedLoginUsers"
+      />
 
       <MisskeyCompose
         v-if="activeLoginUser?.instance.type === 'misskey'"
@@ -60,10 +63,10 @@ import { storeToRefs } from 'pinia';
 import { useLoginUsers } from '~/stores/loginUsers';
 import type { ILoginUser } from '~/models/common/user';
 
-const { loginUsers } = storeToRefs(useLoginUsers());
+const { orderedLoginUsers } = storeToRefs(useLoginUsers());
 
 const isExpanded = ref<boolean>(true);
-const activeLoginUser = toRef<ILoginUser>(loginUsers.value[0]);
+const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
 const expandMenu = () => {
   isExpanded.value = !isExpanded.value;

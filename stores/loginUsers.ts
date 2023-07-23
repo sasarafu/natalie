@@ -2,17 +2,22 @@ import { useLocalStorage } from '@vueuse/core';
 import type { ILoginUser } from 'models/common/user';
 
 export const useLoginUsers = defineStore('loginUsers', () => {
-  const loginUsers = useLocalStorage<ILoginUser[]>('natalie/loginUsers', []);
+  const loginUsers = useLocalStorage<{ [key: ILoginUser['id']]: ILoginUser }>(
+    'natalie/loginUsers',
+    {},
+  );
+
+  const orderedLoginUsers = computed(() => {
+    return Object.values(loginUsers.value);
+  });
 
   const add = (user: ILoginUser) => {
-    loginUsers.value.push(user);
+    loginUsers.value[user.id] = user;
   };
 
   const remove = (userId: ILoginUser['id']) => {
-    loginUsers.value = loginUsers.value.filter(
-      (loginUser) => loginUser.id !== userId,
-    );
+    delete loginUsers.value[userId];
   };
 
-  return { loginUsers, add, remove };
+  return { loginUsers, orderedLoginUsers, add, remove };
 });

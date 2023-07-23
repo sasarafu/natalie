@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="loginUsers.length">
+    <template v-if="orderedLoginUsers.length">
       <div class="flex gap-x-1 h-screen w-screen bg-base-300">
         <CommonSidebar />
         <div class="flex-auto flex gap-x-1 overflow-x-auto">
@@ -20,10 +20,10 @@ import { storeToRefs } from 'pinia';
 import { useLoginUsers } from '~/stores/loginUsers';
 import { useTimelines } from '~/stores/timelines';
 
-const { loginUsers } = storeToRefs(useLoginUsers());
+const { orderedLoginUsers } = storeToRefs(useLoginUsers());
 const { timelines } = storeToRefs(useTimelines());
 
-if (loginUsers.value.length === 0) {
+if (orderedLoginUsers.value.length === 0) {
   navigateTo('/login');
 }
 </script>
