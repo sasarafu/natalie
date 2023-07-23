@@ -1,7 +1,8 @@
+import type { UUID } from 'crypto';
 import type { IInstance } from '~/models/common/instance';
 
 export type IUser = {
-  id: string;
+  userid: string; // インスタンスごとに割り振られるuser id
   username: string;
   instance: IInstance;
 
@@ -10,5 +11,6 @@ export type IUser = {
 };
 
 export type ILoginUser = IUser & {
+  id: UUID; // このアプリケーション上でユーザを特定するためのid
   accessToken: string;
 };

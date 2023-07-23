@@ -51,9 +51,11 @@ const submit = async () => {
 
   if (typeof instanceUrl === 'string') {
     const tempLoginUser: ILoginUser = {
-      id: '',
-      name: '',
-      icon: '',
+      id: crypto.randomUUID(),
+      userid: '',
+      username: '',
+      displayName: '',
+      iconUrl: '',
       instance: {
         type: 'mastodon',
         baseUrl: `https://${instanceUrl}`,
@@ -67,9 +69,11 @@ const submit = async () => {
       ).v1.accounts.verifyCredentials();
 
       add({
-        id: res.id,
-        name: res.displayName || res.username,
-        icon: res.avatar,
+        id: crypto.randomUUID(),
+        userid: res.id,
+        username: res.username,
+        displayName: res.displayName,
+        iconUrl: res.avatar,
         instance: {
           type: 'mastodon',
           baseUrl: `https://${instanceUrl}`,

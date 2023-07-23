@@ -25,9 +25,11 @@ if (typeof instanceUrl === 'string' && typeof sessionId === 'string') {
 
   if (res?.ok) {
     add({
-      id: res.user.id,
-      name: res.user.name || res.user.username,
-      icon: res.user.avatarUrl,
+      id: crypto.randomUUID(),
+      userid: res.user.id,
+      username: res.user.username,
+      displayName: res.user.name,
+      iconUrl: res.user.avatarUrl,
       instance: {
         type: 'misskey',
         baseUrl: `https://${instanceUrl}`,

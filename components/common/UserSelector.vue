@@ -8,7 +8,7 @@
       @click="$emit('update:modelValue', user)"
     >
       <img
-        :src="user.icon"
+        :src="user.iconUrl"
         class="w-10 h-10 rounded-full"
         draggable="false"
         :class="[
@@ -22,15 +22,15 @@
 </template>
 
 <script setup lang="ts">
-import type { IUser } from '~/models/common/user';
+import type { ILoginUser } from '~/models/common/user';
 
 // インスタンスで絞って呼び出す可能性があるので、usersはpropsで受け取る
 defineProps<{
-  users: IUser[];
-  modelValue: IUser; // active user
+  users: ILoginUser[];
+  modelValue: ILoginUser; // active user
 }>();
 
 defineEmits<{
-  (e: 'update:modelValue', value: IUser): void;
+  (e: 'update:modelValue', value: ILoginUser): void;
 }>();
 </script>
