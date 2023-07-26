@@ -3,8 +3,10 @@
     <CommonContainer class="h-full w-[330px] bg-base-100">
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
-          <div class="flex items-center h-12 py-2">
-            <p class="text-lg font-bold flex-auto">{{ timeline.name }}</p>
+          <div class="flex items-center h-12 py-2 gap-x-1">
+            <CommonPartsRoundedIcon :icon-url="user.iconUrl" class="w-8 h-8" />
+            <p class="text-base font-semibold flex-auto">{{ timeline.name }}</p>
+
             <button
               type="button"
               class="btn btn-ghost btn-square btn-sm w-fit"
@@ -27,12 +29,12 @@
         <template v-for="item in items" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <MisskeyColumnItem
-            v-if="item.user.instance.type == 'misskey'"
+            v-if="item.user.instance.type === 'misskey'"
             :item="item"
             :now="now"
           />
           <MastodonColumnItem
-            v-if="item.user.instance.type == 'mastodon'"
+            v-if="item.user.instance.type === 'mastodon'"
             :item="item"
             :now="now"
           />
@@ -58,7 +60,7 @@ const { datasources } = storeToRefs(useDatasources());
 const items = computed(() => datasources.value[props.timeline.id]);
 
 const { loginUsers } = storeToRefs(useLoginUsers());
-const user = loginUsers.value[props.timeline.query.user];
+const user = computed(() => loginUsers.value[props.timeline.query.user]);
 
 const isDetailExpanded = ref<boolean>(false);
 const now = ref<number>(Date.now());
@@ -70,9 +72,9 @@ const toggleDetail = () => {
 datasources.value[props.timeline.id] = [];
 useAsyncData(async () => {
   try {
-    const messages = await $repositories(user.instance.type).getTimeline(
+    const messages = await $repositories(user.value.instance.type).getTimeline(
       props.timeline.query,
-      user,
+      user.value,
     );
     datasources.value[props.timeline.id].push(...messages);
   } catch {}

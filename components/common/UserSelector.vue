@@ -7,10 +7,10 @@
       class="rounded-full"
       @click="$emit('update:modelValue', user)"
     >
-      <img
-        :src="user.iconUrl"
-        class="w-10 h-10 rounded-full"
-        draggable="false"
+      <CommonPartsRoundedIcon
+        :icon-url="user.iconUrl"
+        :is-active="user.id == modelValue.id"
+        class="w-10 h-10"
         :class="[
           user.id == modelValue.id
             ? 'border-2 border-accent'

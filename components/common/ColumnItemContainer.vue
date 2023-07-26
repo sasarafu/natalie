@@ -1,14 +1,14 @@
 <template>
-  <article class="flex gap-x-2 p-2">
+  <article class="flex gap-x-2 p-2 pt-3">
     <div class="flex-none">
       <a href="#" tabindex="-1">
-        <img :src="iconUrl" class="w-9 h-9 rounded-full" draggable="false" />
+        <CommonPartsRoundedIcon :icon-url="iconUrl" class="w-9 h-9" />
       </a>
     </div>
     <div class="flex-auto min-w-0">
       <header class="flex gap-x-1 items-end">
         <a href="#" tabindex="-1" class="flex-initial shrink-[9999] truncate">
-          <span class="font-bold">{{ displayName }}</span>
+          <span class="font-semibold">{{ displayName }}</span>
         </a>
         <small class="flex-auto truncate">@{{ username }}</small>
         <small class="flex-none">
