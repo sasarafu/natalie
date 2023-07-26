@@ -2,7 +2,7 @@
   <article class="flex gap-x-2 p-2">
     <div class="flex-none">
       <a href="#" tabindex="-1">
-        <img :src="iconUrl" class="w-9 h-9 rounded-full" draggable="false" />
+        <CommonPartsRoundedIcon :icon-url="iconUrl" class="w-9 h-9" />
       </a>
     </div>
     <div class="flex-auto min-w-0">
