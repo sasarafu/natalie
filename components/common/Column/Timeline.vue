@@ -5,7 +5,7 @@
         <header class="flex flex-col bg-neutral px-3">
           <div class="flex items-center h-12 py-2 gap-x-1">
             <CommonPartsRoundedIcon :icon-url="user.iconUrl" class="w-8 h-8" />
-            <p class="text-lg font-bold flex-auto">{{ timeline.name }}</p>
+            <p class="text-base font-semibold flex-auto">{{ timeline.name }}</p>
 
             <button
               type="button"

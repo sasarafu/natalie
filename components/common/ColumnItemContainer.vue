@@ -8,7 +8,7 @@
     <div class="flex-auto min-w-0">
       <header class="flex gap-x-1 items-end">
         <a href="#" tabindex="-1" class="flex-initial shrink-[9999] truncate">
-          <span class="font-bold">{{ displayName }}</span>
+          <span class="font-semibold">{{ displayName }}</span>
         </a>
         <small class="flex-auto truncate">@{{ username }}</small>
         <small class="flex-none">

@@ -5,7 +5,7 @@
     :username="item.user.username"
     :created-at="item.createdAt"
   >
-    <p class="w-full break-words">{{ item.text }}</p>
+    <p class="w-full break-words text-sm">{{ item.text }}</p>
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
