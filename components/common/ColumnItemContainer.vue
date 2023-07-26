@@ -1,5 +1,5 @@
 <template>
-  <article class="flex gap-x-2 p-2">
+  <article class="flex gap-x-2 p-2 pt-3">
     <div class="flex-none">
       <a href="#" tabindex="-1">
         <CommonPartsRoundedIcon :icon-url="iconUrl" class="w-9 h-9" />
