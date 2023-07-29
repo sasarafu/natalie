@@ -41,17 +41,13 @@
       v-show="isExpanded"
       class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
     >
-      <CommonUserSelector
+      <CommonPartsUserSelector
         v-model="activeLoginUser"
         :users="orderedLoginUsers"
       />
 
-      <MisskeyCompose
-        v-if="activeLoginUser?.instance.type === 'misskey'"
-        :user="activeLoginUser"
-      />
-      <MastodonCompose
-        v-if="activeLoginUser?.instance.type === 'mastodon'"
+      <component
+        :is="composeComponents[activeLoginUser.instance.type]"
         :user="activeLoginUser"
       />
     </section>
@@ -60,6 +56,11 @@
 
 <script setup lang="ts">
 import type { ILoginUser } from '~/models/common/user';
+
+const composeComponents = {
+  mastodon: resolveComponent('MastodonSidebarCompose'),
+  misskey: resolveComponent('MisskeySidebarCompose'),
+};
 
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 

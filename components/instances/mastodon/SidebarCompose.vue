@@ -1,5 +1,9 @@
 <template>
-  <CommonTextarea v-model="message" :readonly="submitting" @submit="submit" />
+  <CommonPartsTextarea
+    v-model="message"
+    :readonly="submitting"
+    @submit="submit"
+  />
   <button
     type="button"
     class="btn btn-primary"

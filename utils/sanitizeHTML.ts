@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 
-export const useSanitizeHTML = (html: string) => {
+export const sanitizeHTML = (html: string) => {
   return sanitizeHtml(html, {
     allowedTags: ['a', 'p', 'span', 'br'],
     allowedAttributes: {

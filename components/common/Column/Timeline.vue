@@ -28,13 +28,8 @@
       <div class="divide-y divide-dashed divide-neutral">
         <template v-for="item in items" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
-          <MisskeyColumnItem
-            v-if="item.user.instance.type === 'misskey'"
-            :item="item"
-            :now="now"
-          />
-          <MastodonColumnItem
-            v-if="item.user.instance.type === 'mastodon'"
+          <component
+            :is="columnItemComponents[item.user.instance.type]"
             :item="item"
             :now="now"
           />
@@ -51,7 +46,10 @@ const props = defineProps<{
   timeline: ITimeline;
 }>();
 
-const { $repositories } = useNuxtApp();
+const columnItemComponents = {
+  mastodon: resolveComponent('MastodonColumnItem'),
+  misskey: resolveComponent('MisskeyColumnItem'),
+};
 
 const { datasources } = storeToRefs(useDatasourcesStore());
 const items = computed(() => datasources.value[props.timeline.id]);
@@ -69,10 +67,7 @@ const toggleDetail = () => {
 datasources.value[props.timeline.id] = [];
 useAsyncData(async () => {
   try {
-    const messages = await $repositories(user.value.instance.type).getTimeline(
-      props.timeline.query,
-      user.value,
-    );
+    const messages = await getTimeline(props.timeline);
     datasources.value[props.timeline.id].push(...messages);
   } catch {}
 });

@@ -17,7 +17,7 @@
 
         <div class="divider"></div>
 
-        <CommonUserSelector
+        <CommonPartsUserSelector
           v-model="activeLoginUser"
           :users="orderedLoginUsers"
         />
