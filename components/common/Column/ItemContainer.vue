@@ -12,7 +12,7 @@
         </a>
         <small class="flex-auto truncate">@{{ username }}</small>
         <small class="flex-none">
-          {{ useRelativeTime(createdAt) }}
+          {{ calcRelativeTime(createdAt) }}
         </small>
       </header>
 
