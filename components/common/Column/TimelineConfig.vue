@@ -21,14 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import { useTimelines } from '~/stores/timelines';
 import type { ITimeline } from '~/models/common/timeline';
 
 const props = defineProps<{
   timeline: ITimeline;
 }>();
 
-const timelinesStore = useTimelines();
+const timelinesStore = useTimelinesStore();
 const target = timelinesStore.timelines.find(
   (timeline) => timeline.id === props.timeline.id,
 )!;

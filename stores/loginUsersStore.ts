@@ -1,7 +1,7 @@
 import { useLocalStorage } from '@vueuse/core';
 import type { ILoginUser } from 'models/common/user';
 
-export const useLoginUsers = defineStore('loginUsers', () => {
+export const useLoginUsersStore = defineStore('loginUsers', () => {
   const loginUsers = useLocalStorage<{ [key: ILoginUser['id']]: ILoginUser }>(
     'natalie/loginUsers',
     {},

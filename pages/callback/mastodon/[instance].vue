@@ -32,12 +32,11 @@
 // サーバごとにアプリの有無を管理したくないので、ユーザごとにアプリを作成してもらってそのアクセストークンを受け取るようにする
 
 import type { ILoginUser } from '~/models/common/user';
-import { useLoginUsers } from '~/stores/loginUsers';
 
 const { $repositories } = useNuxtApp();
 const $route = useRoute();
 
-const { add } = useLoginUsers();
+const { add } = useLoginUsersStore();
 
 const instanceUrl = $route.params.instance;
 

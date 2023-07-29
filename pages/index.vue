@@ -17,12 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useLoginUsers } from '~/stores/loginUsers';
-import { useTimelines } from '~/stores/timelines';
-
-const { orderedLoginUsers } = storeToRefs(useLoginUsers());
-const { timelines } = storeToRefs(useTimelines());
+const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
+const { timelines } = storeToRefs(useTimelinesStore());
 
 if (orderedLoginUsers.value.length === 0) {
   navigateTo('/login');

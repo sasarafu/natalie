@@ -45,9 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useDatasources } from '~/stores/datasources';
-import { useLoginUsers } from '~/stores/loginUsers';
 import type { ITimeline } from '~/models/common/timeline';
 
 const props = defineProps<{
@@ -56,10 +53,10 @@ const props = defineProps<{
 
 const { $repositories } = useNuxtApp();
 
-const { datasources } = storeToRefs(useDatasources());
+const { datasources } = storeToRefs(useDatasourcesStore());
 const items = computed(() => datasources.value[props.timeline.id]);
 
-const { loginUsers } = storeToRefs(useLoginUsers());
+const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
 
 const isDetailExpanded = ref<boolean>(false);
