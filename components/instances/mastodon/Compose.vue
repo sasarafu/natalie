@@ -17,8 +17,6 @@ const props = defineProps<{
   user: ILoginUser;
 }>();
 
-const { $repositories } = useNuxtApp();
-
 const message = ref<string>('');
 const submitting = ref<boolean>(false);
 
@@ -29,7 +27,7 @@ const submit = async () => {
 
   try {
     await (
-      await $repositories('mastodon').client(props.user)
+      await useApiClientsStore().get<'mastodon'>(props.user)
     ).v1.statuses.create({
       status: message.value,
       visibility: 'private',

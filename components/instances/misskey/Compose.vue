@@ -17,8 +17,6 @@ const props = defineProps<{
   user: ILoginUser;
 }>();
 
-const { $repositories } = useNuxtApp();
-
 const message = ref<string>('');
 const submitting = ref<boolean>(false);
 
@@ -28,7 +26,9 @@ const submit = async () => {
   submitting.value = true;
 
   try {
-    await $repositories('misskey').client(props.user).request('notes/create', {
+    await (
+      await useApiClientsStore().get<'misskey'>(props.user)
+    ).request('notes/create', {
       text: message.value,
       visibility: 'followers',
     });
