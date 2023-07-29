@@ -10,7 +10,7 @@
 <script setup lang="ts">
 const { $repositories } = useNuxtApp();
 const $route = useRoute();
-const { add } = useLoginUsers();
+const { add } = useLoginUsersStore();
 
 const instanceUrl = $route.params.instance;
 const sessionId = $route.query.session;

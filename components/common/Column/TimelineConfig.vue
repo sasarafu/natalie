@@ -27,7 +27,7 @@ const props = defineProps<{
   timeline: ITimeline;
 }>();
 
-const timelinesStore = useTimelines();
+const timelinesStore = useTimelinesStore();
 const target = timelinesStore.timelines.find(
   (timeline) => timeline.id === props.timeline.id,
 )!;

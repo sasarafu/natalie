@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import type { ILoginUser } from '~/models/common/user';
 
-const { orderedLoginUsers } = storeToRefs(useLoginUsers());
+const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 
 const isExpanded = ref<boolean>(true);
 const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);

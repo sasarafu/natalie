@@ -36,7 +36,7 @@ import type { ILoginUser } from '~/models/common/user';
 const { $repositories } = useNuxtApp();
 const $route = useRoute();
 
-const { add } = useLoginUsers();
+const { add } = useLoginUsersStore();
 
 const instanceUrl = $route.params.instance;
 

@@ -55,8 +55,8 @@ import { timelineTypes } from '~/models/common/timeline';
 import type { ILoginUser } from '~/models/common/user';
 import type { ITimelineType } from '~/models/common/timeline';
 
-const timelinesStore = useTimelines();
-const { orderedLoginUsers } = storeToRefs(useLoginUsers());
+const timelinesStore = useTimelinesStore();
+const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 
 const timelineName = ref('timeline');
 const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);

@@ -17,8 +17,8 @@
 </template>
 
 <script setup lang="ts">
-const { orderedLoginUsers } = storeToRefs(useLoginUsers());
-const { timelines } = storeToRefs(useTimelines());
+const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
+const { timelines } = storeToRefs(useTimelinesStore());
 
 if (orderedLoginUsers.value.length === 0) {
   navigateTo('/login');

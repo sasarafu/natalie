@@ -1,6 +1,6 @@
 import type { ITimeline } from '~/models/common/timeline';
 
-export const useTimelines = defineStore('timelines', () => {
+export const useTimelinesStore = defineStore('timelines', () => {
   const timelines = useLocalStorage<ITimeline[]>('natalie/timelines', []);
 
   const add = (user: ITimeline) => {
