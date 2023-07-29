@@ -5,7 +5,7 @@
     :username="item.user.username"
     :created-at="item.createdAt"
   >
-    <p class="w-full break-words text-sm" v-html="sanitizeHTML(item.text)"></p>
+    <p class="w-full break-words text-sm" v-html="sanitizedHTML"></p>
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
@@ -30,7 +30,9 @@
 <script setup lang="ts">
 import type { IMessage } from '~/models/common/message';
 
-defineProps<{
+const props = defineProps<{
   item: IMessage;
 }>();
+
+const sanitizedHTML = computed(() => sanitizeHTML(props.item.text));
 </script>
