@@ -28,13 +28,8 @@
       <div class="divide-y divide-dashed divide-neutral">
         <template v-for="item in items" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
-          <MisskeyColumnItem
-            v-if="item.user.instance.type === 'misskey'"
-            :item="item"
-            :now="now"
-          />
-          <MastodonColumnItem
-            v-if="item.user.instance.type === 'mastodon'"
+          <component
+            :is="columnItemComponents[item.user.instance.type]"
             :item="item"
             :now="now"
           />
@@ -50,6 +45,11 @@ import type { ITimeline } from '~/models/common/timeline';
 const props = defineProps<{
   timeline: ITimeline;
 }>();
+
+const columnItemComponents = {
+  mastodon: resolveComponent('MastodonColumnItem'),
+  misskey: resolveComponent('MisskeyColumnItem'),
+};
 
 const { datasources } = storeToRefs(useDatasourcesStore());
 const items = computed(() => datasources.value[props.timeline.id]);

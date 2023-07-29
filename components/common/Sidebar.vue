@@ -46,12 +46,8 @@
         :users="orderedLoginUsers"
       />
 
-      <MisskeySidebarCompose
-        v-if="activeLoginUser?.instance.type === 'misskey'"
-        :user="activeLoginUser"
-      />
-      <MastodonSidebarCompose
-        v-if="activeLoginUser?.instance.type === 'mastodon'"
+      <component
+        :is="composeComponents[activeLoginUser.instance.type]"
         :user="activeLoginUser"
       />
     </section>
@@ -60,6 +56,11 @@
 
 <script setup lang="ts">
 import type { ILoginUser } from '~/models/common/user';
+
+const composeComponents = {
+  mastodon: resolveComponent('MastodonSidebarCompose'),
+  misskey: resolveComponent('MisskeySidebarCompose'),
+};
 
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 
