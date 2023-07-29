@@ -33,7 +33,6 @@
 
 import type { ILoginUser } from '~/models/common/user';
 
-const { $repositories } = useNuxtApp();
 const $route = useRoute();
 
 const { add } = useLoginUsersStore();
@@ -64,7 +63,7 @@ const submit = async () => {
 
     try {
       const res = await (
-        await $repositories('mastodon').client(tempLoginUser)
+        await useApiClientsStore().get<'mastodon'>(tempLoginUser)
       ).v1.accounts.verifyCredentials();
 
       add({
