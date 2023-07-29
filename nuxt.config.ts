@@ -4,8 +4,11 @@ export default defineNuxtConfig({
   ssr: false,
   modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@pinia/nuxt', 'dayjs-nuxt'],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
+  imports: {
+    dirs: ['stores'],
+  },
   pinia: {
-    autoImports: ['defineStore'],
+    autoImports: ['defineStore', 'storeToRefs'],
   },
   dayjs: {
     defaultLocale: 'en',

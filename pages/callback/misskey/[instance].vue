@@ -8,8 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { useLoginUsers } from '~/stores/loginUsers';
-
 const { $repositories } = useNuxtApp();
 const $route = useRoute();
 const { add } = useLoginUsers();

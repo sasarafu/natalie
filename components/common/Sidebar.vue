@@ -59,8 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useLoginUsers } from '~/stores/loginUsers';
 import type { ILoginUser } from '~/models/common/user';
 
 const { orderedLoginUsers } = storeToRefs(useLoginUsers());

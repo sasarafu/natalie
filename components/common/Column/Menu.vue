@@ -51,10 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { timelineTypes } from '~/models/common/timeline';
-import { useLoginUsers } from '~/stores/loginUsers';
-import { useTimelines } from '~/stores/timelines';
 import type { ILoginUser } from '~/models/common/user';
 import type { ITimelineType } from '~/models/common/timeline';
 

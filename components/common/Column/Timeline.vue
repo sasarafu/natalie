@@ -45,9 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useDatasources } from '~/stores/datasources';
-import { useLoginUsers } from '~/stores/loginUsers';
 import type { ITimeline } from '~/models/common/timeline';
 
 const props = defineProps<{
