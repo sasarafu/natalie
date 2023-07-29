@@ -51,8 +51,6 @@ const props = defineProps<{
   timeline: ITimeline;
 }>();
 
-const { $repositories } = useNuxtApp();
-
 const { datasources } = storeToRefs(useDatasourcesStore());
 const items = computed(() => datasources.value[props.timeline.id]);
 
@@ -69,10 +67,7 @@ const toggleDetail = () => {
 datasources.value[props.timeline.id] = [];
 useAsyncData(async () => {
   try {
-    const messages = await $repositories(user.value.instance.type).getTimeline(
-      props.timeline.query,
-      user.value,
-    );
+    const messages = await getTimeline(props.timeline);
     datasources.value[props.timeline.id].push(...messages);
   } catch {}
 });

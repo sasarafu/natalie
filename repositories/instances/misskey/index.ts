@@ -1,29 +1,6 @@
 import type { entities } from 'misskey-js';
 import { api } from 'misskey-js';
-import type { IMessage } from '~/models/common/message';
-import type { ITimeline } from '~/models/common/timeline';
 import type { ILoginUser } from '~/models/common/user';
-import type { IInstanceType } from '~/models/instanceType';
-
-const noteToMessage = (note: any, user: ILoginUser) => {
-  return {
-    id: note.id,
-    createdAt: new Date(note.createdAt),
-    user: {
-      userid: note.user.id,
-      username: note.user.username,
-      instance: {
-        type: (note.user.instance?.name || 'misskey') as IInstanceType,
-        baseUrl: note.user.host || user.instance.baseUrl,
-      },
-      displayName: note.user.name,
-      iconUrl: note.user.avatarUrl,
-    },
-    visibility: note.visibility,
-    NSFW: note.isHidden || false,
-    text: note.text || '',
-  } as IMessage;
-};
 
 export const misskeyRepository = () => ({
   client: (user: ILoginUser) => {
@@ -74,47 +51,39 @@ export const misskeyRepository = () => ({
       })
     ).data.value;
   },
-  getTimeline: async (timelineQuery: ITimeline['query'], user: ILoginUser) => {
-    if (timelineQuery.user !== user.id || user.instance.type !== 'misskey') {
-      throw new Error('invalid');
-    }
-
-    const client = new api.APIClient({
-      origin: user.instance.baseUrl,
-      credential: user.accessToken,
-    });
-
-    switch (timelineQuery.type) {
-      case 'home':
-        return (await client.request('notes/timeline')).map((note) =>
-          noteToMessage(note, user),
-        );
-      case 'local':
-        return (await client.request('notes/local-timeline')).map((note) =>
-          noteToMessage(note, user),
-        );
-      case 'federation':
-        return (await client.request('notes/global-timeline')).map((note) =>
-          noteToMessage(note, user),
-        );
-      case 'list':
-        if (!timelineQuery.option?.listId) {
-          throw new Error('no listId');
-        }
-        return (
-          await client.request('notes/user-list-timeline', {
-            listId: timelineQuery.option.listId,
-          })
-        ).map((note) => noteToMessage(note, user));
-      case 'user':
-        if (!timelineQuery.option?.userId) {
-          throw new Error('no userId');
-        }
-        return (
-          await client.request('users/notes', {
-            userId: timelineQuery.option?.userId,
-          })
-        ).map((note) => noteToMessage(note, user));
-    }
+  getHomeTimeline: async (user: ILoginUser) => {
+    return (
+      await (
+        await useApiClientsStore().get<'misskey'>(user)
+      ).request('notes/timeline')
+    ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
+  getLocalTimeline: async (user: ILoginUser) => {
+    return (
+      await (
+        await useApiClientsStore().get<'misskey'>(user)
+      ).request('notes/local-timeline')
+    ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
+  getFedarationTimeline: async (user: ILoginUser) => {
+    return (
+      await (
+        await useApiClientsStore().get<'misskey'>(user)
+      ).request('notes/global-timeline')
+    ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
+  getListTimeline: async (user: ILoginUser, listId: string) => {
+    return (
+      await (
+        await useApiClientsStore().get<'misskey'>(user)
+      ).request('notes/user-list-timeline', { listId })
+    ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
+  getUserTimeline: async (user: ILoginUser, userId: string) => {
+    return (
+      await (
+        await useApiClientsStore().get<'misskey'>(user)
+      ).request('users/notes', { userId })
+    ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
 });
