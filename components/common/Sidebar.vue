@@ -41,16 +41,16 @@
       v-show="isExpanded"
       class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
     >
-      <CommonUserSelector
+      <CommonPartsUserSelector
         v-model="activeLoginUser"
         :users="orderedLoginUsers"
       />
 
-      <MisskeyCompose
+      <MisskeySidebarCompose
         v-if="activeLoginUser?.instance.type === 'misskey'"
         :user="activeLoginUser"
       />
-      <MastodonCompose
+      <MastodonSidebarCompose
         v-if="activeLoginUser?.instance.type === 'mastodon'"
         :user="activeLoginUser"
       />
