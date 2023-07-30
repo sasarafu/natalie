@@ -36,6 +36,6 @@ export const useWebSocket = async (
         callback,
       );
     case 'user':
-      // not implemented
+    // not implemented
   }
 };
