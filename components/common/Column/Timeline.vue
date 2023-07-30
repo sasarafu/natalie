@@ -1,6 +1,6 @@
 <template>
   <section>
-    <CommonContainer class="h-full w-[330px] bg-base-100">
+    <CommonContainer class="h-full w-[330px] bg-base-100" @bottom="loadPast">
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
           <div class="flex items-center h-12 py-2 gap-x-1">
@@ -35,6 +35,17 @@
           />
         </template>
       </div>
+
+      <template v-if="isLoadable" #loading>
+        <div class="p-3 text-center">
+          <!-- 1度読み込んだ後にまだ画面上にあった場合、再ロードされないのでボタンで手動ロードできるようにしておく -->
+          <div class="tooltip tooltip-bottom" data-tip="クリックして更新">
+            <button @click="loadPast">
+              <span class="loading loading-spinner"></span>
+            </button>
+          </div>
+        </div>
+      </template>
     </CommonContainer>
   </section>
 </template>
@@ -52,6 +63,7 @@ const columnItemComponents = {
 };
 
 const { datasources } = storeToRefs(useDatasourcesStore());
+datasources.value[props.timeline.id] = [];
 const items = computed(() => datasources.value[props.timeline.id]);
 
 const { loginUsers } = storeToRefs(useLoginUsersStore());
@@ -64,13 +76,31 @@ const toggleDetail = () => {
   isDetailExpanded.value = !isDetailExpanded.value;
 };
 
-datasources.value[props.timeline.id] = [];
-useAsyncData(async () => {
+// ロード
+const isLoadable = ref(true);
+const isLoading = ref(false);
+
+const loadPast = async () => {
+  if (isLoading.value || !isLoadable.value) {
+    return;
+  }
+
+  isLoading.value = true;
   try {
-    const messages = await getTimeline(props.timeline);
+    const messages = await getTimeline(props.timeline, {
+      untilId: items.value.slice(-1)?.[0]?.id,
+    });
     datasources.value[props.timeline.id].push(...messages);
+
+    // レスポンスがなければ無限スクロールを終了
+    if (messages.length === 0) {
+      isLoadable.value = false;
+    }
   } catch {}
-});
+  isLoading.value = false;
+};
+
+// TODO: WebSocketで最新を取得
 
 setInterval(() => {
   now.value = Date.now();

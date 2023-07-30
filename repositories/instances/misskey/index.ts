@@ -51,39 +51,64 @@ export const misskeyRepository = () => ({
       })
     ).data.value;
   },
-  getHomeTimeline: async (user: ILoginUser) => {
+  getHomeTimeline: async (
+    user: ILoginUser,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/timeline')
+      ).request('notes/timeline', params)
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
-  getLocalTimeline: async (user: ILoginUser) => {
+  getLocalTimeline: async (
+    user: ILoginUser,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/local-timeline')
+      ).request('notes/local-timeline', params)
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
-  getFedarationTimeline: async (user: ILoginUser) => {
+  getFedarationTimeline: async (
+    user: ILoginUser,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/global-timeline')
+      ).request('notes/global-timeline', params)
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
-  getListTimeline: async (user: ILoginUser, listId: string) => {
+  getListTimeline: async (
+    user: ILoginUser,
+    listId: string,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/user-list-timeline', { listId })
+      ).request('notes/user-list-timeline', {
+        listId,
+        sinceId: params?.sinceId,
+        untilId: params?.untilId,
+      })
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
-  getUserTimeline: async (user: ILoginUser, userId: string) => {
+  getUserTimeline: async (
+    user: ILoginUser,
+    userId: string,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('users/notes', { userId })
+      ).request('users/notes', {
+        userId,
+        sinceId: params?.sinceId,
+        untilId: params?.untilId,
+      })
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
 });

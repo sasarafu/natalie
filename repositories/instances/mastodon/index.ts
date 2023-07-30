@@ -20,39 +20,72 @@ export const mastodonRepository = () => ({
     const url = new URL(`/callback/mastodon/${instanceUrl}`, callbackBaseUrl);
     return url.toString();
   },
-  getHomeTimeline: async (user: ILoginUser) => {
+  getHomeTimeline: async (
+    user: ILoginUser,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listHome()
+      ).v1.timelines.listHome({
+        maxId: params?.untilId,
+        minId: params?.sinceId,
+      })
     ).map(mastodonConverter.statusToMessage);
   },
-  getLocalTimeline: async (user: ILoginUser) => {
+  getLocalTimeline: async (
+    user: ILoginUser,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listPublic({ local: true })
+      ).v1.timelines.listPublic({
+        local: true,
+        maxId: params?.untilId,
+        minId: params?.sinceId,
+      })
     ).map(mastodonConverter.statusToMessage);
   },
-  getFedarationTimeline: async (user: ILoginUser) => {
+  getFedarationTimeline: async (
+    user: ILoginUser,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listPublic()
+      ).v1.timelines.listPublic({
+        maxId: params?.untilId,
+        minId: params?.sinceId,
+      })
     ).map(mastodonConverter.statusToMessage);
   },
-  getListTimeline: async (user: ILoginUser, listId: string) => {
+  getListTimeline: async (
+    user: ILoginUser,
+    listId: string,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listList(listId)
+      ).v1.timelines.listList(listId, {
+        maxId: params?.untilId,
+        minId: params?.sinceId,
+      })
     ).map(mastodonConverter.statusToMessage);
   },
-  getUserTimeline: async (user: ILoginUser, userId: string) => {
+  getUserTimeline: async (
+    user: ILoginUser,
+    userId: string,
+    params?: { sinceId?: string; untilId?: string },
+  ) => {
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.accounts.listStatuses(userId)
+      ).v1.accounts.listStatuses(userId, {
+        maxId: params?.untilId,
+        minId: params?.sinceId,
+      })
     ).map(mastodonConverter.statusToMessage);
   },
 });

@@ -6,6 +6,10 @@
 
     <div class="common-container-body flex-auto overflow-y-auto">
       <slot></slot>
+
+      <div ref="observeBottom">
+        <slot name="loading"></slot>
+      </div>
     </div>
 
     <div>
@@ -13,3 +17,21 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const emits = defineEmits<{
+  (e: 'bottom'): void;
+}>();
+
+const observeBottom = ref<HTMLElement>();
+
+const observer = new IntersectionObserver((entries) => {
+  if (entries[0]?.isIntersecting) {
+    emits('bottom');
+  }
+});
+
+onMounted(() => {
+  observer.observe(observeBottom.value!);
+});
+</script>
