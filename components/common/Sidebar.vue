@@ -19,19 +19,30 @@
 
       <template #footer>
         <div class="flex flex-col gap-y-2">
-          <details class="dropdown dropdown-end dropdown-right">
-            <summary class="btn btn-circle btn-ghost">
+          <div class="dropdown dropdown-end dropdown-right">
+            <label tabindex="0" class="btn btn-circle btn-ghost">
               <span class="material-symbols-outlined">settings</span>
-            </summary>
-            <ul class="menu dropdown-content bg-base-100 rounded-box">
+            </label>
+            <ul
+              tabindex="0"
+              class="menu dropdown-content bg-base-100 rounded-box w-48"
+            >
               <li>
                 <NuxtLink to="/login">
                   <span class="material-symbols-outlined">person_add</span>
                   add account
                 </NuxtLink>
               </li>
+
+              <!-- TODO: ちゃんと設定画面を作ったらそこに移す -->
+              <li>
+                <a @click="resetSettings">
+                  <span class="material-symbols-outlined">delete</span>
+                  reset settings
+                </a>
+              </li>
             </ul>
-          </details>
+          </div>
         </div>
       </template>
     </CommonContainer>
@@ -69,5 +80,10 @@ const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
 const expandMenu = () => {
   isExpanded.value = !isExpanded.value;
+};
+
+const resetSettings = () => {
+  useResetLocalStorage();
+  location.reload();
 };
 </script>
