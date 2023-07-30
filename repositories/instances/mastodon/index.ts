@@ -1,4 +1,5 @@
 import { login } from 'masto';
+import type { IMessage } from '~/models/common/message';
 import type { ILoginUser } from '~/models/common/user';
 
 export const mastodonRepository = () => ({
@@ -87,5 +88,50 @@ export const mastodonRepository = () => ({
         minId: params?.sinceId,
       })
     ).map(mastodonConverter.statusToMessage);
+  },
+  setHomeStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    const wsEvents = await (
+      await useApiClientsStore().get<'mastodon'>(user)
+    ).v1.stream.streamUser();
+    wsEvents.addListener('update', (toot) =>
+      callback(mastodonConverter.statusToMessage(toot)),
+    );
+  },
+  setLocalStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    const wsEvents = await (
+      await useApiClientsStore().get<'mastodon'>(user)
+    ).v1.stream.streamCommunityTimeline();
+    wsEvents.addListener('update', (toot) =>
+      callback(mastodonConverter.statusToMessage(toot)),
+    );
+  },
+  setFederationStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    const wsEvents = await (
+      await useApiClientsStore().get<'mastodon'>(user)
+    ).v1.stream.streamPublicTimeline();
+    wsEvents.addListener('update', (toot) =>
+      callback(mastodonConverter.statusToMessage(toot)),
+    );
+  },
+  setListStreaming: async (
+    user: ILoginUser,
+    listId: string,
+    callback: (message: IMessage) => void,
+  ) => {
+    const wsEvents = await (
+      await useApiClientsStore().get<'mastodon'>(user)
+    ).v1.stream.streamListTimeline(listId);
+    wsEvents.addListener('update', (toot) =>
+      callback(mastodonConverter.statusToMessage(toot)),
+    );
   },
 });

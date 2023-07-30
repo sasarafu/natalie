@@ -32,7 +32,7 @@ const submit = async () => {
   try {
     await (
       await useApiClientsStore().get<'misskey'>(props.user)
-    ).request('notes/create', {
+    ).api.request('notes/create', {
       text: message.value,
       visibility: 'followers',
     });

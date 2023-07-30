@@ -1,5 +1,6 @@
 import type { entities } from 'misskey-js';
-import { api } from 'misskey-js';
+import { api, Stream } from 'misskey-js';
+import type { IMessage } from '~/models/common/message';
 import type { ILoginUser } from '~/models/common/user';
 
 export const misskeyRepository = () => ({
@@ -8,10 +9,13 @@ export const misskeyRepository = () => ({
       throw new Error('not misskey');
     }
 
-    return new api.APIClient({
-      origin: user.instance.baseUrl,
-      credential: user.accessToken,
-    });
+    return {
+      api: new api.APIClient({
+        origin: user.instance.baseUrl,
+        credential: user.accessToken,
+      }),
+      ws: new Stream(user.instance.baseUrl, { token: user.accessToken }),
+    };
   },
   getAuthUrl: (
     instanceUrl: string, // instance.example.com
@@ -58,7 +62,7 @@ export const misskeyRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/timeline', params)
+      ).api.request('notes/timeline', params)
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
   getLocalTimeline: async (
@@ -68,7 +72,7 @@ export const misskeyRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/local-timeline', params)
+      ).api.request('notes/local-timeline', params)
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
   getFedarationTimeline: async (
@@ -78,7 +82,7 @@ export const misskeyRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/global-timeline', params)
+      ).api.request('notes/global-timeline', params)
     ).map((note) => misskeyConverter.noteToMessage(note, user));
   },
   getListTimeline: async (
@@ -89,7 +93,7 @@ export const misskeyRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('notes/user-list-timeline', {
+      ).api.request('notes/user-list-timeline', {
         listId,
         sinceId: params?.sinceId,
         untilId: params?.untilId,
@@ -104,11 +108,48 @@ export const misskeyRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'misskey'>(user)
-      ).request('users/notes', {
+      ).api.request('users/notes', {
         userId,
         sinceId: params?.sinceId,
         untilId: params?.untilId,
       })
     ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
+  setHomeStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    (await useApiClientsStore().get<'misskey'>(user)).ws
+      .useChannel('homeTimeline')
+      .on('note', (note) => {
+        callback(misskeyConverter.noteToMessage(note, user));
+      });
+  },
+  setLocalStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    (await useApiClientsStore().get<'misskey'>(user)).ws
+      .useChannel('localTimeline')
+      .on('note', (note) => {
+        callback(misskeyConverter.noteToMessage(note, user));
+      });
+  },
+  setFederationStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    (await useApiClientsStore().get<'misskey'>(user)).ws
+      .useChannel('globalTimeline')
+      .on('note', (note) => {
+        callback(misskeyConverter.noteToMessage(note, user));
+      });
+  },
+  setListStreaming: async (
+    _user: ILoginUser,
+    _listId: string,
+    _callback: (message: IMessage) => void,
+  ) => {
+    // not implemented
   },
 });

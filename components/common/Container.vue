@@ -5,9 +5,11 @@
     </div>
 
     <div class="common-container-body flex-auto overflow-y-auto">
+      <div ref="topElement" class="h-0"></div>
+
       <slot></slot>
 
-      <div ref="observeBottom">
+      <div ref="bottomElement">
         <slot name="loading"></slot>
       </div>
     </div>
@@ -20,18 +22,24 @@
 
 <script setup lang="ts">
 const emits = defineEmits<{
+  (e: 'top', value: boolean): void;
   (e: 'bottom'): void;
 }>();
 
-const observeBottom = ref<HTMLElement>();
+const topElement = ref<HTMLElement>();
+const topObserver = new IntersectionObserver((entries) => {
+  emits('top', entries[0]?.isIntersecting ?? false);
+});
 
-const observer = new IntersectionObserver((entries) => {
+const bottomElement = ref<HTMLElement>();
+const bottomObserver = new IntersectionObserver((entries) => {
   if (entries[0]?.isIntersecting) {
     emits('bottom');
   }
 });
 
 onMounted(() => {
-  observer.observe(observeBottom.value!);
+  topObserver.observe(topElement.value!);
+  bottomObserver.observe(bottomElement.value!);
 });
 </script>

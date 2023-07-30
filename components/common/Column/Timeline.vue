@@ -1,6 +1,10 @@
 <template>
   <section>
-    <CommonContainer class="h-full w-[330px] bg-base-100" @bottom="loadPast">
+    <CommonContainer
+      class="h-full w-[330px] bg-base-100"
+      @top="(value) => (isTop = value)"
+      @bottom="loadPast"
+    >
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
           <div class="flex items-center h-12 py-2 gap-x-1">
@@ -51,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
 
 const props = defineProps<{
@@ -79,6 +84,7 @@ const toggleDetail = () => {
 // ロード
 const isLoadable = ref(true);
 const isLoading = ref(false);
+const isTop = ref(true);
 
 const loadPast = async () => {
   if (isLoading.value || !isLoadable.value) {
@@ -90,7 +96,7 @@ const loadPast = async () => {
     const messages = await getTimeline(props.timeline, {
       untilId: items.value.slice(-1)?.[0]?.id,
     });
-    datasources.value[props.timeline.id].push(...messages);
+    items.value.push(...messages);
 
     // レスポンスがなければ無限スクロールを終了
     if (messages.length === 0) {
@@ -100,7 +106,13 @@ const loadPast = async () => {
   isLoading.value = false;
 };
 
-// TODO: WebSocketで最新を取得
+useWebSocket(props.timeline, (message: IMessage) => {
+  items.value.reverse().push(message);
+  items.value.reverse();
+  if (items.value.length > 40 && isTop.value) {
+    items.value.length = 40;
+  }
+});
 
 setInterval(() => {
   now.value = Date.now();
