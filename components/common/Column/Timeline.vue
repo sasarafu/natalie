@@ -38,9 +38,12 @@
 
       <template v-if="isLoadable" #loading>
         <div class="p-3 text-center">
-          <button @click="loadPast">
-            <span class="loading loading-spinner"></span>
-          </button>
+          <!-- 1度読み込んだ後にまだ画面上にあった場合、再ロードされないのでボタンで手動ロードできるようにしておく -->
+          <div class="tooltip tooltip-bottom" data-tip="クリックして更新">
+            <button @click="loadPast">
+              <span class="loading loading-spinner"></span>
+            </button>
+          </div>
         </div>
       </template>
     </CommonContainer>
