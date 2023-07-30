@@ -91,7 +91,7 @@ const loadPast = async () => {
     const messages = await getTimeline(props.timeline, {
       untilId: items.value.slice(-1)?.[0]?.id,
     });
-    datasources.value[props.timeline.id].push(...messages);
+    items.value.push(...messages);
 
     // レスポンスがなければ無限スクロールを終了
     if (messages.length === 0) {
@@ -102,7 +102,7 @@ const loadPast = async () => {
 };
 
 useWebSocket(props.timeline, (message: IMessage) => {
-  datasources.value[props.timeline.id].unshift(message);
+  items.value.unshift(message);
 });
 
 setInterval(() => {
