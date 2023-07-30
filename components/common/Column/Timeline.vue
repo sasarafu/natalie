@@ -107,9 +107,10 @@ const loadPast = async () => {
 };
 
 useWebSocket(props.timeline, (message: IMessage) => {
-  items.value.unshift(message);
-  if (items.value.length > 100 && isTop.value) {
-    items.value.length = 100;
+  items.value.reverse().push(message);
+  items.value.reverse();
+  if (items.value.length > 40 && isTop.value) {
+    items.value.length = 40;
   }
 });
 
