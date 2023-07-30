@@ -1,6 +1,10 @@
 <template>
   <section>
-    <CommonContainer class="h-full w-[330px] bg-base-100" @bottom="loadPast">
+    <CommonContainer
+      class="h-full w-[330px] bg-base-100"
+      @top="(value) => (isTop = value)"
+      @bottom="loadPast"
+    >
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
           <div class="flex items-center h-12 py-2 gap-x-1">
@@ -80,6 +84,7 @@ const toggleDetail = () => {
 // ロード
 const isLoadable = ref(true);
 const isLoading = ref(false);
+const isTop = ref(true);
 
 const loadPast = async () => {
   if (isLoading.value || !isLoadable.value) {
@@ -103,6 +108,9 @@ const loadPast = async () => {
 
 useWebSocket(props.timeline, (message: IMessage) => {
   items.value.unshift(message);
+  if (items.value.length > 100 && isTop.value) {
+    items.value.length = 100;
+  }
 });
 
 setInterval(() => {
