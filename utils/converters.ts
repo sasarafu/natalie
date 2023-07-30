@@ -2,23 +2,19 @@ import type { mastodon as Mastodon } from 'masto';
 import type * as Misskey from 'misskey-js';
 import type { IMessage } from '~/models/common/message';
 import type { ILoginUser } from '~/models/common/user';
-import type { IInstanceType } from '~/models/instanceType';
 
 export const mastodonConverter = {
-  statusToMessage: (toot: Mastodon.v1.Status): IMessage => {
+  statusToMessage: (toot: Mastodon.v1.Status, user: ILoginUser): IMessage => {
     return {
       id: toot.id,
       createdAt: new Date(toot.createdAt),
       user: {
         userid: toot.account.id,
         username: toot.account.acct,
-        instance: {
-          type: 'mastodon',
-          baseUrl: new URL(toot.account.url).origin,
-        },
         displayName: toot.account.displayName || toot.account.acct,
         iconUrl: toot.account.avatar,
       },
+      via: user,
       visibility: toot.visibility,
       NSFW: toot.sensitive,
       text: toot.content,
@@ -34,13 +30,10 @@ export const misskeyConverter = {
       user: {
         userid: note.user.id,
         username: note.user.username,
-        instance: {
-          type: (note.user.instance?.name || 'misskey') as IInstanceType,
-          baseUrl: note.user.host || user.instance.baseUrl,
-        },
         displayName: note.user.name || note.user.username,
         iconUrl: note.user.avatarUrl,
       },
+      via: user,
       visibility: note.visibility,
       NSFW: note.isHidden || false,
       text: note.text || '',

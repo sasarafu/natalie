@@ -37,7 +37,7 @@
         <template v-for="item in items" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
-            :is="columnItemComponents[item.user.instance.type]"
+            :is="columnItemComponents[item.via.instance.type]"
             :item="item"
             :now="now"
           />

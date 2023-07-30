@@ -39,7 +39,7 @@ export const mastodonRepository = () => ({
           maxId: params?.untilId,
           minId: params?.sinceId,
         })
-    ).map(mastodonConverter.statusToMessage);
+    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
   },
   getLocalTimeline: async (
     user: ILoginUser,
@@ -53,7 +53,7 @@ export const mastodonRepository = () => ({
           maxId: params?.untilId,
           minId: params?.sinceId,
         })
-    ).map(mastodonConverter.statusToMessage);
+    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
   },
   getFedarationTimeline: async (
     user: ILoginUser,
@@ -66,7 +66,7 @@ export const mastodonRepository = () => ({
           maxId: params?.untilId,
           minId: params?.sinceId,
         })
-    ).map(mastodonConverter.statusToMessage);
+    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
   },
   getListTimeline: async (
     user: ILoginUser,
@@ -81,7 +81,7 @@ export const mastodonRepository = () => ({
           maxId: params?.untilId,
           minId: params?.sinceId,
         })
-    ).map(mastodonConverter.statusToMessage);
+    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
   },
   getUserTimeline: async (
     user: ILoginUser,
@@ -96,7 +96,7 @@ export const mastodonRepository = () => ({
           maxId: params?.untilId,
           minId: params?.sinceId,
         })
-    ).map(mastodonConverter.statusToMessage);
+    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
   },
   setHomeStreaming: async (
     user: ILoginUser,
@@ -106,7 +106,7 @@ export const mastodonRepository = () => ({
       .get<'mastodon'>(user)
       .ws.user.subscribe()) {
       if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload));
+        callback(mastodonConverter.statusToMessage(entry.payload, user));
       }
     }
   },
@@ -118,7 +118,7 @@ export const mastodonRepository = () => ({
       .get<'mastodon'>(user)
       .ws.public.local.subscribe()) {
       if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload));
+        callback(mastodonConverter.statusToMessage(entry.payload, user));
       }
     }
   },
@@ -130,7 +130,7 @@ export const mastodonRepository = () => ({
       .get<'mastodon'>(user)
       .ws.public.remote.subscribe()) {
       if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload));
+        callback(mastodonConverter.statusToMessage(entry.payload, user));
       }
     }
   },
@@ -143,7 +143,7 @@ export const mastodonRepository = () => ({
       .get<'mastodon'>(user)
       .ws.list.subscribe({ list: listId })) {
       if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload));
+        callback(mastodonConverter.statusToMessage(entry.payload, user));
       }
     }
   },
