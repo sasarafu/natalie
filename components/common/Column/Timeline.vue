@@ -51,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
 
 const props = defineProps<{
@@ -100,7 +101,9 @@ const loadPast = async () => {
   isLoading.value = false;
 };
 
-// TODO: WebSocketで最新を取得
+useWebSocket(props.timeline, (message: IMessage) => {
+  datasources.value[props.timeline.id].unshift(message);
+});
 
 setInterval(() => {
   now.value = Date.now();

@@ -1,5 +1,6 @@
 import type { entities } from 'misskey-js';
 import { api, Stream } from 'misskey-js';
+import type { IMessage } from '~/models/common/message';
 import type { ILoginUser } from '~/models/common/user';
 
 export const misskeyRepository = () => ({
@@ -113,5 +114,42 @@ export const misskeyRepository = () => ({
         untilId: params?.untilId,
       })
     ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
+  setHomeStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    (await useApiClientsStore().get<'misskey'>(user)).ws
+      .useChannel('homeTimeline')
+      .on('note', (note) => {
+        callback(misskeyConverter.noteToMessage(note, user));
+      });
+  },
+  setLocalStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    (await useApiClientsStore().get<'misskey'>(user)).ws
+      .useChannel('localTimeline')
+      .on('note', (note) => {
+        callback(misskeyConverter.noteToMessage(note, user));
+      });
+  },
+  setFederationStreaming: async (
+    user: ILoginUser,
+    callback: (message: IMessage) => void,
+  ) => {
+    (await useApiClientsStore().get<'misskey'>(user)).ws
+      .useChannel('globalTimeline')
+      .on('note', (note) => {
+        callback(misskeyConverter.noteToMessage(note, user));
+      });
+  },
+  setListStreaming: async (
+    _user: ILoginUser,
+    _listId: string,
+    _callback: (message: IMessage) => void,
+  ) => {
+    // not implemented
   },
 });
