@@ -2,7 +2,7 @@
   <section>
     <CommonContainer
       class="h-full w-[330px] bg-base-100"
-      @top="(value) => (isTop = value)"
+      @top="atTop"
       @bottom="loadPast"
     >
       <template #header>
@@ -86,6 +86,17 @@ const isLoadable = ref(true);
 const isLoading = ref(false);
 const isTop = ref(true);
 
+const limitItemCount = () => {
+  if (items.value.length > 40 && isTop.value) {
+    items.value.length = 40;
+  }
+};
+
+const atTop = (value: boolean) => {
+  isTop.value = value;
+  limitItemCount();
+};
+
 const loadPast = async () => {
   if (isLoading.value || !isLoadable.value) {
     return;
@@ -110,9 +121,7 @@ onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
     items.value.reverse().push(message);
     items.value.reverse();
-    if (items.value.length > 40 && isTop.value) {
-      items.value.length = 40;
-    }
+    limitItemCount();
   });
 });
 
