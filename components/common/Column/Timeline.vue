@@ -106,12 +106,14 @@ const loadPast = async () => {
   isLoading.value = false;
 };
 
-useWebSocket(props.timeline, (message: IMessage) => {
-  items.value.reverse().push(message);
-  items.value.reverse();
-  if (items.value.length > 40 && isTop.value) {
-    items.value.length = 40;
-  }
+onMounted(async () => {
+  await useWebSocket(props.timeline, (message: IMessage) => {
+    items.value.reverse().push(message);
+    items.value.reverse();
+    if (items.value.length > 40 && isTop.value) {
+      items.value.length = 40;
+    }
+  });
 });
 
 setInterval(() => {
