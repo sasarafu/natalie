@@ -1,5 +1,5 @@
 <template>
-  <div class="common-container flex flex-col">
+  <div ref="container" class="common-container flex flex-col">
     <div class="common-container-header">
       <slot name="header" class="common-container-header"></slot>
     </div>
@@ -26,19 +26,31 @@ const emits = defineEmits<{
   (e: 'bottom'): void;
 }>();
 
+const container = ref<HTMLElement>();
 const topElement = ref<HTMLElement>();
-const topObserver = new IntersectionObserver((entries) => {
-  emits('top', entries[0]?.isIntersecting ?? false);
-});
-
 const bottomElement = ref<HTMLElement>();
-const bottomObserver = new IntersectionObserver((entries) => {
-  if (entries[0]?.isIntersecting) {
-    emits('bottom');
-  }
-});
 
 onMounted(() => {
+  const topObserver = new IntersectionObserver(
+    (entries) => {
+      emits('top', entries[0]?.isIntersecting ?? false);
+    },
+    {
+      root: container.value!,
+    },
+  );
+
+  const bottomObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries[0]?.isIntersecting) {
+        emits('bottom');
+      }
+    },
+    {
+      root: container.value!,
+    },
+  );
+
   topObserver.observe(topElement.value!);
   bottomObserver.observe(bottomElement.value!);
 });
