@@ -7,7 +7,11 @@
     >
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
-          <div class="flex items-center h-12 py-2 gap-x-1">
+          <div
+            class="flex items-center h-12 py-2 gap-x-1"
+            :class="{ 'cursor-pointer': !isTop }"
+            @click="scrollup"
+          >
             <CommonPartsRoundedIcon :icon-url="user.iconUrl" class="w-8 h-8" />
             <p class="text-base font-semibold flex-auto">{{ timeline.name }}</p>
 
@@ -15,7 +19,7 @@
               type="button"
               class="btn btn-ghost btn-square btn-sm w-fit"
               tabindex="-1"
-              @click="toggleDetail"
+              @click.stop="toggleDetail"
             >
               <span class="material-symbols-outlined text-lg">
                 {{ isDetailExpanded ? 'expand_less' : 'expand_more' }}
@@ -29,7 +33,7 @@
         </header>
       </template>
 
-      <div class="divide-y divide-dashed divide-neutral">
+      <div ref="body" class="divide-y divide-dashed divide-neutral">
         <template v-for="item in items" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
@@ -79,6 +83,11 @@ const now = ref<number>(Date.now());
 
 const toggleDetail = () => {
   isDetailExpanded.value = !isDetailExpanded.value;
+};
+
+const body = ref<HTMLElement>();
+const scrollup = () => {
+  body.value?.scrollIntoView({ behavior: 'smooth' });
 };
 
 // ロード
