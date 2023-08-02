@@ -11,12 +11,12 @@
   border-radius: 4px;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--p)) transparent;
+}
+
 .textarea {
   font-size: inherit;
   line-height: inherit;
-}
-
-/* bug? */
-.dropdown-end .dropdown-content {
-  right: initial;
 }
