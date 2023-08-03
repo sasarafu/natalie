@@ -33,12 +33,12 @@ export const mastodonRepository = () => ({
     params?: { sinceId?: string; untilId?: string },
   ) => {
     return (
-      await (
-        await useApiClientsStore().get<'mastodon'>(user)
-      ).api.v1.timelines.home.list({
-        maxId: params?.untilId,
-        minId: params?.sinceId,
-      })
+      await useApiClientsStore()
+        .get<'mastodon'>(user)
+        .api.v1.timelines.home.list({
+          maxId: params?.untilId,
+          minId: params?.sinceId,
+        })
     ).map(mastodonConverter.statusToMessage);
   },
   getLocalTimeline: async (
@@ -46,13 +46,13 @@ export const mastodonRepository = () => ({
     params?: { sinceId?: string; untilId?: string },
   ) => {
     return (
-      await (
-        await useApiClientsStore().get<'mastodon'>(user)
-      ).api.v1.timelines.public.list({
-        local: true,
-        maxId: params?.untilId,
-        minId: params?.sinceId,
-      })
+      await useApiClientsStore()
+        .get<'mastodon'>(user)
+        .api.v1.timelines.public.list({
+          local: true,
+          maxId: params?.untilId,
+          minId: params?.sinceId,
+        })
     ).map(mastodonConverter.statusToMessage);
   },
   getFedarationTimeline: async (
@@ -60,12 +60,12 @@ export const mastodonRepository = () => ({
     params?: { sinceId?: string; untilId?: string },
   ) => {
     return (
-      await (
-        await useApiClientsStore().get<'mastodon'>(user)
-      ).api.v1.timelines.public.list({
-        maxId: params?.untilId,
-        minId: params?.sinceId,
-      })
+      await useApiClientsStore()
+        .get<'mastodon'>(user)
+        .api.v1.timelines.public.list({
+          maxId: params?.untilId,
+          minId: params?.sinceId,
+        })
     ).map(mastodonConverter.statusToMessage);
   },
   getListTimeline: async (
@@ -74,10 +74,9 @@ export const mastodonRepository = () => ({
     params?: { sinceId?: string; untilId?: string },
   ) => {
     return (
-      await (
-        await useApiClientsStore().get<'mastodon'>(user)
-      ).api.v1.timelines.list
-        .$select(listId)
+      await useApiClientsStore()
+        .get<'mastodon'>(user)
+        .api.v1.timelines.list.$select(listId)
         .list({
           maxId: params?.untilId,
           minId: params?.sinceId,
@@ -90,8 +89,9 @@ export const mastodonRepository = () => ({
     params?: { sinceId?: string; untilId?: string },
   ) => {
     return (
-      await (await useApiClientsStore().get<'mastodon'>(user)).api.v1.accounts
-        .$select(userId)
+      await useApiClientsStore()
+        .get<'mastodon'>(user)
+        .api.v1.accounts.$select(userId)
         .statuses.list({
           maxId: params?.untilId,
           minId: params?.sinceId,
@@ -102,9 +102,9 @@ export const mastodonRepository = () => ({
     user: ILoginUser,
     callback: (message: IMessage) => void,
   ) => {
-    for await (const entry of (
-      await useApiClientsStore().get<'mastodon'>(user)
-    ).ws.user.subscribe()) {
+    for await (const entry of useApiClientsStore()
+      .get<'mastodon'>(user)
+      .ws.user.subscribe()) {
       if (entry.event === 'update') {
         callback(mastodonConverter.statusToMessage(entry.payload));
       }
@@ -114,9 +114,9 @@ export const mastodonRepository = () => ({
     user: ILoginUser,
     callback: (message: IMessage) => void,
   ) => {
-    for await (const entry of (
-      await useApiClientsStore().get<'mastodon'>(user)
-    ).ws.public.local.subscribe()) {
+    for await (const entry of useApiClientsStore()
+      .get<'mastodon'>(user)
+      .ws.public.local.subscribe()) {
       if (entry.event === 'update') {
         callback(mastodonConverter.statusToMessage(entry.payload));
       }
@@ -126,9 +126,9 @@ export const mastodonRepository = () => ({
     user: ILoginUser,
     callback: (message: IMessage) => void,
   ) => {
-    for await (const entry of (
-      await useApiClientsStore().get<'mastodon'>(user)
-    ).ws.public.remote.subscribe()) {
+    for await (const entry of useApiClientsStore()
+      .get<'mastodon'>(user)
+      .ws.public.remote.subscribe()) {
       if (entry.event === 'update') {
         callback(mastodonConverter.statusToMessage(entry.payload));
       }
@@ -139,9 +139,9 @@ export const mastodonRepository = () => ({
     listId: string,
     callback: (message: IMessage) => void,
   ) => {
-    for await (const entry of (
-      await useApiClientsStore().get<'mastodon'>(user)
-    ).ws.list.subscribe({ list: listId })) {
+    for await (const entry of useApiClientsStore()
+      .get<'mastodon'>(user)
+      .ws.list.subscribe({ list: listId })) {
       if (entry.event === 'update') {
         callback(mastodonConverter.statusToMessage(entry.payload));
       }
