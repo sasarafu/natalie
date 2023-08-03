@@ -28,17 +28,22 @@ const props = defineProps<{
 }>();
 
 const timelinesStore = useTimelinesStore();
-const target = timelinesStore.timelines.find(
-  (timeline) => timeline.id === props.timeline.id,
-)!;
+const { timelines } = storeToRefs(timelinesStore);
+const target = computed(
+  () => timelines.value.find((timeline) => timeline.id === props.timeline.id)!,
+);
 
-const timelineName = ref(props.timeline.name);
+const timelineName = ref('');
 
 const changeTimelineName = () => {
-  target.name = timelineName.value;
+  target.value.name = timelineName.value;
 };
 
 const removeTimeline = () => {
   timelinesStore.remove(props.timeline.id);
 };
+
+onMounted(() => {
+  timelineName.value = props.timeline.name;
+});
 </script>
