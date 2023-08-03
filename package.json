@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
-    "masto": "^5.11.3",
+    "masto": "^6.0.5",
     "misskey-js": "^0.0.16",
-    "pinia": "^2.1.4",
+    "pinia": "^2.1.6",
     "sanitize-html": "^2.11.0"
   },
   "devDependencies": {
@@ -29,14 +29,14 @@
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "@vue/eslint-config-prettier": "^7.1.0",
-    "@vueuse/core": "^10.2.1",
-    "@vueuse/nuxt": "^10.2.1",
-    "daisyui": "^3.2.1",
+    "@vueuse/core": "^10.3.0",
+    "@vueuse/nuxt": "^10.3.0",
+    "daisyui": "^3.5.0",
     "dayjs-nuxt": "^1.1.2",
     "eslint": "^8.44.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-nuxt": "^4.0.0",
-    "nuxt": "^3.6.1",
+    "nuxt": "^3.6.5",
     "prettier": "^2.8.8"
   },
   "overrides": {

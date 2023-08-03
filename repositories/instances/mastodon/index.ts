@@ -1,17 +1,24 @@
-import { login } from 'masto';
+import { createRestAPIClient, createStreamingAPIClient } from 'masto';
 import type { IMessage } from '~/models/common/message';
 import type { ILoginUser } from '~/models/common/user';
 
 export const mastodonRepository = () => ({
-  client: async (user: ILoginUser) => {
+  client: (user: ILoginUser) => {
     if (user.instance.type !== 'mastodon') {
       throw new Error('not mastodon');
     }
 
-    return await login({
-      url: user.instance.baseUrl,
-      accessToken: user.accessToken,
-    });
+    return {
+      api: createRestAPIClient({
+        url: user.instance.baseUrl,
+        accessToken: user.accessToken,
+      }),
+      ws: createStreamingAPIClient({
+        streamingApiUrl: user.instance.baseUrl.replace('https://', 'wss://'),
+        accessToken: user.accessToken,
+        implementation: WebSocket,
+      }),
+    };
   },
   getAuthUrl: (
     instanceUrl: string, // instance.example.com
@@ -28,7 +35,7 @@ export const mastodonRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listHome({
+      ).api.v1.timelines.home.list({
         maxId: params?.untilId,
         minId: params?.sinceId,
       })
@@ -41,7 +48,7 @@ export const mastodonRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listPublic({
+      ).api.v1.timelines.public.list({
         local: true,
         maxId: params?.untilId,
         minId: params?.sinceId,
@@ -55,7 +62,7 @@ export const mastodonRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listPublic({
+      ).api.v1.timelines.public.list({
         maxId: params?.untilId,
         minId: params?.sinceId,
       })
@@ -69,10 +76,12 @@ export const mastodonRepository = () => ({
     return (
       await (
         await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.timelines.listList(listId, {
-        maxId: params?.untilId,
-        minId: params?.sinceId,
-      })
+      ).api.v1.timelines.list
+        .$select(listId)
+        .list({
+          maxId: params?.untilId,
+          minId: params?.sinceId,
+        })
     ).map(mastodonConverter.statusToMessage);
   },
   getUserTimeline: async (
@@ -81,57 +90,61 @@ export const mastodonRepository = () => ({
     params?: { sinceId?: string; untilId?: string },
   ) => {
     return (
-      await (
-        await useApiClientsStore().get<'mastodon'>(user)
-      ).v1.accounts.listStatuses(userId, {
-        maxId: params?.untilId,
-        minId: params?.sinceId,
-      })
+      await (await useApiClientsStore().get<'mastodon'>(user)).api.v1.accounts
+        .$select(userId)
+        .statuses.list({
+          maxId: params?.untilId,
+          minId: params?.sinceId,
+        })
     ).map(mastodonConverter.statusToMessage);
   },
   setHomeStreaming: async (
     user: ILoginUser,
     callback: (message: IMessage) => void,
   ) => {
-    const wsEvents = await (
+    for await (const entry of (
       await useApiClientsStore().get<'mastodon'>(user)
-    ).v1.stream.streamUser();
-    wsEvents.addListener('update', (toot) =>
-      callback(mastodonConverter.statusToMessage(toot)),
-    );
+    ).ws.user.subscribe()) {
+      if (entry.event === 'update') {
+        callback(mastodonConverter.statusToMessage(entry.payload));
+      }
+    }
   },
   setLocalStreaming: async (
     user: ILoginUser,
     callback: (message: IMessage) => void,
   ) => {
-    const wsEvents = await (
+    for await (const entry of (
       await useApiClientsStore().get<'mastodon'>(user)
-    ).v1.stream.streamCommunityTimeline();
-    wsEvents.addListener('update', (toot) =>
-      callback(mastodonConverter.statusToMessage(toot)),
-    );
+    ).ws.public.local.subscribe()) {
+      if (entry.event === 'update') {
+        callback(mastodonConverter.statusToMessage(entry.payload));
+      }
+    }
   },
   setFederationStreaming: async (
     user: ILoginUser,
     callback: (message: IMessage) => void,
   ) => {
-    const wsEvents = await (
+    for await (const entry of (
       await useApiClientsStore().get<'mastodon'>(user)
-    ).v1.stream.streamPublicTimeline();
-    wsEvents.addListener('update', (toot) =>
-      callback(mastodonConverter.statusToMessage(toot)),
-    );
+    ).ws.public.remote.subscribe()) {
+      if (entry.event === 'update') {
+        callback(mastodonConverter.statusToMessage(entry.payload));
+      }
+    }
   },
   setListStreaming: async (
     user: ILoginUser,
     listId: string,
     callback: (message: IMessage) => void,
   ) => {
-    const wsEvents = await (
+    for await (const entry of (
       await useApiClientsStore().get<'mastodon'>(user)
-    ).v1.stream.streamListTimeline(listId);
-    wsEvents.addListener('update', (toot) =>
-      callback(mastodonConverter.statusToMessage(toot)),
-    );
+    ).ws.list.subscribe({ list: listId })) {
+      if (entry.event === 'update') {
+        callback(mastodonConverter.statusToMessage(entry.payload));
+      }
+    }
   },
 });
