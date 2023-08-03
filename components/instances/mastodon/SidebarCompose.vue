@@ -32,7 +32,7 @@ const submit = async () => {
   try {
     await (
       await useApiClientsStore().get<'mastodon'>(props.user)
-    ).v1.statuses.create({
+    ).api.v1.statuses.create({
       status: message.value,
       visibility: 'private',
     });

@@ -64,7 +64,7 @@ const submit = async () => {
     try {
       const res = await (
         await useApiClientsStore().get<'mastodon'>(tempLoginUser)
-      ).v1.accounts.verifyCredentials();
+      ).api.v1.accounts.verifyCredentials();
 
       add({
         id: crypto.randomUUID(),
