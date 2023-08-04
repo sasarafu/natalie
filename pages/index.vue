@@ -12,6 +12,8 @@
           <CommonColumnMenu class="ml-auto" />
         </div>
       </div>
+
+      <CommonToasts />
     </template>
   </div>
 </template>
