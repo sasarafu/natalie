@@ -58,17 +58,18 @@ export const misskeyRepository = () => ({
   getHomeTimeline: async (
     user: ILoginUser,
     params?: { sinceId?: string; untilId?: string },
-  ) =>
-    (
+  ) => {
+    return (
       await useApiClientsStore()
         .get<'misskey'>(user)
         .api.request('notes/timeline', params)
-    ).map((note) => misskeyConverter.noteToMessage(note, user)),
+    ).map((note) => misskeyConverter.noteToMessage(note, user));
+  },
   getLocalTimeline: async (
     user: ILoginUser,
     params?: { sinceId?: string; untilId?: string },
   ) => {
-    (
+    return (
       await useApiClientsStore()
         .get<'misskey'>(user)
         .api.request('notes/local-timeline', params)
@@ -78,7 +79,7 @@ export const misskeyRepository = () => ({
     user: ILoginUser,
     params?: { sinceId?: string; untilId?: string },
   ) => {
-    (
+    return (
       await useApiClientsStore()
         .get<'misskey'>(user)
         .api.request('notes/global-timeline', params)
@@ -89,7 +90,7 @@ export const misskeyRepository = () => ({
     listId: string,
     params?: { sinceId?: string; untilId?: string },
   ) => {
-    (
+    return (
       await useApiClientsStore()
         .get<'misskey'>(user)
         .api.request('notes/user-list-timeline', {
@@ -104,7 +105,7 @@ export const misskeyRepository = () => ({
     userId: string,
     params?: { sinceId?: string; untilId?: string },
   ) => {
-    (
+    return (
       await useApiClientsStore()
         .get<'misskey'>(user)
         .api.request('users/notes', {
