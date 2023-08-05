@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modalRef"
-    class="modal"
+    class="modal z-40"
     :class="{ 'modal-open': isShown }"
     tabindex="0"
     @click="close()"
