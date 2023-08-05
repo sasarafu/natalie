@@ -1,5 +1,5 @@
 <template>
-  <div class="toast toast-top toast-end opacity-80">
+  <div class="toast toast-top toast-end opacity-80 z-50">
     <template v-for="toast in toasts.slice().reverse()" :key="toast.id">
       <div
         class="alert border"

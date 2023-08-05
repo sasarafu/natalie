@@ -13,6 +13,7 @@
         </div>
       </div>
 
+      <CommonModals />
       <CommonToasts />
     </template>
   </div>
