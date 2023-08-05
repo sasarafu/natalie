@@ -1,10 +1,14 @@
 import type { mastodon as Mastodon } from 'masto';
 import type * as Misskey from 'misskey-js';
-import type { IMessage } from '~/models/common/message';
 import type { ILoginUser } from '~/models/common/user';
+import type { IMastodonMessage } from '~/models/instances/mastodon/message';
+import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
 export const mastodonConverter = {
-  statusToMessage: (toot: Mastodon.v1.Status, user: ILoginUser): IMessage => {
+  statusToMessage: (
+    toot: Mastodon.v1.Status,
+    user: ILoginUser,
+  ): IMastodonMessage => {
     return {
       id: toot.id,
       createdAt: new Date(toot.createdAt),
@@ -15,15 +19,16 @@ export const mastodonConverter = {
         iconUrl: toot.account.avatar,
       },
       via: user,
-      visibility: toot.visibility,
-      NSFW: toot.sensitive,
-      text: toot.content,
+      body: toot,
     };
   },
 };
 
 export const misskeyConverter = {
-  noteToMessage: (note: Misskey.entities.Note, user: ILoginUser): IMessage => {
+  noteToMessage: (
+    note: Misskey.entities.Note,
+    user: ILoginUser,
+  ): IMisskeyMessage => {
     return {
       id: note.id,
       createdAt: new Date(note.createdAt),
@@ -34,9 +39,7 @@ export const misskeyConverter = {
         iconUrl: note.user.avatarUrl,
       },
       via: user,
-      visibility: note.visibility,
-      NSFW: note.isHidden || false,
-      text: note.text || '',
+      body: note,
     };
   },
 };

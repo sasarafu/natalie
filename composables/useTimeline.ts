@@ -1,9 +1,10 @@
+import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
 
 export const getTimeline = async (
   timeline: ITimeline,
   params?: { sinceId?: string; untilId?: string },
-) => {
+): Promise<IMessage[]> => {
   const { $repositories } = useNuxtApp();
   const user = storeToRefs(useLoginUsersStore()).loginUsers.value[
     timeline.query.user

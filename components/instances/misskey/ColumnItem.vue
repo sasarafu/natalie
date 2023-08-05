@@ -5,7 +5,7 @@
     :username="item.user.username"
     :created-at="item.createdAt"
   >
-    <p class="w-full break-words text-sm">{{ item.text }}</p>
+    <p class="w-full break-words text-sm">{{ item.body.text }}</p>
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import type { IMessage } from '~/models/common/message';
+import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
 defineProps<{
-  item: IMessage;
+  item: IMisskeyMessage;
 }>();
 </script>

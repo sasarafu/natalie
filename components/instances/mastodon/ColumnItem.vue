@@ -28,11 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IMessage } from '~/models/common/message';
+import type { IMastodonMessage } from '~/models/instances/mastodon/message';
 
 const props = defineProps<{
-  item: IMessage;
+  item: IMastodonMessage;
 }>();
 
-const sanitizedHTML = computed(() => sanitizeHTML(props.item.text));
+const sanitizedHTML = computed(() => sanitizeHTML(props.item.body.content));
 </script>
