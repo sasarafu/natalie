@@ -1,10 +1,17 @@
 <template>
   <CommonColumnItemContainer
-    :icon-url="item.user.iconUrl"
-    :display-name="item.user.displayName"
-    :username="item.user.username"
+    :icon-url="body.account.avatar"
+    :display-name="body.account.displayName"
+    :username="body.account.acct"
     :created-at="item.createdAt"
   >
+    <template #undericon>
+      <div v-if="item.body.reblogged" class="flex items-center">
+        <span class="material-symbols-outlined text-sm">autorenew</span>
+        <CommonPartsRoundedIcon :icon-url="item.user.iconUrl" class="w-5 h-5" />
+      </div>
+    </template>
+
     <p class="w-full break-words text-sm" v-html="sanitizedHTML"></p>
 
     <template #footer>
@@ -34,5 +41,8 @@ const props = defineProps<{
   item: IMastodonMessage;
 }>();
 
-const sanitizedHTML = computed(() => sanitizeHTML(props.item.body.content));
+const body = computed(() =>
+  props.item.body.reblog ? props.item.body.reblog : props.item.body,
+);
+const sanitizedHTML = computed(() => sanitizeHTML(body.value.content));
 </script>

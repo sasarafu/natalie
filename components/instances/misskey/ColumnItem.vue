@@ -1,11 +1,20 @@
 <template>
   <CommonColumnItemContainer
-    :icon-url="item.user.iconUrl"
-    :display-name="item.user.displayName"
-    :username="item.user.username"
+    :icon-url="body.user.avatarUrl"
+    :display-name="body.user.name ?? body.user.username"
+    :username="body.user.username"
     :created-at="item.createdAt"
   >
-    <p class="w-full break-words text-sm">{{ item.body.text }}</p>
+    <template #undericon>
+      <div v-if="item.body.renote" class="flex items-center">
+        <span class="material-symbols-outlined text-sm">autorenew</span>
+        <CommonPartsRoundedIcon :icon-url="item.user.iconUrl" class="w-5 h-5" />
+      </div>
+    </template>
+
+    <p v-if="body.text" class="w-full break-words text-sm">
+      {{ body.text }}
+    </p>
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
@@ -30,7 +39,10 @@
 <script setup lang="ts">
 import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
-defineProps<{
+const props = defineProps<{
   item: IMisskeyMessage;
 }>();
+
+// renoteの場合、本文はrenote以下にある
+const body = computed(() => props.item.body.renote ?? props.item.body);
 </script>

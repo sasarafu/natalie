@@ -4,6 +4,9 @@
       <a href="#" tabindex="-1">
         <CommonPartsRoundedIcon :icon-url="iconUrl" class="w-9 h-9" />
       </a>
+      <div class="mt-2">
+        <slot name="undericon" />
+      </div>
     </div>
     <div class="flex-auto min-w-0">
       <header class="flex gap-x-1 items-end">
