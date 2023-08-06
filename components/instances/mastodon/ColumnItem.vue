@@ -6,9 +6,18 @@
     :created-at="item.createdAt"
   >
     <template #undericon>
-      <div v-if="item.body.reblogged" class="flex items-center">
-        <span class="material-symbols-outlined text-sm">autorenew</span>
-        <CommonPartsRoundedIcon :icon-url="item.user.iconUrl" class="w-5 h-5" />
+      <div class="flex flex-col items-end mt-1">
+        <div v-if="item.body.reblog" class="indicator">
+          <span
+            class="indicator-item indicator-bottom indicator-start badge badge-primary px-0 w-5 h-5"
+          >
+            <span class="material-symbols-outlined text-base">autorenew</span>
+          </span>
+          <CommonPartsRoundedIcon
+            :icon-url="item.user.iconUrl"
+            class="w-6 h-6"
+          />
+        </div>
       </div>
     </template>
 
