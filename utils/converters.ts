@@ -15,7 +15,7 @@ export const mastodonConverter = {
       user: {
         userid: toot.account.id,
         username: toot.account.acct,
-        displayName: toot.account.displayName || toot.account.acct,
+        displayName: toot.account.displayName || toot.account.username,
         iconUrl: toot.account.avatar,
       },
       via: user,

@@ -1,7 +1,7 @@
 <template>
   <CommonColumnItemContainer
     :icon-url="body.account.avatar"
-    :display-name="body.account.displayName"
+    :display-name="body.account.displayName || body.account.username"
     :username="body.account.acct"
     :created-at="item.createdAt"
   >
