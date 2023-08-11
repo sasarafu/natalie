@@ -1,10 +1,24 @@
 <template>
   <CommonColumnItemContainer
-    :icon-url="item.user.iconUrl"
-    :display-name="item.user.displayName"
-    :username="item.user.username"
-    :created-at="item.createdAt"
+    :user="actualItem.user"
+    :created-at="actualItem.createdAt"
   >
+    <template #undericon>
+      <div class="flex flex-col items-end mt-1">
+        <div v-if="item.body.reblog" class="indicator">
+          <span
+            class="indicator-item indicator-bottom indicator-start badge badge-primary px-0 w-5 h-5"
+          >
+            <span class="material-symbols-outlined text-base">autorenew</span>
+          </span>
+          <CommonPartsRoundedIcon
+            :icon-url="item.user.iconUrl"
+            class="w-6 h-6"
+          />
+        </div>
+      </div>
+    </template>
+
     <p class="w-full break-words text-sm" v-html="sanitizedHTML"></p>
 
     <template #footer>
@@ -28,11 +42,18 @@
 </template>
 
 <script setup lang="ts">
-import type { IMessage } from '~/models/common/message';
+import type { IMastodonMessage } from '~/models/instances/mastodon/message';
 
 const props = defineProps<{
-  item: IMessage;
+  item: IMastodonMessage;
 }>();
 
-const sanitizedHTML = computed(() => sanitizeHTML(props.item.text));
+const actualItem = computed(() =>
+  props.item.body.reblog
+    ? mastodonConverter.statusToMessage(props.item.body.reblog, props.item.via)
+    : props.item,
+);
+const sanitizedHTML = computed(() =>
+  sanitizeHTML(actualItem.value.body.content),
+);
 </script>

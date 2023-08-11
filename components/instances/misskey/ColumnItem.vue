@@ -1,11 +1,27 @@
 <template>
   <CommonColumnItemContainer
-    :icon-url="item.user.iconUrl"
-    :display-name="item.user.displayName"
-    :username="item.user.username"
-    :created-at="item.createdAt"
+    :user="actualItem.user"
+    :created-at="actualItem.createdAt"
   >
-    <p class="w-full break-words text-sm">{{ item.text }}</p>
+    <template #undericon>
+      <div class="flex flex-col items-end mt-1">
+        <div v-if="item.body.renote" class="indicator">
+          <span
+            class="indicator-item indicator-bottom indicator-start badge badge-primary px-0 w-5 h-5"
+          >
+            <span class="material-symbols-outlined text-base">autorenew</span>
+          </span>
+          <CommonPartsRoundedIcon
+            :icon-url="item.user.iconUrl"
+            class="w-6 h-6"
+          />
+        </div>
+      </div>
+    </template>
+
+    <p v-if="actualItem.body.text" class="w-full break-words text-sm">
+      {{ actualItem.body.text }}
+    </p>
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
@@ -28,9 +44,16 @@
 </template>
 
 <script setup lang="ts">
-import type { IMessage } from '~/models/common/message';
+import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
-defineProps<{
-  item: IMessage;
+const props = defineProps<{
+  item: IMisskeyMessage;
 }>();
+
+// renoteの場合、本文はrenote以下にある
+const actualItem = computed(() =>
+  props.item.body.renote
+    ? misskeyConverter.noteToMessage(props.item.body.renote, props.item.via)
+    : props.item,
+);
 </script>
