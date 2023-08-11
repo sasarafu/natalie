@@ -1,18 +1,16 @@
 <template>
   <div v-if="mediaList.length" class="relative">
-    <div class="grid gap-1 aspect-video" :class="gridClass">
-      <template v-for="media in mediaList.slice(0, 4)" :key="media">
-        <CommonColumnItemMedia
-          :media="media"
-          :class="{ 'first:row-span-2': mediaList.length === 3 }"
-        />
+    <div class="grid gap-1" :class="gridClass">
+      <template v-for="media in mediaList.slice(0, displayCount)" :key="media">
+        <CommonColumnItemMedia :media="media" :class="itemClass" />
       </template>
     </div>
     <span
-      v-if="mediaList.length > 4"
-      class="badge badge-primary absolute -bottom-2.5 right-0"
+      v-if="mediaList.length > displayCount"
+      class="badge badge-primary cursor-pointer absolute -bottom-2.5 right-0"
+      @click="expand"
     >
-      +{{ mediaList.length - 4 }}
+      +{{ mediaList.length - displayCount }}
     </span>
   </div>
 </template>
@@ -24,10 +22,25 @@ const props = defineProps<{
   mediaList: IMedia[];
 }>();
 
-const gridClass =
+const displayCount = ref(4);
+
+const gridClass = computed(() =>
   props.mediaList.length === 1
-    ? 'grid-cols-1 grid-rows-1'
-    : props.mediaList.length === 2
-    ? 'grid-cols-2 grid-rows-1'
-    : 'grid-cols-2 grid-rows-2';
+    ? 'grid-cols-1 grid-rows-1 aspect-video'
+    : props.mediaList.length < 4
+    ? 'grid-cols-2 aspect-video'
+    : 'grid-cols-2',
+);
+
+const itemClass = computed(() =>
+  props.mediaList.length === 3
+    ? 'first:row-span-2'
+    : props.mediaList.length > 3
+    ? 'aspect-video'
+    : '',
+);
+
+const expand = () => {
+  displayCount.value = props.mediaList.length;
+};
 </script>
