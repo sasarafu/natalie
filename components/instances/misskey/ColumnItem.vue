@@ -1,9 +1,7 @@
 <template>
   <CommonColumnItemContainer
-    :icon-url="body.user.avatarUrl"
-    :display-name="body.user.name || body.user.username"
-    :username="body.user.username"
-    :created-at="item.createdAt"
+    :user="actualItem.user"
+    :created-at="actualItem.createdAt"
   >
     <template #undericon>
       <div class="flex flex-col items-end mt-1">
@@ -21,8 +19,8 @@
       </div>
     </template>
 
-    <p v-if="body.text" class="w-full break-words text-sm">
-      {{ body.text }}
+    <p v-if="actualItem.body.text" class="w-full break-words text-sm">
+      {{ actualItem.body.text }}
     </p>
 
     <template #footer>
@@ -53,5 +51,9 @@ const props = defineProps<{
 }>();
 
 // renoteの場合、本文はrenote以下にある
-const body = computed(() => props.item.body.renote ?? props.item.body);
+const actualItem = computed(() =>
+  props.item.body.renote
+    ? misskeyConverter.noteToMessage(props.item.body.renote, props.item.via)
+    : props.item,
+);
 </script>

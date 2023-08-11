@@ -1,9 +1,7 @@
 <template>
   <CommonColumnItemContainer
-    :icon-url="body.account.avatar"
-    :display-name="body.account.displayName || body.account.username"
-    :username="body.account.acct"
-    :created-at="item.createdAt"
+    :user="actualItem.user"
+    :created-at="actualItem.createdAt"
   >
     <template #undericon>
       <div class="flex flex-col items-end mt-1">
@@ -50,8 +48,12 @@ const props = defineProps<{
   item: IMastodonMessage;
 }>();
 
-const body = computed(() =>
-  props.item.body.reblog ? props.item.body.reblog : props.item.body,
+const actualItem = computed(() =>
+  props.item.body.reblog
+    ? mastodonConverter.statusToMessage(props.item.body.reblog, props.item.via)
+    : props.item,
 );
-const sanitizedHTML = computed(() => sanitizeHTML(body.value.content));
+const sanitizedHTML = computed(() =>
+  sanitizeHTML(actualItem.value.body.content),
+);
 </script>
