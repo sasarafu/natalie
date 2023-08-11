@@ -34,7 +34,7 @@ const gridClass = computed(() =>
 
 const itemClass = computed(() =>
   props.mediaList.length === 3
-    ? 'first:row-span-2'
+    ? 'first:row-span-2 aspect-video first:aspect-auto'
     : props.mediaList.length > 3
     ? 'aspect-video'
     : '',

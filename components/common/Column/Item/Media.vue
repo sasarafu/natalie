@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isVisible"
-    class="relative cursor-zoom-in overflow-hidden"
+    class="w-full h-full relative cursor-zoom-in overflow-hidden"
     @click="$emit('click')"
   >
     <video
@@ -48,12 +48,10 @@
   <button
     v-else
     type="button"
-    class="w-full h-full rounded bg-neutral"
+    class="w-full h-full rounded flex justify-center items-center bg-neutral"
     @click="isVisible = true"
   >
-    <div class="flex justify-center items-center">
-      <span class="">sensitive</span>
-    </div>
+    <span class="">sensitive</span>
   </button>
 </template>
 
