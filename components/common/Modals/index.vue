@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modalRef"
-    class="modal z-40"
+    class="modal z-40 outline-none"
     :class="{ 'modal-open': isShown }"
     tabindex="0"
     @click="close()"
@@ -9,16 +9,19 @@
   >
     <div
       v-if="current"
-      class="modal-box border border-secondary p-[1rem]"
+      class="modal-box border border-secondary h-full w-full p-[1rem]"
       :style="{
-        width: current.displayOptions?.width ?? '70%',
-        height: current.displayOptions?.height ?? '90%',
-        'max-width': current.displayOptions?.maxWidth ?? '1024px',
-        'max-height': current.displayOptions?.maxHeight ?? '1024px',
+        width: current.displayOptions?.width,
+        height: current.displayOptions?.height,
+        'max-width': current.displayOptions?.maxWidth ?? '90%',
+        'max-height': current.displayOptions?.maxHeight ?? '90%',
       }"
       @click.stop
     >
-      <div class="flex items-center gap-x-2">
+      <div
+        v-if="current.displayOptions?.hasHeader !== false"
+        class="flex items-center gap-x-2"
+      >
         <button
           type="button"
           class="btn btn-sm btn-square btn-ghost"
@@ -29,13 +32,11 @@
           </span>
         </button>
         <div class="text-xl font-bold">{{ current.name }}</div>
+
+        <div class="divider my-2"></div>
       </div>
 
-      <div class="divider my-2"></div>
-
-      <div class="">
-        <component :is="current.component" v-bind="current.props" />
-      </div>
+      <component :is="current.component" v-bind="current.props" />
     </div>
   </div>
 </template>
@@ -73,9 +74,3 @@ watch(
   },
 );
 </script>
-
-<style scoped>
-.modal:focus {
-  outline: none;
-}
-</style>
