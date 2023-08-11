@@ -1,8 +1,15 @@
 <template>
   <div v-if="mediaList.length" class="relative">
     <div class="grid gap-1" :class="gridClass">
-      <template v-for="media in mediaList.slice(0, displayCount)" :key="media">
-        <CommonColumnItemMedia :media="media" :class="itemClass" />
+      <template
+        v-for="(media, index) in mediaList.slice(0, displayCount)"
+        :key="media"
+      >
+        <CommonColumnItemMedia
+          :media="media"
+          :class="itemClass"
+          @click="openModal(index)"
+        />
       </template>
     </div>
     <span
@@ -42,5 +49,18 @@ const itemClass = computed(() =>
 
 const expand = () => {
   displayCount.value = props.mediaList.length;
+};
+
+const openModal = (index: number) => {
+  modalsStore().add(
+    'media',
+    resolveComponent('CommonModalsMedia'),
+    { mediaList: props.mediaList, initial: index },
+    {
+      hasHeader: false,
+      width: 'fit-content',
+      maxHeight: '95%',
+    },
+  );
 };
 </script>
