@@ -1,6 +1,6 @@
 <template>
   <div v-if="mediaList.length" class="relative">
-    <div class="grid gap-1" :class="gridClass">
+    <div class="grid gap-1 h-full w-full" :class="gridClass">
       <template
         v-for="(media, index) in mediaList.slice(0, displayCount)"
         :key="media"
