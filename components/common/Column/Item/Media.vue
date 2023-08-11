@@ -49,7 +49,7 @@
   <button
     v-else
     type="button"
-    class="w-full h-full rounded flex justify-center items-center bg-neutral"
+    class="w-full h-full rounded bg-neutral"
     @click="isVisible = true"
   >
     <span class="">sensitive</span>
