@@ -32,6 +32,7 @@
         class="w-full"
         controls
         controlslist="nodownload"
+        @click.stop
       />
     </div>
 
