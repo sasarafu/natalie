@@ -23,6 +23,8 @@
       {{ actualItem.body.text }}
     </p>
 
+    <CommonColumnItemMediaList :media-list="mediaList" />
+
     <template #footer>
       <div class="flex gap-x-1 mt-1">
         <span></span>
@@ -44,6 +46,7 @@
 </template>
 
 <script setup lang="ts">
+import { mediaTypes, type IMedia } from '~/models/common/media';
 import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
 const props = defineProps<{
@@ -55,5 +58,19 @@ const actualItem = computed(() =>
   props.item.body.renote
     ? misskeyConverter.noteToMessage(props.item.body.renote, props.item.via)
     : props.item,
+);
+
+const mediaList = computed<IMedia[]>(() =>
+  actualItem.value.body.files
+    .filter((file) =>
+      mediaTypes.some((mediaType) => file.type.startsWith(mediaType)),
+    )
+    .map<IMedia>((file) => ({
+      type: mediaTypes.find((mediaType) => file.type.startsWith(mediaType))!,
+      detailedType: file.type,
+      thumbnailUrl: file.thumbnailUrl ?? file.url,
+      url: file.url,
+      sensitive: file.isSensitive,
+    })),
 );
 </script>

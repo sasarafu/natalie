@@ -21,6 +21,8 @@
 
     <p class="w-full break-words text-sm" v-html="sanitizedHTML"></p>
 
+    <CommonColumnItemMediaList :media-list="mediaList" />
+
     <template #footer>
       <div class="flex gap-x-1 mt-1">
         <span></span>
@@ -42,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import type { IMedia } from '~/models/common/media';
 import type { IMastodonMessage } from '~/models/instances/mastodon/message';
 
 const props = defineProps<{
@@ -55,5 +58,17 @@ const actualItem = computed(() =>
 );
 const sanitizedHTML = computed(() =>
   sanitizeHTML(actualItem.value.body.content),
+);
+
+const mediaList = computed<IMedia[]>(() =>
+  actualItem.value.body.mediaAttachments
+    .filter((media) => media.type !== 'unknown')
+    .map<IMedia>((file) => ({
+      type: file.type === 'gifv' ? 'image' : (file.type as IMedia['type']),
+      detailedType: file.type,
+      thumbnailUrl: file.previewUrl,
+      url: file.url ?? file.previewUrl,
+      sensitive: actualItem.value.body.sensitive,
+    })),
 );
 </script>

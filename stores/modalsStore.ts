@@ -6,8 +6,9 @@ type IModal = {
   component: ReturnType<typeof resolveComponent>;
   props: {};
   displayOptions?: {
-    width?: `${number}px` | `${number}%`;
-    height?: `${number}px` | `${number}%`;
+    hasHeader?: boolean; // false指定のときのみ非表示
+    width?: `${number}px` | `${number}%` | 'fit-content';
+    height?: `${number}px` | `${number}%` | 'fit-content';
     maxWidth?: `${number}px` | `${number}%`;
     maxHeight?: `${number}px` | `${number}%`;
   };
