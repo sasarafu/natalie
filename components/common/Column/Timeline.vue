@@ -72,6 +72,7 @@ const columnItemComponents = {
 };
 
 const items = ref<IMessage[]>([]);
+const comingItems = ref<IMessage[]>([]);
 
 const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
@@ -126,11 +127,27 @@ const loadPast = async () => {
 
 onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
-    items.value.reverse().push(message);
-    items.value.reverse();
-    limitItemCount();
+    if (isTop.value) {
+      // スクロールしていないときは直接追加
+      items.value.reverse().push(message);
+      items.value.reverse();
+      limitItemCount();
+    } else {
+      // スクロール中はキューに追加
+      comingItems.value.push(message);
+    }
   });
 });
+
+watch(() => isTop.value, () => {
+  // 上に戻ってきたらキューを追加
+  if (isTop.value) {
+    items.value.reverse().push(...comingItems.value);
+    items.value.reverse();
+    limitItemCount();
+    comingItems.value.length = 0;
+  }
+})
 
 setInterval(() => {
   now.value = Date.now();
