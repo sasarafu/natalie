@@ -71,9 +71,7 @@ const columnItemComponents = {
   misskey: resolveComponent('MisskeyColumnItem'),
 };
 
-const { datasources } = storeToRefs(useDatasourcesStore());
-datasources.value[props.timeline.id] = [];
-const items = computed(() => datasources.value[props.timeline.id]);
+const items = ref<IMessage[]>([]);
 
 const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
