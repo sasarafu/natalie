@@ -8,10 +8,12 @@
     </div>
     <div class="flex-auto min-w-0">
       <header class="flex gap-x-1 items-end">
-        <a href="#" tabindex="-1" class="flex-initial shrink-[9999] truncate">
+        <a href="#" tabindex="-1" class="flex-initial truncate">
           <span class="font-semibold">{{ user.displayName }}</span>
         </a>
-        <small class="flex-auto truncate">@{{ user.username }}</small>
+        <small class="flex-auto truncate shrink-[9999]">
+          @{{ user.username }}
+        </small>
         <small class="flex-none">
           {{ calcRelativeTime(createdAt) }}
         </small>

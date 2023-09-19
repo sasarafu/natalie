@@ -1,9 +1,9 @@
 <template>
   <div class="h-full flex flex-col justify-center p-1">
-    <details class="dropdown dropdown-left">
-      <summary tabindex="0" class="btn btn-ghost btn-square btn-xs">
+    <div class="dropdown dropdown-left">
+      <label tabindex="0" class="btn btn-ghost btn-square btn-xs">
         <span class="material-symbols-outlined text-base">add</span>
-      </summary>
+      </label>
       <div
         tabindex="0"
         class="menu dropdown-content bg-base-300 rounded-box border border-primary w-80"
@@ -46,7 +46,7 @@
           add
         </button>
       </div>
-    </details>
+    </div>
   </div>
 </template>
 
@@ -71,5 +71,6 @@ const addTimeline = () => {
       type: activeTimelineType.value,
     },
   });
+  (document.activeElement as HTMLElement | null)?.blur();
 };
 </script>
