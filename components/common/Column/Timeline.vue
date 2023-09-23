@@ -34,7 +34,7 @@
       </template>
 
       <div ref="body" class="divide-y divide-dashed divide-neutral">
-        <template v-for="item in items" :key="item.id">
+        <template v-for="item in items.slice().reverse()" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
             :is="columnItemComponents[item.via.instance.type]"
@@ -96,13 +96,12 @@ const isTop = ref(true);
 
 const limitItemCount = () => {
   if (items.value.length > 40 && isTop.value) {
-    items.value.length = 40;
+    items.value = items.value.slice(-40);
   }
 };
 
 const atTop = (value: boolean) => {
   isTop.value = value;
-  limitItemCount();
 };
 
 const loadPast = async () => {
@@ -111,17 +110,20 @@ const loadPast = async () => {
   }
 
   isLoading.value = true;
+
   try {
     const messages = await getTimeline(props.timeline, {
-      untilId: items.value.slice(-1)?.[0]?.id,
+      untilId: items.value[0]?.id,
     });
-    items.value.push(...messages);
+    items.value.reverse().push(...messages);
+    items.value.reverse();
 
     // レスポンスがなければ無限スクロールを終了
     if (messages.length === 0) {
       isLoadable.value = false;
     }
   } catch {}
+
   isLoading.value = false;
 };
 
@@ -129,8 +131,7 @@ onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
     if (isTop.value) {
       // スクロールしていないときは直接追加
-      items.value.reverse().push(message);
-      items.value.reverse();
+      items.value.push(message);
       limitItemCount();
     } else {
       // スクロール中はキューに追加
@@ -144,8 +145,7 @@ watch(
   () => {
     // 上に戻ってきたらキューを追加
     if (isTop.value) {
-      items.value.reverse().push(...comingItems.value);
-      items.value.reverse();
+      items.value.push(...comingItems.value);
       limitItemCount();
       comingItems.value.length = 0;
     }
