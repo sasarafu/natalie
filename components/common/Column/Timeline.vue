@@ -62,6 +62,8 @@
 import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
 
+const ITEM_COUNT_LIMIT = 40;
+
 const props = defineProps<{
   timeline: ITimeline;
 }>();
@@ -72,7 +74,7 @@ const columnItemComponents = {
 };
 
 const items = ref<IMessage[]>([]);
-const comingItems = ref<IMessage[]>([]);
+const queuingItems = ref<IMessage[]>([]);
 
 const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
@@ -94,9 +96,9 @@ const isLoadable = ref(true);
 const isLoading = ref(false);
 const isTop = ref(true);
 
-const limitItemCount = () => {
-  if (items.value.length > 40 && isTop.value) {
-    items.value = items.value.slice(-40);
+const limitItemCount = (target: Ref<IMessage[]>) => {
+  if (target.value.length > ITEM_COUNT_LIMIT) {
+    target.value = target.value.slice(-ITEM_COUNT_LIMIT);
   }
 };
 
@@ -132,10 +134,11 @@ onMounted(async () => {
     if (isTop.value) {
       // スクロールしていないときは直接追加
       items.value.push(message);
-      limitItemCount();
+      limitItemCount(items);
     } else {
       // スクロール中はキューに追加
-      comingItems.value.push(message);
+      queuingItems.value.push(message);
+      limitItemCount(queuingItems);
     }
   });
 });
@@ -145,9 +148,9 @@ watch(
   () => {
     // 上に戻ってきたらキューを追加
     if (isTop.value) {
-      items.value.push(...comingItems.value);
-      limitItemCount();
-      comingItems.value.length = 0;
+      items.value.push(...queuingItems.value);
+      limitItemCount(items);
+      queuingItems.value.length = 0;
     }
   },
 );
