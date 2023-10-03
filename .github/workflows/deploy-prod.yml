@@ -1,8 +1,8 @@
-name: deploy-dev
+name: deploy-prod
 
 on:
-  push:
-    branches: ['main']
+  release:
+    types: ['released']
   workflow_dispatch:
 
 permissions:
@@ -10,23 +10,22 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'deploy-dev'
+  group: 'deploy-prod'
   cancel-in-progress: false
 
 env:
   NODE_VERSION: '18.x'
-  NUXT_PUBLIC_HASH: ${{ github.sha }}
 
 jobs:
-  build-deploy-dev:
+  build-deploy-prod:
     runs-on: ubuntu-latest
     environment:
-      name: deploy-dev
+      name: deploy-prod
     steps:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: setup nodejs
+      - name: setup nodejs ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
