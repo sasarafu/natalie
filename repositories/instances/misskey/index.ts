@@ -51,7 +51,7 @@ export const misskeyRepository = () => ({
         any,
         'post'
       >(`https://${instanceUrl}/api/miauth/${session}/check`, {
-        method: 'POST',
+        method: 'post',
       })
     ).data.value;
   },

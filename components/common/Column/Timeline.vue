@@ -139,15 +139,18 @@ onMounted(async () => {
   });
 });
 
-watch(() => isTop.value, () => {
-  // 上に戻ってきたらキューを追加
-  if (isTop.value) {
-    items.value.reverse().push(...comingItems.value);
-    items.value.reverse();
-    limitItemCount();
-    comingItems.value.length = 0;
-  }
-})
+watch(
+  () => isTop.value,
+  () => {
+    // 上に戻ってきたらキューを追加
+    if (isTop.value) {
+      items.value.reverse().push(...comingItems.value);
+      items.value.reverse();
+      limitItemCount();
+      comingItems.value.length = 0;
+    }
+  },
+);
 
 setInterval(() => {
   now.value = Date.now();
