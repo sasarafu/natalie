@@ -8,8 +8,11 @@
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
           <div
-            class="flex items-center h-12 py-2 gap-x-1"
-            :class="{ 'cursor-pointer': !isTop }"
+            class="flex items-center h-12 py-2 gap-x-1 border-t-2 border-accent"
+            :class="{
+              'cursor-pointer': !isTop,
+              'border-transparent': !queuingItems.length,
+            }"
             @click="scrollup"
           >
             <CommonPartsRoundedIcon :icon-url="user.iconUrl" class="w-8 h-8" />
