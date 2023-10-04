@@ -19,11 +19,19 @@
       </div>
     </template>
 
-    <p v-if="actualItem.body.text" class="w-full break-words text-sm">
-      {{ actualItem.body.text }}
-    </p>
+    <div class="space-y-1">
+      <p v-if="actualItem.body.text" class="w-full break-words text-sm">
+        {{ actualItem.body.text }}
+      </p>
 
-    <CommonColumnItemMediaList :media-list="mediaList" />
+      <CommonColumnItemMediaList :media-list="mediaList" />
+
+      <MisskeyColumnItemReactions
+        :reactions="actualItem.body.reactions"
+        :my-reaction="actualItem.body.myReaction"
+        :base-url="item.via.instance.baseUrl"
+      />
+    </div>
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
