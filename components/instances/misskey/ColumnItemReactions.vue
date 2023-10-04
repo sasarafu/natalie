@@ -2,8 +2,9 @@
   <ul v-if="reactionsArray.length > 0" class="flex flex-wrap gap-x-1">
     <li v-for="reaction in shownReactions" :key="reaction.key">
       <button
-        class="btn btn-xs btn-neutral no-animation py-0.5 gap-x-1"
+        class="btn btn-xs no-animation py-0.5 gap-x-1"
         tabindex="-1"
+        :class="[reaction.key === myReaction ? 'btn-accent' : 'btn-neutral']"
       >
         <MisskeyEmoji
           :emoji="reaction.key"
