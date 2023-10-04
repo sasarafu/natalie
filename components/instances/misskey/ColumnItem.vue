@@ -30,6 +30,7 @@
         :reactions="actualItem.body.reactions"
         :my-reaction="actualItem.body.myReaction"
         :base-url="item.via.instance.baseUrl"
+        @select="(reaction, isCreate) => submitReaction(reaction, isCreate)"
       />
     </div>
 
@@ -81,4 +82,21 @@ const mediaList = computed<IMedia[]>(() =>
       sensitive: file.isSensitive,
     })),
 );
+
+const submitReaction = (reaction: string, isCreate: boolean) => {
+  if (isCreate) {
+    useApiClientsStore()
+      .get<'misskey'>(props.item.via)
+      .api.request('notes/reactions/create', {
+        noteId: actualItem.value.id,
+        reaction,
+      });
+  } else {
+    useApiClientsStore()
+      .get<'misskey'>(props.item.via)
+      .api.request('notes/reactions/delete', {
+        noteId: actualItem.value.id,
+      });
+  }
+};
 </script>
