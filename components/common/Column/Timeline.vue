@@ -8,8 +8,11 @@
       <template #header>
         <header class="flex flex-col bg-neutral px-3">
           <div
-            class="flex items-center h-12 py-2 gap-x-1"
-            :class="{ 'cursor-pointer': !isTop }"
+            class="flex items-center h-12 py-2 gap-x-1 border-t-2 border-accent"
+            :class="{
+              'cursor-pointer': !isTop,
+              'border-transparent': !queuingItems.length,
+            }"
             @click="scrollup"
           >
             <CommonPartsRoundedIcon :icon-url="user.iconUrl" class="w-8 h-8" />
@@ -34,7 +37,7 @@
       </template>
 
       <div ref="body" class="divide-y divide-dashed divide-neutral">
-        <template v-for="item in items" :key="item.id">
+        <template v-for="item in items.slice().reverse()" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
             :is="columnItemComponents[item.via.instance.type]"
@@ -46,12 +49,11 @@
 
       <template v-if="isLoadable" #loading>
         <div class="p-3 text-center">
-          <!-- 1度読み込んだ後にまだ画面上にあった場合、再ロードされないのでボタンで手動ロードできるようにしておく -->
-          <div class="tooltip tooltip-bottom" data-tip="クリックして更新">
-            <button @click="loadPast">
-              <span class="loading loading-spinner"></span>
-            </button>
-          </div>
+          <span v-if="isLoading" class="loading loading-spinner"></span>
+          <button v-else class="btn btn-neutral btn-sm" @click="loadPast">
+            <!-- 1度読み込んだ後にまだ画面上にあった場合、再ロードされないのでボタンで手動ロードできるようにしておく -->
+            <span>load more</span>
+          </button>
         </div>
       </template>
     </CommonContainer>
@@ -61,6 +63,8 @@
 <script setup lang="ts">
 import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
+
+const ITEM_COUNT_LIMIT = 40;
 
 const props = defineProps<{
   timeline: ITimeline;
@@ -72,7 +76,7 @@ const columnItemComponents = {
 };
 
 const items = ref<IMessage[]>([]);
-const comingItems = ref<IMessage[]>([]);
+const queuingItems = ref<IMessage[]>([]);
 
 const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
@@ -94,15 +98,14 @@ const isLoadable = ref(true);
 const isLoading = ref(false);
 const isTop = ref(true);
 
-const limitItemCount = () => {
-  if (items.value.length > 40 && isTop.value) {
-    items.value.length = 40;
+const limitItemCount = (target: Ref<IMessage[]>) => {
+  if (target.value.length > ITEM_COUNT_LIMIT) {
+    target.value = target.value.slice(-ITEM_COUNT_LIMIT);
   }
 };
 
 const atTop = (value: boolean) => {
   isTop.value = value;
-  limitItemCount();
 };
 
 const loadPast = async () => {
@@ -111,17 +114,20 @@ const loadPast = async () => {
   }
 
   isLoading.value = true;
+
   try {
     const messages = await getTimeline(props.timeline, {
-      untilId: items.value.slice(-1)?.[0]?.id,
+      untilId: items.value[0]?.id,
     });
-    items.value.push(...messages);
+    items.value.reverse().push(...messages);
+    items.value.reverse();
 
     // レスポンスがなければ無限スクロールを終了
     if (messages.length === 0) {
       isLoadable.value = false;
     }
   } catch {}
+
   isLoading.value = false;
 };
 
@@ -129,12 +135,12 @@ onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
     if (isTop.value) {
       // スクロールしていないときは直接追加
-      items.value.reverse().push(message);
-      items.value.reverse();
-      limitItemCount();
+      items.value.push(message);
+      limitItemCount(items);
     } else {
       // スクロール中はキューに追加
-      comingItems.value.push(message);
+      queuingItems.value.push(message);
+      limitItemCount(queuingItems);
     }
   });
 });
@@ -144,10 +150,9 @@ watch(
   () => {
     // 上に戻ってきたらキューを追加
     if (isTop.value) {
-      items.value.reverse().push(...comingItems.value);
-      items.value.reverse();
-      limitItemCount();
-      comingItems.value.length = 0;
+      items.value.push(...queuingItems.value);
+      limitItemCount(items);
+      queuingItems.value.length = 0;
     }
   },
 );
