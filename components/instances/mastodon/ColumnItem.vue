@@ -32,7 +32,12 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">autorenew</span>
         </button>
-        <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost"
+          tabindex="-1"
+          @click="toggleFavorite"
+        >
           <span
             class="material-symbols-outlined text-base"
             :class="{ 'filled text-yellow-500': actualItem.body.favourited }"
@@ -76,4 +81,18 @@ const mediaList = computed<IMedia[]>(() =>
       sensitive: actualItem.value.body.sensitive,
     })),
 );
+
+const toggleFavorite = () => {
+  if (actualItem.value.body.favourited) {
+    useApiClientsStore()
+      .get<'mastodon'>(props.item.via)
+      .api.v1.statuses.$select(actualItem.value.id)
+      .unfavourite();
+  } else {
+    useApiClientsStore()
+      .get<'mastodon'>(props.item.via)
+      .api.v1.statuses.$select(actualItem.value.id)
+      .favourite();
+  }
+};
 </script>
