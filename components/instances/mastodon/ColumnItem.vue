@@ -82,17 +82,24 @@ const mediaList = computed<IMedia[]>(() =>
     })),
 );
 
-const toggleFavorite = () => {
-  if (actualItem.value.body.favourited) {
-    useApiClientsStore()
-      .get<'mastodon'>(props.item.via)
-      .api.v1.statuses.$select(actualItem.value.id)
-      .unfavourite();
-  } else {
-    useApiClientsStore()
-      .get<'mastodon'>(props.item.via)
-      .api.v1.statuses.$select(actualItem.value.id)
-      .favourite();
+const toggleFavorite = async () => {
+  try {
+    if (actualItem.value.body.favourited) {
+      await useApiClientsStore()
+        .get<'mastodon'>(props.item.via)
+        .api.v1.statuses.$select(actualItem.value.id)
+        .unfavourite();
+    } else {
+      await useApiClientsStore()
+        .get<'mastodon'>(props.item.via)
+        .api.v1.statuses.$select(actualItem.value.id)
+        .favourite();
+    }
+  } catch {
+    toastsStore().add({
+      text: 'failed to set favorite',
+      level: 'error',
+    });
   }
 };
 </script>

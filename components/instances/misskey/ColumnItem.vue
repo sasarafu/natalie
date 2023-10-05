@@ -83,20 +83,27 @@ const mediaList = computed<IMedia[]>(() =>
     })),
 );
 
-const submitReaction = (reaction: string, isCreate: boolean) => {
-  if (isCreate) {
-    useApiClientsStore()
-      .get<'misskey'>(props.item.via)
-      .api.request('notes/reactions/create', {
-        noteId: actualItem.value.id,
-        reaction,
-      });
-  } else {
-    useApiClientsStore()
-      .get<'misskey'>(props.item.via)
-      .api.request('notes/reactions/delete', {
-        noteId: actualItem.value.id,
-      });
+const submitReaction = async (reaction: string, isCreate: boolean) => {
+  try {
+    if (isCreate) {
+      await useApiClientsStore()
+        .get<'misskey'>(props.item.via)
+        .api.request('notes/reactions/create', {
+          noteId: actualItem.value.id,
+          reaction,
+        });
+    } else {
+      await useApiClientsStore()
+        .get<'misskey'>(props.item.via)
+        .api.request('notes/reactions/delete', {
+          noteId: actualItem.value.id,
+        });
+    }
+  } catch {
+    toastsStore().add({
+      text: 'failed to set reaction',
+      level: 'error',
+    });
   }
 };
 </script>
