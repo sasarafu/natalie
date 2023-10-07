@@ -20,3 +20,7 @@
   font-size: inherit;
   line-height: inherit;
 }
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1;
+}
