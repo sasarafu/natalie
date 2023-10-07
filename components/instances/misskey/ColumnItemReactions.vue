@@ -1,6 +1,11 @@
 <template>
   <ul v-if="reactionsArray.length > 0" class="flex flex-wrap gap-x-1">
-    <li v-for="reaction in shownReactions" :key="reaction.key">
+    <li
+      v-for="reaction in shownReactions"
+      :key="reaction.key"
+      class="tooltip tooltip-bottom"
+      :data-tip="reaction.key.replace('@.', '')"
+    >
       <button
         class="btn btn-xs no-animation py-0.5 gap-x-1"
         tabindex="-1"
