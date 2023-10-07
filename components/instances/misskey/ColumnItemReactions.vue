@@ -16,7 +16,7 @@
     </li>
     <li v-if="reactionsArray.length > REACTIONS_LIMIT && !isShowAll">
       <button
-        class="btn btn-xs btn-primary no-animation"
+        class="btn btn-xs btn-accent btn-outline no-animation"
         tabindex="-1"
         @click="showMore"
       >
