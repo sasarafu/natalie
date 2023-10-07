@@ -9,7 +9,7 @@
           <span
             class="indicator-item indicator-bottom indicator-start badge badge-primary px-0 w-5 h-5"
           >
-            <span class="material-symbols-outlined text-base">autorenew</span>
+            <span class="material-symbols-outlined text-base">sync</span>
           </span>
           <CommonPartsRoundedIcon
             :icon-url="item.user.iconUrl"
@@ -30,7 +30,7 @@
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
-          <span class="material-symbols-outlined text-base">autorenew</span>
+          <span class="material-symbols-outlined text-base">sync</span>
         </button>
         <button
           type="button"
