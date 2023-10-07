@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="reactionsArray.length > 0" class="flex flex-wrap gap-x-1">
+  <ul v-if="reactions.length > 0" class="flex flex-wrap gap-x-1">
     <li
       v-for="reaction in shownReactions"
       :key="reaction.key"
@@ -20,13 +20,13 @@
         {{ reaction.count }}
       </button>
     </li>
-    <li v-if="reactionsArray.length > REACTIONS_LIMIT && !isShowAll">
+    <li v-if="reactions.length > REACTIONS_LIMIT && !isShowAll">
       <button
         class="btn btn-xs btn-accent btn-outline no-animation"
         tabindex="-1"
         @click="showMore"
       >
-        +{{ reactionsArray.length - REACTIONS_LIMIT }}
+        +{{ reactions.length - REACTIONS_LIMIT }}
       </button>
     </li>
   </ul>
@@ -36,7 +36,7 @@
 import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
 const props = defineProps<{
-  reactions: IMisskeyMessage['body']['reactions'];
+  reactions: { key: string; count: number }[];
   myReaction: IMisskeyMessage['body']['myReaction'];
   baseUrl: IMisskeyMessage['via']['instance']['baseUrl'];
 }>();
@@ -48,21 +48,8 @@ defineEmits<{
 const REACTIONS_LIMIT = 10;
 const isShowAll = ref(false);
 
-const reactionsArray = computed(() =>
-  Object.keys(props.reactions)
-    .map((key) => {
-      return {
-        key,
-        count: props.reactions[key],
-      };
-    })
-    .sort((left, right) => right.count - left.count),
-);
-
 const shownReactions = computed(() =>
-  isShowAll.value
-    ? reactionsArray.value
-    : reactionsArray.value.slice(0, REACTIONS_LIMIT),
+  isShowAll.value ? props.reactions : props.reactions.slice(0, REACTIONS_LIMIT),
 );
 
 const showMore = () => {

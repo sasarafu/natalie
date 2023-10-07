@@ -27,8 +27,8 @@
       <CommonColumnItemMediaList :media-list="mediaList" />
 
       <MisskeyColumnItemReactions
-        :reactions="actualItem.body.reactions"
-        :my-reaction="actualItem.body.myReaction"
+        :reactions="reactionsArray"
+        :my-reaction="cachedMyReaction"
         :base-url="item.via.instance.baseUrl"
         @select="(reaction, isCreate) => submitReaction(reaction, isCreate)"
       />
@@ -47,7 +47,7 @@
           type="button"
           class="btn btn-xs btn-ghost"
           tabindex="-1"
-          :disabled="!!actualItem.body.myReaction"
+          :disabled="!!cachedMyReaction"
           @click="submitReaction('❤', true)"
         >
           <!-- TODO: emojiを選ぶのは実装コストが高い(エンドポイントがない？)ので、一旦favorite固定にしておく -->
@@ -90,6 +90,36 @@ const mediaList = computed<IMedia[]>(() =>
     })),
 );
 
+// TODO: noteごとにWebSocketを張って更新を受け取るのが望ましいが、実装が大変なのでローカルで変更をキャッシュ
+const cachedMyReaction = ref(actualItem.value.body.myReaction);
+const reactionsArray = computed(() => {
+  const reactions = Object.keys(actualItem.value.body.reactions)
+    .map((key) => {
+      const reactionCount = actualItem.value.body.reactions[key];
+      return {
+        key,
+        count:
+          cachedMyReaction.value === actualItem.value.body.myReaction
+            ? reactionCount
+            : key === cachedMyReaction.value
+            ? reactionCount + 1
+            : key === actualItem.value.body.myReaction
+            ? reactionCount - 1
+            : reactionCount,
+      };
+    })
+    .filter((reaction) => reaction.count !== 0);
+
+  if (
+    cachedMyReaction.value &&
+    reactions.findIndex((el) => el.key === cachedMyReaction.value) < 0
+  ) {
+    reactions.push({ key: cachedMyReaction.value, count: 1 });
+  }
+
+  return reactions.sort((left, right) => right.count - left.count);
+});
+
 const submitReaction = async (reaction: string, isCreate: boolean) => {
   try {
     if (isCreate) {
@@ -99,12 +129,14 @@ const submitReaction = async (reaction: string, isCreate: boolean) => {
           noteId: actualItem.value.id,
           reaction,
         });
+      cachedMyReaction.value = reaction;
     } else {
       await useApiClientsStore()
         .get<'misskey'>(props.item.via)
         .api.request('notes/reactions/delete', {
           noteId: actualItem.value.id,
         });
+      cachedMyReaction.value = undefined;
     }
   } catch {
     toastsStore().add({
