@@ -43,8 +43,15 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">autorenew</span>
         </button>
-        <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
-          <span class="material-symbols-outlined text-base">star</span>
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost"
+          tabindex="-1"
+          :disabled="!!actualItem.body.myReaction"
+          @click="submitReaction('❤', true)"
+        >
+          <!-- TODO: emojiを選ぶのは実装コストが高い(エンドポイントがない？)ので、一旦favorite固定にしておく -->
+          <span class="material-symbols-outlined text-base">favorite</span>
         </button>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">more_horiz</span>
