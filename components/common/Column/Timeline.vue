@@ -36,7 +36,10 @@
         </header>
       </template>
 
-      <div ref="body" class="divide-y divide-dashed divide-neutral">
+      <div
+        ref="body"
+        class="divide-y divide-dashed divide-neutral overflow-x-hidden"
+      >
         <template v-for="item in items.slice().reverse()" :key="item.id">
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
