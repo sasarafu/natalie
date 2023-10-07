@@ -29,8 +29,18 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
-        <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
-          <span class="material-symbols-outlined text-base">sync</span>
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost"
+          tabindex="-1"
+          @click="toggleBoost"
+        >
+          <span
+            class="material-symbols-outlined text-base"
+            :class="{ 'text-yellow-500': cachedBoosted }"
+          >
+            {{ cachedBoosted ? 'published_with_changes' : 'sync' }}
+          </span>
         </button>
         <button
           type="button"
@@ -81,6 +91,30 @@ const mediaList = computed<IMedia[]>(() =>
       sensitive: actualItem.value.body.sensitive,
     })),
 );
+
+const cachedBoosted = ref(actualItem.value.body.reblogged);
+const toggleBoost = async () => {
+  try {
+    if (cachedBoosted.value) {
+      await useApiClientsStore()
+        .get<'mastodon'>(props.item.via)
+        .api.v1.statuses.$select(actualItem.value.id)
+        .unreblog();
+      cachedBoosted.value = false;
+    } else {
+      await useApiClientsStore()
+        .get<'mastodon'>(props.item.via)
+        .api.v1.statuses.$select(actualItem.value.id)
+        .reblog();
+      cachedBoosted.value = true;
+    }
+  } catch {
+    toastsStore().add({
+      text: 'failed to set boost',
+      level: 'error',
+    });
+  }
+};
 
 // favouriteの結果をローカルでキャッシュ(Mastodonはこのままでいいかも)
 const cachedFavourited = ref(actualItem.value.body.favourited);
