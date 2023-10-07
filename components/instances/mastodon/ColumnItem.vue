@@ -33,7 +33,12 @@
           <span class="material-symbols-outlined text-base">autorenew</span>
         </button>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
-          <span class="material-symbols-outlined text-base">star</span>
+          <span
+            class="material-symbols-outlined text-base"
+            :class="{ 'filled text-yellow-500': actualItem.body.favourited }"
+          >
+            star
+          </span>
         </button>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">more_horiz</span>
