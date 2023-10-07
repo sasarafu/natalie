@@ -27,9 +27,10 @@
       <CommonColumnItemMediaList :media-list="mediaList" />
 
       <MisskeyColumnItemReactions
-        :reactions="actualItem.body.reactions"
-        :my-reaction="actualItem.body.myReaction"
+        :reactions="reactionsArray"
+        :my-reaction="cachedMyReaction"
         :base-url="item.via.instance.baseUrl"
+        @select="(reaction, isCreate) => submitReaction(reaction, isCreate)"
       />
     </div>
 
@@ -42,8 +43,15 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">autorenew</span>
         </button>
-        <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
-          <span class="material-symbols-outlined text-base">star</span>
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost"
+          tabindex="-1"
+          :disabled="!!cachedMyReaction"
+          @click="submitReaction('❤', true)"
+        >
+          <!-- TODO: emojiを選ぶのは実装コストが高い(エンドポイントがない？)ので、一旦favorite固定にしておく -->
+          <span class="material-symbols-outlined text-base">favorite</span>
         </button>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">more_horiz</span>
@@ -81,4 +89,60 @@ const mediaList = computed<IMedia[]>(() =>
       sensitive: file.isSensitive,
     })),
 );
+
+// TODO: noteごとにWebSocketを張って更新を受け取るのが望ましいが、実装が大変なのでローカルで変更をキャッシュ
+const cachedMyReaction = ref(actualItem.value.body.myReaction);
+const reactionsArray = computed(() => {
+  const reactions = Object.keys(actualItem.value.body.reactions)
+    .map((key) => {
+      const reactionCount = actualItem.value.body.reactions[key];
+      return {
+        key,
+        count:
+          cachedMyReaction.value === actualItem.value.body.myReaction
+            ? reactionCount
+            : key === cachedMyReaction.value
+            ? reactionCount + 1
+            : key === actualItem.value.body.myReaction
+            ? reactionCount - 1
+            : reactionCount,
+      };
+    })
+    .filter((reaction) => reaction.count !== 0);
+
+  if (
+    cachedMyReaction.value &&
+    reactions.findIndex((el) => el.key === cachedMyReaction.value) < 0
+  ) {
+    reactions.push({ key: cachedMyReaction.value, count: 1 });
+  }
+
+  return reactions.sort((left, right) => right.count - left.count);
+});
+
+const submitReaction = async (reaction: string, isCreate: boolean) => {
+  try {
+    if (isCreate) {
+      await useApiClientsStore()
+        .get<'misskey'>(props.item.via)
+        .api.request('notes/reactions/create', {
+          noteId: actualItem.value.id,
+          reaction,
+        });
+      cachedMyReaction.value = reaction;
+    } else {
+      await useApiClientsStore()
+        .get<'misskey'>(props.item.via)
+        .api.request('notes/reactions/delete', {
+          noteId: actualItem.value.id,
+        });
+      cachedMyReaction.value = undefined;
+    }
+  } catch {
+    toastsStore().add({
+      text: 'failed to set reaction',
+      level: 'error',
+    });
+  }
+};
 </script>

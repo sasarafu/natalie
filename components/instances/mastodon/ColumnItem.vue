@@ -32,10 +32,15 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">autorenew</span>
         </button>
-        <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost"
+          tabindex="-1"
+          @click="toggleFavorite"
+        >
           <span
             class="material-symbols-outlined text-base"
-            :class="{ 'filled text-yellow-500': actualItem.body.favourited }"
+            :class="{ 'filled text-yellow-500': cachedFavourited }"
           >
             star
           </span>
@@ -76,4 +81,30 @@ const mediaList = computed<IMedia[]>(() =>
       sensitive: actualItem.value.body.sensitive,
     })),
 );
+
+// favouriteの結果をローカルでキャッシュ(Mastodonはこのままでいいかも)
+const cachedFavourited = ref(actualItem.value.body.favourited);
+
+const toggleFavorite = async () => {
+  try {
+    if (cachedFavourited.value) {
+      await useApiClientsStore()
+        .get<'mastodon'>(props.item.via)
+        .api.v1.statuses.$select(actualItem.value.id)
+        .unfavourite();
+      cachedFavourited.value = false;
+    } else {
+      await useApiClientsStore()
+        .get<'mastodon'>(props.item.via)
+        .api.v1.statuses.$select(actualItem.value.id)
+        .favourite();
+      cachedFavourited.value = true;
+    }
+  } catch {
+    toastsStore().add({
+      text: 'failed to set favorite',
+      level: 'error',
+    });
+  }
+};
 </script>
