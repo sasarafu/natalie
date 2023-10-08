@@ -44,12 +44,10 @@
           v-for="(item, index) in items.slice().reverse()"
           :key="item.id"
         >
-          <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
             :is="columnItemComponents[item.via.instance.type]"
             :item="item"
             :is-last="index === items.length - 1"
-            :now="now"
           />
         </template>
       </div>
@@ -89,7 +87,6 @@ const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
 
 const isDetailExpanded = ref<boolean>(false);
-const now = ref<number>(Date.now());
 
 const toggleDetail = () => {
   isDetailExpanded.value = !isDetailExpanded.value;
@@ -163,8 +160,4 @@ watch(
     }
   },
 );
-
-setInterval(() => {
-  now.value = Date.now();
-}, 1000);
 </script>
