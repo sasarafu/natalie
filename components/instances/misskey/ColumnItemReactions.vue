@@ -3,8 +3,7 @@
     <li
       v-for="reaction in shownReactions"
       :key="reaction.key"
-      class="tooltip tooltip-bottom"
-      :data-tip="reaction.key.replace('@.', '')"
+      class="dropdown dropdown-center dropdown-hover"
     >
       <button
         class="btn btn-xs no-animation py-0.5 gap-x-1"
@@ -19,6 +18,11 @@
         />
         {{ reaction.count }}
       </button>
+      <span
+        class="dropdown-content pointer-events-none card p-1 bg-neutral text-sm z-10"
+      >
+        {{ reaction.key.replace('@.', '') }}
+      </span>
     </li>
     <li v-if="reactions.length > REACTIONS_LIMIT && !isShowAll">
       <button
@@ -56,3 +60,12 @@ const showMore = () => {
   isShowAll.value = true;
 };
 </script>
+
+<style scoped>
+.dropdown.dropdown-center > .dropdown-content {
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+}
+</style>
