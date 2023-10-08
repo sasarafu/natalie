@@ -40,8 +40,20 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
-        <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
-          <span class="material-symbols-outlined text-base">sync</span>
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost"
+          tabindex="-1"
+          @click="renote"
+        >
+          <span
+            class="material-symbols-outlined text-base"
+            :class="{
+              'text-yellow-500': isRenoted,
+            }"
+          >
+            {{ isRenoted ? 'published_with_changes' : 'sync' }}
+          </span>
         </button>
         <button
           type="button"
@@ -89,6 +101,33 @@ const mediaList = computed<IMedia[]>(() =>
       sensitive: file.isSensitive,
     })),
 );
+
+const isRenoted = computed(
+  () =>
+    !!props.item.body.renote &&
+    props.item.body.user.id === props.item.via.userid,
+);
+
+const renote = async () => {
+  try {
+    if (isRenoted.value) {
+      // 自分がRenoteしたnoteを再Renote
+      // TODO: Misskeyではできるけど、とりあえずできないようにしておく
+      return;
+    }
+
+    await useApiClientsStore()
+      .get<'misskey'>(props.item.via)
+      .api.request('notes/create', {
+        renoteId: actualItem.value.body.id,
+      });
+  } catch {
+    toastsStore().add({
+      text: 'failed to set boost',
+      level: 'error',
+    });
+  }
+};
 
 // TODO: noteごとにWebSocketを張って更新を受け取るのが望ましいが、実装が大変なのでローカルで変更をキャッシュ
 const cachedMyReaction = ref(actualItem.value.body.myReaction);
