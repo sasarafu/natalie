@@ -32,14 +32,15 @@
         <button
           type="button"
           class="btn btn-xs btn-ghost"
+          :class="{ 'text-yellow-500': cachedBoosted }"
           tabindex="-1"
           @click="toggleBoost"
         >
-          <span
-            class="material-symbols-outlined text-base"
-            :class="{ 'text-yellow-500': cachedBoosted }"
-          >
+          <span class="material-symbols-outlined text-base">
             {{ cachedBoosted ? 'published_with_changes' : 'sync' }}
+          </span>
+          <span v-if="actualItem.body.reblogsCount > 0">
+            {{ actualItem.body.reblogsCount }}
           </span>
         </button>
         <button
