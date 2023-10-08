@@ -43,16 +43,15 @@
         <button
           type="button"
           class="btn btn-xs btn-ghost"
+          :class="{ 'text-yellow-500': isRenoted }"
           tabindex="-1"
           @click="renote"
         >
-          <span
-            class="material-symbols-outlined text-base"
-            :class="{
-              'text-yellow-500': isRenoted,
-            }"
-          >
+          <span class="material-symbols-outlined text-base">
             {{ isRenoted ? 'published_with_changes' : 'sync' }}
+          </span>
+          <span v-if="actualItem.body.renoteCount > 0">
+            {{ actualItem.body.renoteCount }}
           </span>
         </button>
         <button
