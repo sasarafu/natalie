@@ -28,6 +28,15 @@
               class="menu dropdown-content bg-base-100 rounded-box w-48"
             >
               <li>
+                <span>
+                  {{
+                    `${runtimeConfig.public.appName}
+                    v${runtimeConfig.public.version}
+                    (${runtimeConfig.public.natalieEnv.substring(0, 4)})`
+                  }}
+                </span>
+              </li>
+              <li>
                 <NuxtLink to="/login">
                   <span class="material-symbols-outlined">person_add</span>
                   add account
@@ -67,6 +76,8 @@
 
 <script setup lang="ts">
 import type { ILoginUser } from '~/models/common/user';
+
+const runtimeConfig = useRuntimeConfig();
 
 const composeComponents = {
   mastodon: resolveComponent('MastodonSidebarCompose'),
