@@ -38,13 +38,17 @@
 
       <div
         ref="body"
-        class="divide-y divide-dashed divide-neutral overflow-x-hidden"
+        class="divide-y divide-dashed divide-neutral overflow-hidden"
       >
-        <template v-for="item in items.slice().reverse()" :key="item.id">
+        <template
+          v-for="(item, index) in items.slice().reverse()"
+          :key="item.id"
+        >
           <!-- コンポーネントにnowは不要だが、つけることで相対時間の更新ができる -->
           <component
             :is="columnItemComponents[item.via.instance.type]"
             :item="item"
+            :is-last="index === items.length - 1"
             :now="now"
           />
         </template>
