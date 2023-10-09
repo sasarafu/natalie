@@ -40,20 +40,53 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
-        <button
-          type="button"
-          class="btn btn-xs btn-ghost"
-          :class="{ 'text-yellow-500': isRenoted }"
-          tabindex="-1"
-          @click="renote"
-        >
-          <span class="material-symbols-outlined text-base">
-            {{ isRenoted ? 'published_with_changes' : 'sync' }}
-          </span>
-          <span v-if="actualItem.body.renoteCount > 0">
-            {{ actualItem.body.renoteCount }}
-          </span>
-        </button>
+        <div class="dropdown dropdown-hover">
+          <label
+            class="btn btn-xs btn-ghost"
+            :class="{ 'text-yellow-500': isRenoted }"
+          >
+            <span class="material-symbols-outlined text-base">
+              {{ isRenoted ? 'published_with_changes' : 'sync' }}
+            </span>
+            <span v-if="actualItem.body.renoteCount > 0">
+              {{ actualItem.body.renoteCount }}
+            </span>
+          </label>
+          <ul
+            class="dropdown-content z-[1] menu menu-sm w-max bg-neutral rounded-box"
+          >
+            <li v-if="isRenoted">
+              <button
+                type="button"
+                class="text-red-500 hover:text-red-500"
+                tabindex="-1"
+                @click="Unrenote"
+              >
+                <span class="material-symbols-outlined text-base">
+                  published_with_changes
+                </span>
+                Unrenote
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="text-yellow-500 hover:text-yellow-500"
+                tabindex="-1"
+                @click="renote"
+              >
+                <span class="material-symbols-outlined text-base">sync</span>
+                {{ isRenoted ? 'Renote again' : 'Renote' }}
+              </button>
+            </li>
+            <li>
+              <button type="button" tabindex="-1" @click="renoteWithComment">
+                <span class="material-symbols-outlined text-base">comment</span>
+                with Comment
+              </button>
+            </li>
+          </ul>
+        </div>
         <button
           type="button"
           class="btn btn-xs btn-ghost"
@@ -101,31 +134,48 @@ const mediaList = computed<IMedia[]>(() =>
     })),
 );
 
-const isRenoted = computed(
-  () =>
-    !!props.item.body.renote &&
-    props.item.body.user.id === props.item.via.userid,
+const isRenoted = ref(
+  !!props.item.body.renote && props.item.body.user.id === props.item.via.userid,
 );
 
 const renote = async () => {
   try {
-    if (isRenoted.value) {
-      // 自分がRenoteしたnoteを再Renote
-      // TODO: Misskeyではできるけど、とりあえずできないようにしておく
-      return;
-    }
-
     await useApiClientsStore()
       .get<'misskey'>(props.item.via)
       .api.request('notes/create', {
         renoteId: actualItem.value.body.id,
       });
+    isRenoted.value = true;
   } catch {
     toastsStore().add({
-      text: 'failed to set boost',
+      text: 'failed to set renote',
       level: 'error',
     });
   }
+};
+
+const Unrenote = async () => {
+  try {
+    if (!isRenoted.value) {
+      return;
+    }
+
+    await useApiClientsStore()
+      .get<'misskey'>(props.item.via)
+      .api.request('notes/delete', {
+        noteId: props.item.id,
+      });
+    isRenoted.value = false;
+  } catch {
+    toastsStore().add({
+      text: 'failed to delete renote',
+      level: 'error',
+    });
+  }
+};
+
+const renoteWithComment = () => {
+  // まだ送信まわりを実装していないのでなにもしない
 };
 
 // TODO: noteごとにWebSocketを張って更新を受け取るのが望ましいが、実装が大変なのでローカルで変更をキャッシュ
