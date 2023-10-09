@@ -40,7 +40,10 @@
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
-        <div class="dropdown dropdown-hover">
+        <div
+          class="dropdown dropdown-hover"
+          :class="{ 'dropdown-top': isLast }"
+        >
           <label
             class="btn btn-xs btn-ghost"
             :class="{ 'text-yellow-500': isRenoted }"
@@ -111,6 +114,7 @@ import type { IMisskeyMessage } from '~/models/instances/misskey/message';
 
 const props = defineProps<{
   item: IMisskeyMessage;
+  isLast: boolean;
 }>();
 
 // renoteの場合、本文はrenote以下にある
