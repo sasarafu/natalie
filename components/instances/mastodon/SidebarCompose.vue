@@ -30,12 +30,12 @@ const submit = async () => {
   submitting.value = true;
 
   try {
-    await (
-      await useApiClientsStore().get<'mastodon'>(props.user)
-    ).api.v1.statuses.create({
-      status: message.value,
-      visibility: 'private',
-    });
+    await useApiClientsStore()
+      .get<'mastodon'>(props.user)
+      .api.v1.statuses.create({
+        status: message.value,
+        visibility: 'private',
+      });
 
     message.value = '';
   } catch (_) {}

@@ -30,12 +30,12 @@ const submit = async () => {
   submitting.value = true;
 
   try {
-    await (
-      await useApiClientsStore().get<'misskey'>(props.user)
-    ).api.request('notes/create', {
-      text: message.value,
-      visibility: 'followers',
-    });
+    await useApiClientsStore()
+      .get<'misskey'>(props.user)
+      .api.request('notes/create', {
+        text: message.value,
+        visibility: 'followers',
+      });
 
     message.value = '';
   } catch (_) {}
