@@ -19,9 +19,15 @@
         {{ reaction.count }}
       </button>
       <span
-        class="dropdown-content pointer-events-none card p-1 bg-neutral text-sm z-10"
+        v-if="reaction.key.startsWith(':')"
+        class="dropdown-content pointer-events-none flex flex-col items-center bg-neutral p-2 rounded-lg z-10"
       >
-        {{ reaction.key.replace('@.', '') }}
+        <span class="h-10">
+          <MisskeyEmoji :emoji="reaction.key" :base-url="baseUrl" />
+        </span>
+        <span class="text-sm">
+          {{ reaction.key.replace('@.', '') }}
+        </span>
       </span>
     </li>
     <li v-if="reactions.length > REACTIONS_LIMIT && !isShowAll">
