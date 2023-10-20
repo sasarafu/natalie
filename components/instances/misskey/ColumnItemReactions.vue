@@ -22,7 +22,7 @@
         v-if="reaction.key.startsWith(':')"
         class="dropdown-content pointer-events-none flex flex-col items-center bg-neutral p-2 rounded-lg z-10"
       >
-        <span class="h-10">
+        <span class="h-8 w-max">
           <MisskeyEmoji :emoji="reaction.key" :base-url="baseUrl" />
         </span>
         <span class="text-sm">
