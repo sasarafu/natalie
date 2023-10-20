@@ -33,7 +33,7 @@
     "@vueuse/core": "^10.3.0",
     "@vueuse/nuxt": "^10.3.0",
     "daisyui": "^3.5.0",
-    "dayjs-nuxt": "^1.1.2",
+    "dayjs-nuxt": "^2.1.9",
     "eslint": "^8.44.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-nuxt": "^4.0.0",
