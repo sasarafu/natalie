@@ -9,7 +9,7 @@
         class="btn btn-xs no-animation py-0.5 gap-x-1"
         tabindex="-1"
         :class="[reaction.key === myReaction ? 'btn-accent' : 'btn-neutral']"
-        @click="$emit('select', reaction.key, reaction.key !== myReaction)"
+        @click="selectReaction(reaction.key)"
       >
         <MisskeyEmoji
           :emoji="reaction.key"
@@ -51,7 +51,7 @@ const props = defineProps<{
   baseUrl: IMisskeyMessage['via']['instance']['baseUrl'];
 }>();
 
-defineEmits<{
+const emits = defineEmits<{
   (e: 'select', reaction: string, isCreate: boolean): void;
 }>();
 
@@ -64,6 +64,12 @@ const shownReactions = computed(() =>
 
 const showMore = () => {
   isShowAll.value = true;
+};
+
+const selectReaction = (reaction: string) => {
+  emits('select', reaction, reaction !== props.myReaction);
+  // クリック後にdropdownを非表示にするためblur
+  (document.activeElement as HTMLElement | null)?.blur();
 };
 </script>
 
