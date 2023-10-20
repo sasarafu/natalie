@@ -3,7 +3,7 @@
     <li
       v-for="reaction in shownReactions"
       :key="reaction.key"
-      class="dropdown dropdown-center dropdown-hover"
+      class="dropdown dropdown-top dropdown-center dropdown-hover"
     >
       <button
         class="btn btn-xs no-animation py-0.5 gap-x-1"
