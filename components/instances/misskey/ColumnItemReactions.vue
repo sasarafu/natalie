@@ -80,4 +80,8 @@ const selectReaction = (reaction: string) => {
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
 }
+
+.dropdown.dropdown-hover:hover > .dropdown-content {
+  opacity: 0.9;
+}
 </style>
