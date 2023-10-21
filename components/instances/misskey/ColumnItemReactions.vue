@@ -3,14 +3,13 @@
     <li
       v-for="reaction in shownReactions"
       :key="reaction.key"
-      class="tooltip tooltip-bottom"
-      :data-tip="reaction.key.replace('@.', '')"
+      class="dropdown dropdown-top dropdown-center dropdown-hover"
     >
       <button
         class="btn btn-xs no-animation py-0.5 gap-x-1"
         tabindex="-1"
         :class="[reaction.key === myReaction ? 'btn-accent' : 'btn-neutral']"
-        @click="$emit('select', reaction.key, reaction.key !== myReaction)"
+        @click="selectReaction(reaction.key)"
       >
         <MisskeyEmoji
           :emoji="reaction.key"
@@ -19,6 +18,17 @@
         />
         {{ reaction.count }}
       </button>
+      <span
+        v-if="reaction.key.startsWith(':')"
+        class="dropdown-content pointer-events-none flex flex-col items-center bg-neutral p-2 rounded-lg z-10"
+      >
+        <span class="h-8 w-max">
+          <MisskeyEmoji :emoji="reaction.key" :base-url="baseUrl" />
+        </span>
+        <span class="text-sm">
+          {{ reaction.key.replace('@.', '') }}
+        </span>
+      </span>
     </li>
     <li v-if="reactions.length > REACTIONS_LIMIT && !isShowAll">
       <button
@@ -41,7 +51,7 @@ const props = defineProps<{
   baseUrl: IMisskeyMessage['via']['instance']['baseUrl'];
 }>();
 
-defineEmits<{
+const emits = defineEmits<{
   (e: 'select', reaction: string, isCreate: boolean): void;
 }>();
 
@@ -55,4 +65,23 @@ const shownReactions = computed(() =>
 const showMore = () => {
   isShowAll.value = true;
 };
+
+const selectReaction = (reaction: string) => {
+  emits('select', reaction, reaction !== props.myReaction);
+  // クリック後にdropdownを非表示にするためblur
+  (document.activeElement as HTMLElement | null)?.blur();
+};
 </script>
+
+<style scoped>
+.dropdown.dropdown-center > .dropdown-content {
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+}
+
+.dropdown.dropdown-hover:hover > .dropdown-content {
+  opacity: 0.9;
+}
+</style>
