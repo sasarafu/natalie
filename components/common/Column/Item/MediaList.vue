@@ -12,13 +12,13 @@
         />
       </template>
     </div>
-    <span
+    <button
       v-if="mediaList.length > displayCount"
-      class="badge badge-primary cursor-pointer absolute -bottom-2.5 right-0"
+      class="badge badge-primary cursor-pointer absolute -bottom-1 right-0"
       @click="expand"
     >
       +{{ mediaList.length - displayCount }}
-    </span>
+    </button>
   </div>
 </template>
 
