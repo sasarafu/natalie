@@ -3,7 +3,7 @@
     :value="modelValue"
     :readonly="readonly"
     class="textarea w-full h-96"
-    @input="$emit('update:modelValue', $event.target?.value)"
+    @input="onInput"
     @keydown.enter.meta.exact="handleKeydownEnter"
     @keydown.s.meta.exact="handleKeydownS"
   />
@@ -19,6 +19,10 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'submit'): void;
 }>();
+
+const onInput = (event: Event) => {
+  emits('update:modelValue', (event.target as HTMLTextAreaElement).value);
+};
 
 const handleKeydownEnter = (e: KeyboardEvent) => {
   if (!e.ctrlKey && !e.metaKey) return;

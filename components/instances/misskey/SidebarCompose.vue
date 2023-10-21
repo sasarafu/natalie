@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ILoginUser } from 'models/common/user';
+import type { ILoginUser } from '~/models/common/user';
 
 const props = defineProps<{
   user: ILoginUser;
