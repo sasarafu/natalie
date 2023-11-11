@@ -1,5 +1,8 @@
 {
-  "name": "nuxt-app",
+  "name": "natalie",
+  "description": "a multi-column web client for Fediverse",
+  "version": "0.1.0",
+  "author": "sasarafu <138344965+sasarafu@users.noreply.github.com>",
   "private": true,
   "scripts": {
     "build": "nuxt build",

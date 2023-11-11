@@ -1,3 +1,5 @@
+import { version as packageVersion } from './package.json';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -46,6 +48,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       appName: 'Natalie',
+      version: packageVersion,
+      natalieEnv: 'dev',
     },
   },
 });
