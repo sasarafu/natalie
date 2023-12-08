@@ -1,6 +1,6 @@
 <template>
-  <header class="flex">
-    <CommonContainer class="h-screen items-center w-16 p-2 bg-neutral-focus">
+  <header class="flex gap-0.5">
+    <CommonContainer class="h-screen items-center w-16 p-2 bg-neutral">
       <template #header>
         <div class="flex flex-col gap-y-2">
           <button

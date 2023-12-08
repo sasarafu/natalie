@@ -9,9 +9,6 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['stores'],
   },
-  pinia: {
-    autoImports: ['defineStore', 'storeToRefs'],
-  },
   dayjs: {
     plugins: ['relativeTime'],
     defaultLocale: [

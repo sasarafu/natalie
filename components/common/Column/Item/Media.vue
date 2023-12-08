@@ -25,7 +25,7 @@
 
     <div
       v-if="media.type === 'audio'"
-      class="w-full h-full flex items-center rounded bg-neutral-focus"
+      class="w-full h-full flex items-center rounded bg-neutral"
     >
       <audio
         :src="media.thumbnailUrl"

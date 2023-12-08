@@ -6,9 +6,8 @@ export const getTimeline = async (
   params?: { sinceId?: string; untilId?: string },
 ): Promise<IMessage[]> => {
   const { $repositories } = useNuxtApp();
-  const user = storeToRefs(useLoginUsersStore()).loginUsers.value[
-    timeline.query.user
-  ];
+  const user =
+    storeToRefs(useLoginUsersStore()).loginUsers.value[timeline.query.user];
 
   switch (timeline.query.type) {
     case 'home':
