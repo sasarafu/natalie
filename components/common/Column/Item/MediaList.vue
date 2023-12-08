@@ -35,16 +35,16 @@ const gridClass = computed(() =>
   props.mediaList.length === 1
     ? 'grid-cols-1 grid-rows-1 aspect-video'
     : props.mediaList.length < 4
-    ? 'grid-cols-2 aspect-video'
-    : 'grid-cols-2',
+      ? 'grid-cols-2 aspect-video'
+      : 'grid-cols-2',
 );
 
 const itemClass = computed(() =>
   props.mediaList.length === 3
     ? 'first:row-span-2 aspect-video first:aspect-auto'
     : props.mediaList.length > 3
-    ? 'aspect-video'
-    : '',
+      ? 'aspect-video'
+      : '',
 );
 
 const expand = () => {

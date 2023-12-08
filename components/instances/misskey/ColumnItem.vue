@@ -194,10 +194,10 @@ const reactionsArray = computed(() => {
           cachedMyReaction.value === actualItem.value.body.myReaction
             ? reactionCount
             : key === cachedMyReaction.value
-            ? reactionCount + 1
-            : key === actualItem.value.body.myReaction
-            ? reactionCount - 1
-            : reactionCount,
+              ? reactionCount + 1
+              : key === actualItem.value.body.myReaction
+                ? reactionCount - 1
+                : reactionCount,
       };
     })
     .filter((reaction) => reaction.count !== 0);
