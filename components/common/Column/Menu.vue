@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col justify-center p-1 bg-red-900">
+  <div class="h-full flex flex-col justify-center p-1">
     <CommonPartsDetails class="dropdown dropdown-left">
       <summary class="btn btn-ghost btn-square btn-xs">
         <span class="material-symbols-outlined text-base">add</span>
