@@ -12,9 +12,16 @@
   >
     submit
   </button>
+
+  <ComposeVisibility
+    :visibility="visibility"
+    :visibility-icons="visibilityIcons"
+    @select="selectVisibility"
+  />
 </template>
 
 <script setup lang="ts">
+import type * as Misskey from 'misskey-js';
 import type { ILoginUser } from '~/models/common/user';
 
 const props = defineProps<{
@@ -22,6 +29,20 @@ const props = defineProps<{
 }>();
 
 const message = ref<string>('');
+const visibility = ref<Misskey.entities.Note['visibility']>('followers'); // TODO: preference
+
+const visibilityIcons = {
+  public: 'public',
+  home: 'home',
+  followers: 'lock',
+  specified: 'alternate_email',
+} as const satisfies Record<Misskey.entities.Note['visibility'], string>;
+
+const selectVisibility = (value: Misskey.entities.Note['visibility']) => {
+  visibility.value = value;
+  (document.activeElement as HTMLElement | null)?.blur();
+};
+
 const submitting = ref<boolean>(false);
 
 const submit = async () => {
@@ -34,7 +55,7 @@ const submit = async () => {
       .get<'misskey'>(props.user)
       .api.request('notes/create', {
         text: message.value,
-        visibility: 'followers',
+        visibility: visibility.value,
       });
 
     message.value = '';
