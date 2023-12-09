@@ -1,5 +1,5 @@
 <template>
-  <details class="dropdown">
+  <CommonPartsDetails class="dropdown">
     <summary class="btn mb-1">
       <span class="material-symbols-outlined">
         {{ visibilityIcons[visibility as VisibilityType] }}
@@ -7,7 +7,7 @@
     </summary>
     <ul class="dropdown-content menu z-[1] bg-base-100 rounded-box">
       <li v-for="(_, key) in visibilityIcons" :key="key">
-        <button type="button" @click="$emit('select', key as VisibilityType)">
+        <button type="button" @click="select(key as VisibilityType)">
           <span class="material-symbols-outlined">
             {{ visibilityIcons[key] }}
           </span>
@@ -15,7 +15,7 @@
         </button>
       </li>
     </ul>
-  </details>
+  </CommonPartsDetails>
 </template>
 
 <!-- TODO: なぜかgenericの型推論がtemplate内でおかしくなるため、いろいろ仮対応 -->
@@ -25,7 +25,12 @@ defineProps<{
   visibilityIcons: { [key: string]: string };
 }>();
 
-defineEmits<{
+const emits = defineEmits<{
   (e: 'select', value: VisibilityType): void;
 }>();
+
+const select = (key: VisibilityType) => {
+  emits('select', key);
+  (document.activeElement as HTMLElement | null)?.blur();
+};
 </script>

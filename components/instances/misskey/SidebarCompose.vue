@@ -40,7 +40,6 @@ const visibilityIcons = {
 
 const selectVisibility = (value: Misskey.entities.Note['visibility']) => {
   visibility.value = value;
-  (document.activeElement as HTMLElement | null)?.blur();
 };
 
 const submitting = ref<boolean>(false);

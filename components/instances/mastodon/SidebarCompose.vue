@@ -40,7 +40,6 @@ const visibilityIcons = {
 
 const selectVisibility = (value: Mastodon.v1.StatusVisibility) => {
   visibility.value = value;
-  (document.activeElement as HTMLElement | null)?.blur();
 };
 
 const submitting = ref<boolean>(false);
