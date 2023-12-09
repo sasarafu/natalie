@@ -14,7 +14,7 @@
         <small class="flex-auto truncate shrink-[9999]">
           @{{ user.username }}
         </small>
-        <small class="flex-none">
+        <small :key="useNow()" class="flex-none">
           {{ calcRelativeTime(createdAt) }}
         </small>
       </header>

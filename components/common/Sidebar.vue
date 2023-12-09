@@ -19,14 +19,11 @@
 
       <template #footer>
         <div class="flex flex-col gap-y-2">
-          <div class="dropdown dropdown-end dropdown-right">
-            <label tabindex="0" class="btn btn-circle btn-ghost">
+          <CommonPartsDetails class="dropdown dropdown-end dropdown-right">
+            <summary class="btn btn-circle btn-ghost">
               <span class="material-symbols-outlined">settings</span>
-            </label>
-            <ul
-              tabindex="0"
-              class="menu dropdown-content bg-base-100 rounded-box w-48"
-            >
+            </summary>
+            <ul class="menu dropdown-content bg-base-100 rounded-box w-48">
               <li>
                 <span>
                   {{
@@ -51,7 +48,7 @@
                 </a>
               </li>
             </ul>
-          </div>
+          </CommonPartsDetails>
         </div>
       </template>
     </CommonContainer>

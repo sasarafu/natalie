@@ -36,15 +36,14 @@
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
-        <span></span>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
-        <div
+        <CommonPartsDetails
           class="dropdown dropdown-hover"
           :class="{ 'dropdown-top': isLast }"
         >
-          <label
+          <summary
             class="btn btn-xs btn-ghost"
             :class="{ 'text-yellow-500': isRenoted }"
           >
@@ -54,7 +53,7 @@
             <span v-if="actualItem.body.renoteCount > 0">
               {{ actualItem.body.renoteCount }}
             </span>
-          </label>
+          </summary>
           <ul
             class="dropdown-content z-[1] menu menu-sm w-max bg-neutral rounded-box"
           >
@@ -89,7 +88,7 @@
               </button>
             </li>
           </ul>
-        </div>
+        </CommonPartsDetails>
         <button
           type="button"
           class="btn btn-xs btn-ghost"

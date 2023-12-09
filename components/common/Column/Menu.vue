@@ -1,11 +1,10 @@
 <template>
-  <div class="h-full flex flex-col justify-center p-1">
-    <div class="dropdown dropdown-left">
-      <label tabindex="0" class="btn btn-ghost btn-square btn-xs">
+  <div class="h-full flex flex-col justify-center p-1 bg-red-900">
+    <CommonPartsDetails class="dropdown dropdown-left">
+      <summary class="btn btn-ghost btn-square btn-xs">
         <span class="material-symbols-outlined text-base">add</span>
-      </label>
+      </summary>
       <div
-        tabindex="0"
         class="menu dropdown-content bg-base-300 rounded-box border border-primary w-80"
       >
         <div class="w-full">
@@ -46,7 +45,7 @@
           add
         </button>
       </div>
-    </div>
+    </CommonPartsDetails>
   </div>
 </template>
 

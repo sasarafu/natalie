@@ -25,7 +25,6 @@
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
-        <span></span>
         <button type="button" class="btn btn-xs btn-ghost" tabindex="-1">
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
