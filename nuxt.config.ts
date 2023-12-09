@@ -6,9 +6,6 @@ export default defineNuxtConfig({
   ssr: false,
   modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@pinia/nuxt', 'dayjs-nuxt'],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
-  imports: {
-    dirs: ['stores'],
-  },
   dayjs: {
     plugins: ['relativeTime'],
     defaultLocale: [
