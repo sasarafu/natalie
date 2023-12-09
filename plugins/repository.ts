@@ -1,5 +1,5 @@
-import type { IRepositories } from '~/factories/repositoryFactory';
-import { repositoryFactory } from '~/factories/repositoryFactory';
+import type { IRepositories } from '~/repositories/repositoryFactory';
+import { repositoryFactory } from '~/repositories/repositoryFactory';
 
 // typed by types/index.d.ts
 
