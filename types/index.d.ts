@@ -9,7 +9,7 @@ declare module '#app' {
 }
 
 declare module 'vue' {
-  interface ComponentCustomPoperties {
+  interface ComponentCustomProperties {
     $repositories: <key extends keyof IRepositories>(
       name: key,
     ) => ReturnType<IRepositories[key]>;
