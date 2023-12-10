@@ -1,5 +1,10 @@
 <template>
-  <details ref="details" @focusout="focusout">
+  <details
+    ref="details"
+    tabindex="-1"
+    class="w-fit bg-red"
+    @focusout="focusout"
+  >
     <slot />
   </details>
 </template>
@@ -18,6 +23,7 @@ const isDescendant = (
   false;
 
 // focusoutした際に、選択先がdetails以下でなければdetailsを閉じる
+// tabindex="-1" でdetails内ならrelatedTargetが常に設定されるはず
 const focusout = (e: FocusEvent) => {
   const relatedTarget = e.relatedTarget as HTMLElement | null;
 

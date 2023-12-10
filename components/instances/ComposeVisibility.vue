@@ -7,7 +7,11 @@
     </summary>
     <ul class="dropdown-content menu z-[1] bg-base-100 rounded-box">
       <li v-for="(_, key) in visibilityIcons" :key="key">
-        <button type="button" @click="select(key as VisibilityType)">
+        <button
+          type="button"
+          :class="{ 'text-warning': key === visibility }"
+          @click="select(key as VisibilityType)"
+        >
           <span class="material-symbols-outlined">
             {{ visibilityIcons[key] }}
           </span>
