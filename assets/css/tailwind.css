@@ -7,13 +7,13 @@
   height: 4px;
 }
 * ::-webkit-scrollbar-thumb {
-  background-color: hsl(var(--p));
+  background-color: oklch(var(--p));
   border-radius: 4px;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--p)) transparent;
+  scrollbar-color: oklch(var(--p)) transparent;
 }
 
 .textarea {
