@@ -40,7 +40,7 @@
           <span class="material-symbols-outlined text-base">reply</span>
         </button>
         <CommonPartsDetails
-          class="dropdown dropdown-hover"
+          class="dropdown"
           :class="{ 'dropdown-top': isLast }"
         >
           <summary
