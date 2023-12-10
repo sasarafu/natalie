@@ -5,7 +5,7 @@
         <span class="material-symbols-outlined text-base">add</span>
       </summary>
       <div
-        class="menu dropdown-content bg-base-300 rounded-box border border-primary w-80"
+        class="menu dropdown-content bg-base-300 rounded-box border border-primary w-80 mr-1"
       >
         <div class="w-full">
           <label class="label">
@@ -73,3 +73,12 @@ const addTimeline = () => {
   (document.activeElement as HTMLElement | null)?.blur();
 };
 </script>
+
+<style scoped>
+.dropdown > .dropdown-content {
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+}
+</style>
