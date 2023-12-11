@@ -33,7 +33,7 @@
             :class="
               activeTimelineType === timelineType
                 ? 'btn-primary'
-                : 'border border-primary'
+                : 'btn-outline border-primary'
             "
             @click="activeTimelineType = timelineType"
           >
