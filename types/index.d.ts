@@ -1,4 +1,4 @@
-import { IRepositories } from '~/factories/repositoryFactory';
+import type { IRepositories } from '~/factories/repositoryFactory';
 
 declare module '#app' {
   interface NuxtApp {
