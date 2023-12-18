@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 * ::-webkit-scrollbar {
-  width: 4px;
+  width: 2px;
   height: 4px;
 }
 * ::-webkit-scrollbar-thumb {
-  background-color: hsl(var(--p));
-  border-radius: 4px;
+  background-color: oklch(var(--p));
+  border-radius: 2px;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--p)) transparent;
+  scrollbar-color: oklch(var(--p)) transparent;
 }
 
 .textarea {
