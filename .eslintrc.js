@@ -8,7 +8,7 @@ module.exports = {
   extends: [
     '@nuxt/eslint-config',
     'plugin:nuxt/recommended',
-    '@vue/eslint-config-prettier',
+    'plugin:prettier/recommended',
   ],
   overrides: [],
   parserOptions: {
@@ -16,6 +16,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'prettier/prettier': 'warn',
     '@typescript-eslint/no-unused-vars': [
       'error',
       { args: 'all', argsIgnorePattern: '^_' },
