@@ -6,25 +6,22 @@ module.exports = {
     node: true,
   },
   extends: [
-    '@nuxtjs/eslint-config-typescript',
+    '@nuxt/eslint-config',
     'plugin:nuxt/recommended',
-    '@vue/eslint-config-prettier',
+    'plugin:prettier/recommended',
   ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['import'],
   rules: {
-    'dot-notation': 'off',
-    'import/no-unresolved': 'error',
+    'prettier/prettier': 'warn',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { args: 'all', argsIgnorePattern: '^_' },
+    ],
     '@typescript-eslint/consistent-type-imports': 'error',
-    'vue/multi-word-component-names': 'off',
-  },
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
+    'no-empty': 'warn',
   },
 };
