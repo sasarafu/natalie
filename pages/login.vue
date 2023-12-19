@@ -58,8 +58,8 @@
 </template>
 
 <script setup lang="ts">
-import { instanceTypes } from '~/models/instanceType';
-import type { IInstanceType } from '~/models/instanceType';
+import { instanceTypes } from '~/models/instances/instanceType';
+import type { IInstanceType } from '~/models/instances/instanceType';
 
 const { $repositories } = useNuxtApp();
 
