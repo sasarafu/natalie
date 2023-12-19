@@ -1,6 +1,6 @@
 <template>
   <section>
-    <CommonContainer
+    <CommonPartsContainer
       class="h-full w-[330px] bg-base-100"
       @top="atTop"
       @bottom="loadPast"
@@ -31,7 +31,7 @@
           </div>
 
           <div v-if="isDetailExpanded">
-            <CommonColumnTimelineConfig :timeline="timeline" />
+            <CommonTimelineConfig :timeline="timeline" />
           </div>
         </header>
       </template>
@@ -61,7 +61,7 @@
           </button>
         </div>
       </template>
-    </CommonContainer>
+    </CommonPartsContainer>
   </section>
 </template>
 

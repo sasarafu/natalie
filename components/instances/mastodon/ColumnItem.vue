@@ -1,5 +1,5 @@
 <template>
-  <CommonColumnItemContainer
+  <CommonTimelineItemContainer
     :user="actualItem.user"
     :created-at="actualItem.createdAt"
   >
@@ -21,7 +21,7 @@
 
     <p class="w-full break-words text-sm" v-html="sanitizedHTML"></p>
 
-    <CommonColumnItemMediaList :media-list="mediaList" />
+    <CommonTimelineItemMedia :media-list="mediaList" />
 
     <template #footer>
       <div class="flex gap-x-1 mt-1">
@@ -60,7 +60,7 @@
         </button>
       </div>
     </template>
-  </CommonColumnItemContainer>
+  </CommonTimelineItemContainer>
 </template>
 
 <script setup lang="ts">

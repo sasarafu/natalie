@@ -1,5 +1,5 @@
 <template>
-  <CommonColumnItemContainer
+  <CommonTimelineItemContainer
     :user="actualItem.user"
     :created-at="actualItem.createdAt"
   >
@@ -24,7 +24,7 @@
         {{ actualItem.body.text }}
       </p>
 
-      <CommonColumnItemMediaList :media-list="mediaList" />
+      <CommonTimelineItemMedia :media-list="mediaList" />
 
       <MisskeyColumnItemReactions
         :reactions="reactionsArray"
@@ -104,7 +104,7 @@
         </button>
       </div>
     </template>
-  </CommonColumnItemContainer>
+  </CommonTimelineItemContainer>
 </template>
 
 <script setup lang="ts">

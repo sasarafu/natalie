@@ -1,4 +1,4 @@
-import type { IRepositories } from '~/factories/repositoryFactory';
+import type { IRepositories } from '~/repositories/repositoryFactory';
 
 declare module '#app' {
   interface NuxtApp {
@@ -9,7 +9,7 @@ declare module '#app' {
 }
 
 declare module 'vue' {
-  interface ComponentCustomPoperties {
+  interface ComponentCustomProperties {
     $repositories: <key extends keyof IRepositories>(
       name: key,
     ) => ReturnType<IRepositories[key]>;

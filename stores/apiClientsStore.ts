@@ -1,4 +1,4 @@
-import type { IApiClients } from '~/factories/repositoryFactory';
+import type { IApiClients } from '~/repositories/repositoryFactory';
 import type { ILoginUser } from '~/models/common/user';
 
 export const useApiClientsStore = defineStore('apiClients', () => {

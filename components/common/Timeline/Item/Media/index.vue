@@ -5,7 +5,7 @@
         v-for="(media, index) in mediaList.slice(0, displayCount)"
         :key="media"
       >
-        <CommonColumnItemMedia
+        <CommonTimelineItemMediaItem
           :media="media"
           :class="itemClass"
           @click="openModal(index)"
