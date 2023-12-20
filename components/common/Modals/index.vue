@@ -8,10 +8,7 @@
     @keydown.esc="close()"
   >
     <div v-if="current" class="modal-box border border-secondary" @click.stop>
-      <div
-        v-if="current.displayOptions?.hasHeader !== false"
-        class="flex items-center gap-x-2"
-      >
+      <div v-if="current.hasHeader" class="flex items-center gap-x-2">
         <button
           type="button"
           class="btn btn-sm btn-square btn-ghost"

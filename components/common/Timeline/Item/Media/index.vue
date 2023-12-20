@@ -56,11 +56,7 @@ const openModal = (index: number) => {
     'media',
     resolveComponent('CommonModalsMedia'),
     { mediaList: props.mediaList, initial: index },
-    {
-      hasHeader: false,
-      width: 'fit-content',
-      maxHeight: '95%',
-    },
+    false,
   );
 };
 </script>
