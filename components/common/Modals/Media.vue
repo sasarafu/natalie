@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modalMedia"
-    class="h-full w-fit flex flex-col justify-center outline-none relative"
+    class="modal-size flex flex-col justify-center outline-none relative p-4"
     tabindex="0"
     @keydown.right="goNext"
     @keydown.left="goPrev"
@@ -9,7 +9,7 @@
     <video
       v-if="current.type === 'video'"
       :src="current.url"
-      class="max-h-full max-w-full"
+      class="media-size"
       controls
       controlslist="nodownload"
       autoplay
@@ -19,13 +19,13 @@
     <img
       v-if="current.type === 'image'"
       :src="current.url"
-      class="max-h-full max-w-full"
+      class="media-size"
       draggable="false"
     />
     <audio
       v-if="current.type === 'audio'"
       :src="current.url"
-      class="max-h-full max-w-full"
+      class="media-size"
       controls
       controlslist="nodownload"
       autoplay
@@ -72,3 +72,19 @@ onMounted(() => {
   modalMedia.value?.focus();
 });
 </script>
+
+<style scoped>
+.modal-size {
+  max-height: 95vh;
+  max-height: 95dvh;
+  max-width: 95vw;
+  max-width: 95dvw;
+}
+
+.media-size {
+  max-height: calc(95vh - 2rem);
+  max-height: calc(95dvh - 2rem);
+  max-width: calc(95vw - 2rem);
+  max-width: calc(95dvw - 2rem);
+}
+</style>

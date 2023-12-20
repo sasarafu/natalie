@@ -7,17 +7,7 @@
     @click="close()"
     @keydown.esc="close()"
   >
-    <div
-      v-if="current"
-      class="modal-box border border-secondary h-full w-full p-[1rem]"
-      :style="{
-        width: current.displayOptions?.width,
-        height: current.displayOptions?.height,
-        'max-width': current.displayOptions?.maxWidth ?? '90%',
-        'max-height': current.displayOptions?.maxHeight ?? '90%',
-      }"
-      @click.stop
-    >
+    <div v-if="current" class="modal-box border border-secondary" @click.stop>
       <div
         v-if="current.displayOptions?.hasHeader !== false"
         class="flex items-center gap-x-2"
@@ -74,3 +64,15 @@ watch(
   },
 );
 </script>
+
+<style scoped>
+/* modal-box に設定された height/width/padding の設定をリセット */
+/* height/width および padding を、内部に設定されるコンポーネント側で管理する */
+.modal-box {
+  height: auto;
+  width: auto;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+}
+</style>
