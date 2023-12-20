@@ -1,63 +1,26 @@
-# Nuxt 3 Minimal Starter
+# Natalie
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+複数SNSに対応したマルチカラムWebクライアント
 
-## Setup
+## 対応Fediverse
+- mastodon
+- misskey
 
-Make sure to install the dependencies:
+## 開発環境・環境構築
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Node.js: v18
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
+# install dependencies
+$ npm install
 ```
 
-## Production
-
-Build the application for production:
+## 動作確認
 
 ```bash
-# npm
-npm run build
+# for develop
+$ npm run dev
 
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
+# for production
+$ npm run generate && npm run preview
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
