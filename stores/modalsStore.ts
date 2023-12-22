@@ -5,7 +5,6 @@ type IModal = {
   name: string;
   component: ReturnType<typeof resolveComponent>;
   props: {};
-  hasHeader: boolean; // false指定のときのみ非表示
 };
 
 export const modalsStore = defineStore('modals', () => {
@@ -15,14 +14,12 @@ export const modalsStore = defineStore('modals', () => {
     name: IModal['name'],
     component: IModal['component'],
     props: IModal['props'],
-    hasHeader: IModal['hasHeader'],
   ) => {
     modals.value.push({
       id: crypto.randomUUID(),
       name,
       component,
       props,
-      hasHeader,
     });
   };
 

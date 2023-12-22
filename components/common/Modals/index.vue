@@ -8,22 +8,23 @@
     @keydown.esc="close()"
   >
     <div v-if="current" class="modal-box border border-secondary" @click.stop>
-      <div v-if="current.hasHeader" class="flex items-center gap-x-2">
-        <button
-          type="button"
-          class="btn btn-sm btn-square btn-ghost"
-          @click="goBack"
-        >
-          <span class="material-symbols-outlined">
-            {{ existsPrev ? 'arrow_back_ios_new' : 'close' }}
-          </span>
-        </button>
-        <div class="text-xl font-bold">{{ current.name }}</div>
+      <component :is="current.component" v-bind="current.props">
+        <!-- 必要があればslotでHeaderを読み込む -->
+        <div class="flex items-center gap-x-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-square btn-ghost"
+            @click="goBack"
+          >
+            <span class="material-symbols-outlined">
+              {{ existsPrev ? 'arrow_back_ios_new' : 'close' }}
+            </span>
+          </button>
+          <div class="text-xl font-bold">{{ current.name }}</div>
 
-        <div class="divider my-2"></div>
-      </div>
-
-      <component :is="current.component" v-bind="current.props" />
+          <div class="divider my-2"></div>
+        </div>
+      </component>
     </div>
   </div>
 </template>
