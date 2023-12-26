@@ -10,26 +10,32 @@
     <div v-if="current" class="modal-box border border-secondary" @click.stop>
       <component :is="current.component" v-bind="current.props">
         <!-- 必要があればslotでHeaderを読み込む -->
-        <div class="flex items-center gap-x-2">
-          <button
-            type="button"
-            class="btn btn-sm btn-square btn-ghost"
-            @click="goBack"
-          >
-            <span class="material-symbols-outlined">
-              {{ existsPrev ? 'arrow_back_ios_new' : 'close' }}
-            </span>
-          </button>
-          <div class="text-xl font-bold">{{ current.name }}</div>
+        <template #default="slotProps: SlotProps">
+          <header class="flex items-center gap-x-2">
+            <button
+              type="button"
+              class="btn btn-sm btn-square btn-ghost"
+              @click="goBack"
+            >
+              <span class="material-symbols-outlined">
+                {{ existsPrev ? 'arrow_back_ios_new' : 'close' }}
+              </span>
+            </button>
+            <div class="text-xl font-bold">{{ slotProps.headerName }}</div>
 
-          <div class="divider my-2"></div>
-        </div>
+            <div class="divider my-2"></div>
+          </header>
+        </template>
       </component>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+type SlotProps = {
+  headerName: string;
+};
+
 const { modals } = storeToRefs(modalsStore());
 const current = computed(() => modals.value.slice(-1)[0]);
 const existsPrev = computed(() => !!modals.value.slice(-2, -1)[0]);
