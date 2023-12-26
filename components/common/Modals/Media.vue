@@ -56,7 +56,7 @@ const props = defineProps<{
 
 const modalMedia = ref<HTMLElement>();
 
-const index = shallowRef(0);
+const index = ref(props.initial);
 const current = computed(() => props.mediaList[index.value]);
 
 const goNext = () => {
@@ -68,7 +68,6 @@ const goPrev = () => {
 };
 
 onMounted(() => {
-  index.value = props.initial;
   modalMedia.value?.focus();
 });
 </script>
