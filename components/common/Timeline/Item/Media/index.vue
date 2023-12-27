@@ -52,15 +52,9 @@ const expand = () => {
 };
 
 const openModal = (index: number) => {
-  modalsStore().add(
-    'media',
-    resolveComponent('CommonModalsMedia'),
-    { mediaList: props.mediaList, initial: index },
-    {
-      hasHeader: false,
-      width: 'fit-content',
-      maxHeight: '95%',
-    },
-  );
+  modalsStore().add(resolveComponent('CommonModalsMedia'), {
+    mediaList: props.mediaList,
+    initial: index,
+  });
 };
 </script>

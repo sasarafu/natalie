@@ -1,7 +1,8 @@
 <template>
   <div
     ref="modalMedia"
-    class="h-full w-fit flex flex-col justify-center outline-none relative"
+    :key="key"
+    class="modal-size flex flex-col justify-center outline-none relative p-4"
     tabindex="0"
     @keydown.right="goNext"
     @keydown.left="goPrev"
@@ -9,7 +10,7 @@
     <video
       v-if="current.type === 'video'"
       :src="current.url"
-      class="max-h-full max-w-full"
+      class="media-size"
       controls
       controlslist="nodownload"
       autoplay
@@ -19,13 +20,14 @@
     <img
       v-if="current.type === 'image'"
       :src="current.url"
-      class="max-h-full max-w-full"
+      class="media-size"
       draggable="false"
+      @load="onload"
     />
     <audio
       v-if="current.type === 'audio'"
       :src="current.url"
-      class="max-h-full max-w-full"
+      class="media-size"
       controls
       controlslist="nodownload"
       autoplay
@@ -56,19 +58,45 @@ const props = defineProps<{
 
 const modalMedia = ref<HTMLElement>();
 
-const index = shallowRef(0);
+const index = ref(props.initial);
 const current = computed(() => props.mediaList[index.value]);
+
+// Safariでは画像のロード後に自動リサイズされないので、keyで再描画する
+const key = ref(0);
+const onload = () => {
+  key.value = 1;
+  nextTick(() => {
+    modalMedia.value?.focus();
+  });
+};
 
 const goNext = () => {
   index.value = (index.value + 1) % props.mediaList.length;
+  key.value = 0;
 };
 const goPrev = () => {
   index.value =
     (props.mediaList.length + index.value - 1) % props.mediaList.length;
+  key.value = 0;
 };
 
 onMounted(() => {
-  index.value = props.initial;
   modalMedia.value?.focus();
 });
 </script>
+
+<style scoped>
+.modal-size {
+  max-height: 95vh;
+  max-height: 95dvh;
+  max-width: 95vw;
+  max-width: 95dvw;
+}
+
+.media-size {
+  max-height: calc(95vh - 2rem);
+  max-height: calc(95dvh - 2rem);
+  max-width: calc(95vw - 2rem);
+  max-width: calc(95dvw - 2rem);
+}
+</style>
