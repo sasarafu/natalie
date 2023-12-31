@@ -20,6 +20,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "masto": "^6.0.5",
+    "mfm-js": "^0.24.0",
     "misskey-js": "^0.0.16",
     "pinia": "^2.1.6",
     "sanitize-html": "^2.11.0"
