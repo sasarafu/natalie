@@ -6,7 +6,7 @@ type IModal = {
   props: {};
 };
 
-export const modalsStore = defineStore('modals', () => {
+export const useModalsStore = defineStore('modals', () => {
   const modals = ref<IModal[]>([]);
 
   const add = (component: IModal['component'], props: IModal['props']) => {

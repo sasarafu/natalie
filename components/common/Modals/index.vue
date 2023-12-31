@@ -22,9 +22,8 @@
               </span>
             </button>
             <div class="text-xl font-bold">{{ slotProps.headerName }}</div>
-
-            <div class="divider my-2"></div>
           </header>
+          <div class="divider my-2"></div>
         </template>
       </component>
     </div>
@@ -36,7 +35,7 @@ type SlotProps = {
   headerName: string;
 };
 
-const { modals } = storeToRefs(modalsStore());
+const { modals } = storeToRefs(useModalsStore());
 const current = computed(() => modals.value.slice(-1)[0]);
 const existsPrev = computed(() => !!modals.value.slice(-2, -1)[0]);
 
@@ -48,12 +47,12 @@ const focusModal = () => {
 };
 
 const goBack = () => {
-  modalsStore().pop();
+  useModalsStore().pop();
 };
 
 const close = () => {
   isShown.value = false;
-  modalsStore().clear();
+  useModalsStore().clear();
 };
 
 watch(
