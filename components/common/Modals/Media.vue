@@ -1,7 +1,6 @@
 <template>
   <div
     ref="modalMedia"
-    :key="key"
     class="modal-size flex flex-col justify-center outline-none relative p-4"
     tabindex="0"
     @keydown.right="goNext"
@@ -19,6 +18,7 @@
     </video>
     <img
       v-if="current.type === 'image'"
+      :key="key"
       :src="current.url"
       class="media-size"
       draggable="false"
@@ -65,9 +65,6 @@ const current = computed(() => props.mediaList[index.value]);
 const key = ref(0);
 const onload = () => {
   key.value = 1;
-  nextTick(() => {
-    modalMedia.value?.focus();
-  });
 };
 
 const goNext = () => {

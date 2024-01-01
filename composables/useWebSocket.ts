@@ -5,6 +5,10 @@ export const useWebSocket = async (
   timeline: ITimeline,
   callback: (message: IMessage) => void,
 ) => {
+  if (useRoute().query['nows']) {
+    return;
+  }
+
   const { $repositories } = useNuxtApp();
   const user =
     storeToRefs(useLoginUsersStore()).loginUsers.value[timeline.query.user];

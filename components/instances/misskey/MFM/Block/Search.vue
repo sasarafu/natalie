@@ -2,12 +2,12 @@
   <div class="join whitespace-normal w-full my-1">
     <input
       v-model="searchQuery"
-      class="input input-bordered input-primary join-item"
+      class="join-item input input-bordered input-primary w-full"
     />
     <NuxtLink
       :to="`https://www.google.com/search?q=${searchQuery}`"
       target="_blank"
-      class="btn btn-primary join-item"
+      class="join-item btn btn-primary"
     >
       検索
     </NuxtLink>
