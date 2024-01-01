@@ -23,16 +23,9 @@
             <summary class="btn btn-circle btn-ghost">
               <span class="material-symbols-outlined">settings</span>
             </summary>
-            <ul class="menu dropdown-content bg-base-100 rounded-box w-48">
-              <li>
-                <span>
-                  {{
-                    `${runtimeConfig.public.appName}
-                    v${runtimeConfig.public.version}
-                    (${runtimeConfig.public.natalieEnv.substring(0, 4)})`
-                  }}
-                </span>
-              </li>
+            <ul
+              class="menu dropdown-content bg-base-100 rounded-box w-48 z-[10]"
+            >
               <li>
                 <NuxtLink to="/login">
                   <span class="material-symbols-outlined">person_add</span>
@@ -40,12 +33,11 @@
                 </NuxtLink>
               </li>
 
-              <!-- TODO: ちゃんと設定画面を作ったらそこに移す -->
               <li>
-                <a @click="resetSettings">
-                  <span class="material-symbols-outlined">delete</span>
-                  reset settings
-                </a>
+                <button type="button" @click="openSettings">
+                  <span class="material-symbols-outlined">settings</span>
+                  settings
+                </button>
               </li>
             </ul>
           </CommonPartsDetails>
@@ -55,7 +47,7 @@
 
     <section
       v-if="activeLoginUser"
-      v-show="isExpanded"
+      v-show="config.sidebar.isExpanded"
       class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
     >
       <CommonPartsUserSelector
@@ -74,8 +66,6 @@
 <script setup lang="ts">
 import type { ILoginUser } from '~/models/common/user';
 
-const runtimeConfig = useRuntimeConfig();
-
 const composeComponents = {
   mastodon: resolveComponent('MastodonSidebarCompose'),
   misskey: resolveComponent('MisskeySidebarCompose'),
@@ -83,15 +73,15 @@ const composeComponents = {
 
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 
-const isExpanded = ref<boolean>(true);
+const { config } = storeToRefs(useConfigStore());
 const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
 const expandMenu = () => {
-  isExpanded.value = !isExpanded.value;
+  config.value.sidebar.isExpanded = !config.value.sidebar.isExpanded;
 };
 
-const resetSettings = () => {
-  useResetLocalStorage();
-  location.reload();
+const openSettings = () => {
+  useModalsStore().add(resolveComponent('CommonModalsConfig'), {});
 };
+
 </script>
