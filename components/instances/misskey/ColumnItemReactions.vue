@@ -11,11 +11,7 @@
         :class="[reaction.key === myReaction ? 'btn-accent' : 'btn-neutral']"
         @click="selectReaction(reaction.key)"
       >
-        <MisskeyEmoji
-          :emoji="reaction.key"
-          :base-url="baseUrl"
-          class="text-sm"
-        />
+        <MisskeyMFMEmoji :emoji="reaction.key" :base-url="baseUrl" />
         {{ reaction.count }}
       </button>
       <span
@@ -23,7 +19,7 @@
         class="dropdown-content pointer-events-none flex flex-col items-center bg-neutral p-2 rounded-lg z-10"
       >
         <span class="h-8 w-max">
-          <MisskeyEmoji :emoji="reaction.key" :base-url="baseUrl" />
+          <MisskeyMFMEmoji :emoji="reaction.key" :base-url="baseUrl" />
         </span>
         <span class="text-sm">
           {{ reaction.key.replace('@.', '') }}

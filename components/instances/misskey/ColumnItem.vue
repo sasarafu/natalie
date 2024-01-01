@@ -3,6 +3,16 @@
     :user="actualItem.user"
     :created-at="actualItem.createdAt"
   >
+    <template #displayName>
+      <span class="inline-block h-[1.25em]">
+        <MisskeyMFM
+          :value="actualItem.user.displayName"
+          :base-url="item.via.instance.baseUrl"
+          :is-simple="true"
+        />
+      </span>
+    </template>
+
     <template #undericon>
       <div class="flex flex-col items-end mt-1">
         <div v-if="item.body.renote" class="indicator">
@@ -20,8 +30,14 @@
     </template>
 
     <div class="space-y-1">
-      <p v-if="actualItem.body.text" class="w-full break-words text-sm">
-        {{ actualItem.body.text }}
+      <p
+        v-if="actualItem.body.text"
+        class="w-full break-words text-sm whitespace-break-spaces"
+      >
+        <MisskeyMFM
+          :value="actualItem.body.text"
+          :base-url="item.via.instance.baseUrl"
+        />
       </p>
 
       <CommonTimelineItemMedia :media-list="mediaList" />

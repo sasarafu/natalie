@@ -6,13 +6,18 @@
       </a>
       <slot name="undericon" />
     </div>
+
     <div class="flex-auto min-w-0">
       <header class="flex gap-x-1 items-end">
         <a href="#" tabindex="-1" class="flex-initial truncate">
-          <span class="font-semibold">{{ user.displayName }}</span>
+          <span class="font-semibold no-wrap">
+            <slot name="displayName">
+              {{ user.displayName }}
+            </slot>
+          </span>
         </a>
         <small class="flex-auto truncate shrink-[9999]">
-          @{{ user.username }}
+          <slot name="username"> @{{ user.username }} </slot>
         </small>
         <small :key="useNow()" class="flex-none">
           {{ calcRelativeTime(createdAt) }}
