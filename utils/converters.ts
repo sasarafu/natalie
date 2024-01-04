@@ -13,8 +13,17 @@ export const mastodonConverter = {
     createdAt: new Date(toot.createdAt),
     user: mastodonConverter.getUser(toot),
     via: user,
+    summary: mastodonConverter.getSummary(toot),
     body: toot,
   }),
+  getSummary: (toot: Mastodon.v1.Status): IMastodonMessage['summary'] => {
+    const actual = toot.reblog ?? toot;
+    return {
+      username: actual.account.displayName || actual.account.username,
+      message: actual.content.replace(/^<p>/, '').replace(/<\/p>$/, ''),
+      iconUrl: actual.account.avatar,
+    };
+  },
   getUser: (toot: Mastodon.v1.Status): IUser => ({
     userid: toot.account.id,
     username: toot.account.acct,
@@ -32,8 +41,17 @@ export const misskeyConverter = {
     createdAt: new Date(note.createdAt),
     user: misskeyConverter.getUser(note),
     via: user,
+    summary: misskeyConverter.getSummary(note),
     body: note,
   }),
+  getSummary: (note: Misskey.entities.Note): IMisskeyMessage['summary'] => {
+    const actual = note.renote ?? note;
+    return {
+      username: actual.user.name || actual.user.username,
+      message: actual.text ?? undefined,
+      iconUrl: actual.user.avatarUrl,
+    };
+  },
   getUser: (note: Misskey.entities.Note): IUser => ({
     userid: note.user.id,
     username: note.user.username,
