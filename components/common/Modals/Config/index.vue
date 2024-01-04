@@ -6,14 +6,22 @@
     </template>
 
     <div class="overflow-y-scroll pt-4">
-    <div>
-      <div class="form-control">
-        <label class="label justify-normal gap-2 cursor-pointer">
-          <input type="checkbox" class="checkbox" />
-          <span class="label-text">some settings</span>
-        </label>
+      <div>
+        <h2 class="text-3xl font-bold mb-2">notification</h2>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          :disabled="!notification.isRequestable.value"
+          @click="notification.requestPermission()"
+        >
+          {{
+            notification.isRequestable.value
+              ? 'enable notification'
+              : 'configured'
+          }}
+        </button>
       </div>
-    </div>
 
       <div class="divider"></div>
       <div>
@@ -52,6 +60,7 @@
 
 <script setup lang="ts">
 // const { config } = storeToRefs(useConfigStore());
+const notification = useNotification();
 const runtimeConfig = useRuntimeConfig();
 
 const reset = () => {
