@@ -75,6 +75,8 @@ const props = defineProps<{
   timeline: ITimeline;
 }>();
 
+const notification = useNotification();
+
 const columnItemComponents = {
   mastodon: resolveComponent('MastodonColumnItem'),
   misskey: resolveComponent('MisskeyColumnItem'),
@@ -87,7 +89,6 @@ const { loginUsers } = storeToRefs(useLoginUsersStore());
 const user = computed(() => loginUsers.value[props.timeline.query.user]);
 
 const isDetailExpanded = ref<boolean>(false);
-
 const toggleDetail = () => {
   isDetailExpanded.value = !isDetailExpanded.value;
 };
@@ -137,6 +138,17 @@ const loadPast = async () => {
 
 onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
+    // 通知設定がオン かつ 自分自身のものでないとき、通知する
+    if (props.timeline.notify && message.user.userid !== user.value.userid) {
+      console.log(message.user.userid, user.value.userid);
+
+      notification.notify({
+        title: message.summary.username,
+        body: message.summary.message,
+        icon: message.summary.iconUrl,
+      });
+    }
+
     if (isTop.value) {
       // スクロールしていないときは直接追加
       items.value.push(message);
