@@ -12,8 +12,13 @@ export const useNotification = () => {
     isRequestable.value = result === 'default';
   };
 
-  const notify = (body: Notification['body']) => {
-    new Notification(useRuntimeConfig().public.appName, { body });
+  const notify = (
+    option: { title?: string } & Pick<NotificationOptions, 'body' | 'icon'>,
+  ) => {
+    new Notification(option.title ?? useRuntimeConfig().public.appName, {
+      ...option,
+      silent: true,
+    });
   };
 
   return { isRequestable, requestPermission, notify };
