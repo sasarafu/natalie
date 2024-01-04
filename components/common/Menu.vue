@@ -65,6 +65,7 @@ const addTimeline = () => {
   timelinesStore.add({
     id: crypto.randomUUID(),
     name: timelineName.value,
+    notify: false,
     query: {
       user: activeLoginUser.value.id,
       type: activeTimelineType.value,

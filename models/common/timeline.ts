@@ -13,6 +13,7 @@ export type ITimelineType = (typeof timelineTypes)[number];
 export type ITimeline = {
   id: UUID;
   name: string;
+  notify: boolean;
   query: {
     user: ILoginUser['id'];
     type: ITimelineType;
