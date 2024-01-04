@@ -10,11 +10,22 @@
         @change="changeTimelineName"
       />
     </div>
+    <div class="flex gap-1">
+      <button
+        type="button"
+        class="btn btn-square btn-sm"
+        @click="changeNotification"
+      >
+        <span class="material-symbols-outlined">
+          {{ timeline.notify ? 'notifications' : 'notifications_off' }}
+        </span>
+      </button>
 
-    <div class="text-end">
-      <button class="btn btn-ghost btn-xs" @click="removeTimeline">
+      <button
+        class="btn btn-square btn-sm btn-outline btn-error ml-auto"
+        @click="removeTimeline"
+      >
         <span class="material-symbols-outlined">delete</span>
-        Remove
       </button>
     </div>
   </div>
@@ -37,6 +48,10 @@ const timelineName = ref('');
 
 const changeTimelineName = () => {
   target.value.name = timelineName.value;
+};
+
+const changeNotification = () => {
+  target.value.notify = !target.value.notify;
 };
 
 const removeTimeline = () => {
