@@ -8,7 +8,11 @@
       <button
         class="btn btn-xs no-animation py-0.5 gap-x-1"
         tabindex="-1"
-        :class="[reaction.key === myReaction ? 'btn-accent' : 'btn-neutral']"
+        :class="[
+          reaction.key === myReaction
+            ? 'btn-outline btn-success'
+            : 'btn-neutral',
+        ]"
         @click="selectReaction(reaction.key)"
       >
         <MisskeyMFMEmoji :emoji="reaction.key" :base-url="baseUrl" />
@@ -28,7 +32,7 @@
     </li>
     <li v-if="reactions.length > REACTIONS_LIMIT && !isShowAll">
       <button
-        class="btn btn-xs btn-accent btn-outline no-animation"
+        class="btn btn-xs btn-outline no-animation"
         tabindex="-1"
         @click="showMore"
       >
