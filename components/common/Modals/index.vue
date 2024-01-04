@@ -23,7 +23,6 @@
             </button>
             <div class="text-xl font-bold">{{ slotProps.headerName }}</div>
           </header>
-          <div class="divider my-2"></div>
         </template>
       </component>
     </div>
