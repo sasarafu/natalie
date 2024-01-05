@@ -1,20 +1,31 @@
 <template>
-  <div class="w-[80dvw] h-[80dvh] p-4">
-    <slot header-name="settings" />
+  <CommonPartsContainer class="w-[80dvw] h-[80dvh] p-4">
+    <template #header>
+      <slot header-name="settings" />
+      <div class="divider mt-2 mb-0"></div>
+    </template>
 
-    <div>
-      <div class="form-control">
-        <label class="label justify-normal gap-2 cursor-pointer">
-          <input type="checkbox" class="checkbox" />
-          <span class="label-text">some settings</span>
-        </label>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="overflow-y-auto">
+    <div class="overflow-y-scroll pt-4">
       <div>
-        <h2 class="text-xl mb-4">danger zone</h2>
+        <h2 class="text-3xl font-bold mb-2">notification</h2>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          :disabled="!notification.isRequestable.value"
+          @click="notification.requestPermission()"
+        >
+          {{
+            notification.isRequestable.value
+              ? 'enable notification'
+              : 'configured'
+          }}
+        </button>
+      </div>
+
+      <div class="divider"></div>
+      <div>
+        <h2 class="text-3xl font-bold mb-2">danger zone</h2>
 
         <CommonPartsDetails class="dropdown">
           <summary class="btn btn-outline">
@@ -34,18 +45,22 @@
 
       <div class="divider"></div>
       <div>
-        {{
-          `${runtimeConfig.public.appName}
-          v${runtimeConfig.public.version}
-          (${runtimeConfig.public.natalieEnv.substring(0, 4)})`
-        }}
+        <h2 class="text-3xl font-bold mb-2">version</h2>
+        <p>
+          {{
+            `${runtimeConfig.public.appName}
+            v${runtimeConfig.public.version}
+            (${runtimeConfig.public.natalieEnv.substring(0, 4)})`
+          }}
+        </p>
       </div>
     </div>
-  </div>
+  </CommonPartsContainer>
 </template>
 
 <script setup lang="ts">
 // const { config } = storeToRefs(useConfigStore());
+const notification = useNotification();
 const runtimeConfig = useRuntimeConfig();
 
 const reset = () => {
