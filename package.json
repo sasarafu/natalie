@@ -18,6 +18,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@atproto/api": "^0.8.0",
     "@pinia/nuxt": "^0.5.1",
     "masto": "^6.0.5",
     "mfm-js": "^0.24.0",
