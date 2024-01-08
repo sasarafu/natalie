@@ -28,6 +28,19 @@ export const mastodonRepository = () => ({
     const url = new URL(`/callback/mastodon/${instanceUrl}`, callbackBaseUrl);
     return url.toString();
   },
+  getLoginUser: async (user: ILoginUserInfo): Promise<ILoginUser> => {
+    const res = await useApiClientsStore()
+      .get<'mastodon'>(user)
+      .api.v1.accounts.verifyCredentials();
+
+    return {
+      userid: res.id,
+      username: res.username,
+      displayName: res.displayName,
+      iconUrl: res.avatar,
+      ...user,
+    };
+  },
   getHomeTimeline: async (
     user: ILoginUser,
     params?: { sinceId?: string; untilId?: string },

@@ -64,7 +64,7 @@ const notification = useNotification();
 const runtimeConfig = useRuntimeConfig();
 
 const reset = () => {
-  useLoginUsersStore().loginUsers = {};
+  useLoginUsersStore().removeAll();
   useTimelinesStore().timelines = [];
   useConfigStore().config = {
     sidebar: {

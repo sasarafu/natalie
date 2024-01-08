@@ -55,6 +55,19 @@ export const misskeyRepository = () => ({
       })
     ).data.value;
   },
+  getLoginUser: async (user: ILoginUserInfo): Promise<ILoginUser> => {
+    const res = await useApiClientsStore()
+      .get<'misskey'>(user)
+      .api.request('i');
+
+    return {
+      userid: res.id,
+      username: res.username,
+      displayName: res.name,
+      iconUrl: res.avatarUrl,
+      ...user,
+    };
+  },
   getHomeTimeline: async (
     user: ILoginUser,
     params?: { sinceId?: string; untilId?: string },

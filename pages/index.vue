@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="orderedLoginUsers.length">
+    <template v-if="orderedLoginUsers?.length">
       <div class="flex gap-x-1 h-screen w-screen bg-base-300">
         <CommonSidebar />
         <div class="flex-auto flex gap-x-1 overflow-x-auto">
@@ -23,7 +23,13 @@
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 const { timelines } = storeToRefs(useTimelinesStore());
 
-if (orderedLoginUsers.value.length === 0) {
-  navigateTo('/login');
-}
+// orderedLoginUsers.valueは読み込み中はundefined
+watch(
+  () => orderedLoginUsers.value,
+  () => {
+    if (orderedLoginUsers.value?.length === 0) {
+      navigateTo('/login');
+    }
+  },
+);
 </script>
