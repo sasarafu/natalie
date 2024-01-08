@@ -1,9 +1,9 @@
 import { createRestAPIClient, createStreamingAPIClient } from 'masto';
 import type { IMessage } from '~/models/common/message';
-import type { ILoginUser } from '~/models/common/user';
+import type { ILoginUser, ILoginUserInfo } from '~/models/common/user';
 
 export const mastodonRepository = () => ({
-  client: (user: ILoginUser) => {
+  client: (user: ILoginUserInfo) => {
     if (user.instance.type !== 'mastodon') {
       throw new Error('not mastodon');
     }

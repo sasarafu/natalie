@@ -31,7 +31,7 @@
 <script setup lang="ts">
 // サーバごとにアプリの有無を管理したくないので、ユーザごとにアプリを作成してもらってそのアクセストークンを受け取るようにする
 
-import type { ILoginUser } from '~/models/common/user';
+import type { ILoginUserInfo } from '~/models/common/user';
 
 const $route = useRoute();
 
@@ -48,12 +48,8 @@ const submit = async () => {
   submitting.value = true;
 
   if (typeof instanceUrl === 'string') {
-    const tempLoginUser: ILoginUser = {
+    const tempLoginUser: ILoginUserInfo = {
       id: crypto.randomUUID(),
-      userid: '',
-      username: '',
-      displayName: '',
-      iconUrl: '',
       instance: {
         type: 'mastodon',
         baseUrl: `https://${instanceUrl}`,
@@ -62,9 +58,9 @@ const submit = async () => {
     };
 
     try {
-      const res = await (
-        await useApiClientsStore().get<'mastodon'>(tempLoginUser)
-      ).api.v1.accounts.verifyCredentials();
+      const res = await useApiClientsStore()
+        .get<'mastodon'>(tempLoginUser)
+        .api.v1.accounts.verifyCredentials();
 
       add({
         id: crypto.randomUUID(),
