@@ -13,8 +13,8 @@
         </div>
       </div>
 
-      <CommonModals />
-      <CommonToasts />
+      <CommonModal />
+      <CommonToast />
     </template>
   </div>
 </template>

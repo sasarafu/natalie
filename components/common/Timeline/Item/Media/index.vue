@@ -52,7 +52,7 @@ const expand = () => {
 };
 
 const openModal = (index: number) => {
-  useModalsStore().add(resolveComponent('CommonModalsMedia'), {
+  useModalsStore().add(resolveComponent('CommonModalMedia'), {
     mediaList: props.mediaList,
     initial: index,
   });
