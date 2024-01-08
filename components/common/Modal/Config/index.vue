@@ -65,11 +65,7 @@ const runtimeConfig = useRuntimeConfig();
 
 const reset = () => {
   useLoginUsersStore().removeAll();
-  useTimelinesStore().timelines = [];
-  useConfigStore().config = {
-    sidebar: {
-      isExpanded: true,
-    },
-  };
+  useTimelinesStore().removeAll();
+  useConfigStore().reset();
 };
 </script>
