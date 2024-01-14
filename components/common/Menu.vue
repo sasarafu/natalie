@@ -23,10 +23,9 @@
 
         <div class="divider"></div>
 
-        <!-- TODO: TimelineTypeをそのまま入れているが、listとuserは追加パラメータが必要なので、外したほうがよさそう -->
         <div class="flex w-full flex-wrap gap-1">
           <button
-            v-for="timelineType in timelineTypes"
+            v-for="timelineType in activeTimelineTypes"
             :key="timelineType"
             type="button"
             class="btn btn-sm"
@@ -50,16 +49,21 @@
 </template>
 
 <script setup lang="ts">
-import { timelineTypes } from '~/models/common/timeline';
 import type { ILoginUser } from '~/models/common/user';
-import type { ITimelineType } from '~/models/common/timeline';
+import type { ITimelineType } from '~/models/instances/instanceType';
+import { timelineTypes } from '~/models/instances/instanceType';
 
 const timelinesStore = useTimelinesStore();
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 
 const timelineName = ref('timeline');
+
 const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
-const activeTimelineType = ref<ITimelineType>(timelineTypes[0]);
+
+const activeTimelineTypes = computed(
+  () => timelineTypes[activeLoginUser.value.instance.type],
+);
+const activeTimelineType = ref<ITimelineType>(activeTimelineTypes.value[0]);
 
 const addTimeline = () => {
   timelinesStore.add({
