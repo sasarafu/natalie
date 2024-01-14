@@ -109,7 +109,7 @@ const toggleBoost = async () => {
       cachedBoosted.value = true;
     }
   } catch {
-    toastsStore().add({
+    useToastsStore().add({
       text: 'failed to set boost',
       level: 'error',
     });
@@ -135,7 +135,7 @@ const toggleFavorite = async () => {
       cachedFavourited.value = true;
     }
   } catch {
-    toastsStore().add({
+    useToastsStore().add({
       text: 'failed to set favorite',
       level: 'error',
     });

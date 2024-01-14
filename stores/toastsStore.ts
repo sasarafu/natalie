@@ -12,7 +12,7 @@ type IToastWithId = IToast & {
   percent: number;
 };
 
-export const toastsStore = defineStore('toasts', () => {
+export const useToastsStore = defineStore('toasts', () => {
   const store = ref<IToastWithId[]>([]);
 
   const toasts = computed(() => store.value);
