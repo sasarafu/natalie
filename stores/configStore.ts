@@ -6,12 +6,18 @@ export type IConfig = {
   };
 };
 
-export const useConfigStore = defineStore('config', () => {
-  const config = useLocalStorage<IConfig>('natalie/config', {
-    sidebar: {
-      isExpanded: true,
-    },
-  });
+const getInitial = (): IConfig => ({
+  sidebar: {
+    isExpanded: true,
+  },
+});
 
-  return { config };
+export const useConfigStore = defineStore('config', () => {
+  const config = useLocalStorage<IConfig>('natalie/config', getInitial());
+
+  const reset = () => {
+    config.value = getInitial();
+  };
+
+  return { config, reset };
 });

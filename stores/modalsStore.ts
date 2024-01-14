@@ -7,10 +7,12 @@ type IModal = {
 };
 
 export const useModalsStore = defineStore('modals', () => {
-  const modals = ref<IModal[]>([]);
+  const store = ref<IModal[]>([]);
+
+  const modals = computed(() => store.value);
 
   const add = (component: IModal['component'], props: IModal['props']) => {
-    modals.value.push({
+    store.value.push({
       id: crypto.randomUUID(),
       component,
       props,
@@ -18,11 +20,11 @@ export const useModalsStore = defineStore('modals', () => {
   };
 
   const clear = () => {
-    modals.value = [];
+    store.value = [];
   };
 
   const pop = () => {
-    return modals.value.pop();
+    return store.value.pop();
   };
 
   return { modals, add, clear, pop };

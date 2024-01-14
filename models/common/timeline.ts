@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto';
-import type { ILoginUser } from '~/models/common/user';
+import type { ILoginUserInfo } from '~/models/common/user';
 
 export const timelineTypes = [
   'home',
@@ -15,7 +15,7 @@ export type ITimeline = {
   name: string;
   notify: boolean;
   query: {
-    user: ILoginUser['id'];
+    user: ILoginUserInfo['id'];
     type: ITimelineType;
     option?: { [key: string]: string };
   };

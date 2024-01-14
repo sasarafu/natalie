@@ -81,7 +81,6 @@ const expandMenu = () => {
 };
 
 const openSettings = () => {
-  useModalsStore().add(resolveComponent('CommonModalsConfig'), {});
+  useModalsStore().add(resolveComponent('CommonModalConfig'), {});
 };
-
 </script>

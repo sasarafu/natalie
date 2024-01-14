@@ -64,12 +64,8 @@ const notification = useNotification();
 const runtimeConfig = useRuntimeConfig();
 
 const reset = () => {
-  useLoginUsersStore().loginUsers = {};
-  useTimelinesStore().timelines = [];
-  useConfigStore().config = {
-    sidebar: {
-      isExpanded: true,
-    },
-  };
+  useLoginUsersStore().removeAll();
+  useTimelinesStore().removeAll();
+  useConfigStore().reset();
 };
 </script>

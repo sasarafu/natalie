@@ -8,9 +8,11 @@ export type IUser = {
   iconUrl: string;
 };
 
-export type ILoginUser = IUser & {
+export type ILoginUserInfo = {
   id: UUID; // このアプリケーション上でユーザを特定するためのid
   instance: IInstance;
 
   accessToken: string;
 };
+
+export type ILoginUser = IUser & ILoginUserInfo;

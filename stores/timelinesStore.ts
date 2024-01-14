@@ -1,17 +1,21 @@
 import type { ITimeline } from '~/models/common/timeline';
 
 export const useTimelinesStore = defineStore('timelines', () => {
-  const timelines = useLocalStorage<ITimeline[]>('natalie/timelines', []);
+  const store = useLocalStorage<ITimeline[]>('natalie/timelines', []);
+
+  const timelines = computed(() => store.value);
 
   const add = (user: ITimeline) => {
-    timelines.value.push(user);
+    store.value.push(user);
   };
 
   const remove = (timelineId: ITimeline['id']) => {
-    timelines.value = timelines.value.filter(
-      (timeline) => timeline.id !== timelineId,
-    );
+    store.value = store.value.filter((timeline) => timeline.id !== timelineId);
   };
 
-  return { timelines, add, remove };
+  const removeAll = () => {
+    store.value = [];
+  };
+
+  return { timelines, add, remove, removeAll };
 });

@@ -166,7 +166,7 @@ const renote = async () => {
       });
     isRenoted.value = true;
   } catch {
-    toastsStore().add({
+    useToastsStore().add({
       text: 'failed to set renote',
       level: 'error',
     });
@@ -186,7 +186,7 @@ const Unrenote = async () => {
       });
     isRenoted.value = false;
   } catch {
-    toastsStore().add({
+    useToastsStore().add({
       text: 'failed to delete renote',
       level: 'error',
     });
@@ -246,7 +246,7 @@ const submitReaction = async (reaction: string, isCreate: boolean) => {
       cachedMyReaction.value = undefined;
     }
   } catch {
-    toastsStore().add({
+    useToastsStore().add({
       text: 'failed to set reaction',
       level: 'error',
     });

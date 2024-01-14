@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-const { toasts } = storeToRefs(toastsStore());
+const { toasts } = storeToRefs(useToastsStore());
 
 onMounted(() => {
   setInterval(() => {

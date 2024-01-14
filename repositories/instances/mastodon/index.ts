@@ -1,9 +1,9 @@
 import { createRestAPIClient, createStreamingAPIClient } from 'masto';
 import type { IMessage } from '~/models/common/message';
-import type { ILoginUser } from '~/models/common/user';
+import type { ILoginUser, ILoginUserInfo } from '~/models/common/user';
 
 export const mastodonRepository = () => ({
-  client: (user: ILoginUser) => {
+  client: (user: ILoginUserInfo) => {
     if (user.instance.type !== 'mastodon') {
       throw new Error('not mastodon');
     }
@@ -27,6 +27,19 @@ export const mastodonRepository = () => ({
     // 自分に返す(/callback/mastodon/[instance].vueを参照)
     const url = new URL(`/callback/mastodon/${instanceUrl}`, callbackBaseUrl);
     return url.toString();
+  },
+  getLoginUser: async (user: ILoginUserInfo): Promise<ILoginUser> => {
+    const res = await useApiClientsStore()
+      .get<'mastodon'>(user)
+      .api.v1.accounts.verifyCredentials();
+
+    return {
+      userid: res.id,
+      username: res.username,
+      displayName: res.displayName,
+      iconUrl: res.avatar,
+      ...user,
+    };
   },
   getHomeTimeline: async (
     user: ILoginUser,

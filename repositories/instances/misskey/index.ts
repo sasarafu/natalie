@@ -1,10 +1,10 @@
 import type { entities } from 'misskey-js';
 import { api, Stream } from 'misskey-js';
 import type { IMessage } from '~/models/common/message';
-import type { ILoginUser } from '~/models/common/user';
+import type { ILoginUser, ILoginUserInfo } from '~/models/common/user';
 
 export const misskeyRepository = () => ({
-  client: (user: ILoginUser) => {
+  client: (user: ILoginUserInfo) => {
     if (user.instance.type !== 'misskey') {
       throw new Error('not misskey');
     }
@@ -54,6 +54,19 @@ export const misskeyRepository = () => ({
         method: 'post',
       })
     ).data.value;
+  },
+  getLoginUser: async (user: ILoginUserInfo): Promise<ILoginUser> => {
+    const res = await useApiClientsStore()
+      .get<'misskey'>(user)
+      .api.request('i');
+
+    return {
+      userid: res.id,
+      username: res.username,
+      displayName: res.name,
+      iconUrl: res.avatarUrl,
+      ...user,
+    };
   },
   getHomeTimeline: async (
     user: ILoginUser,

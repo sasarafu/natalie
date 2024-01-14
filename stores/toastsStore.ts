@@ -12,8 +12,10 @@ type IToastWithId = IToast & {
   percent: number;
 };
 
-export const toastsStore = defineStore('toasts', () => {
-  const toasts = ref<IToastWithId[]>([]);
+export const useToastsStore = defineStore('toasts', () => {
+  const store = ref<IToastWithId[]>([]);
+
+  const toasts = computed(() => store.value);
 
   // timeout: ms
   const add = (toast: IToast, _timeout?: number) => {
@@ -24,7 +26,7 @@ export const toastsStore = defineStore('toasts', () => {
       remove(id);
     }, timeout);
 
-    toasts.value.push({
+    store.value.push({
       id,
       timeout,
       addedAt: new Date().getTime(),
@@ -34,7 +36,7 @@ export const toastsStore = defineStore('toasts', () => {
   };
 
   const remove = (id: UUID) => {
-    toasts.value = toasts.value.filter((toast) => toast.id !== id);
+    store.value = store.value.filter((toast) => toast.id !== id);
   };
 
   return { toasts, add };
