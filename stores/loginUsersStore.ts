@@ -4,6 +4,27 @@ import type { ILoginUser, ILoginUserInfo } from '~/models/common/user';
 export const useLoginUsersStore = defineStore('loginUsers', () => {
   const storage = useLocalStorage<ILoginUserInfo[]>('natalie/loginUsers', []);
 
+  // ILoginUserをそのまま保存していたころの名残
+  // TODO: しばらくしたら消す
+  watch(
+    storage,
+    () => {
+      if (!Array.isArray(storage.value)) {
+        storage.value = Object.values(
+          storage.value as { [key: ILoginUserInfo['id']]: ILoginUser },
+        ).map((user) => ({
+          id: user.id,
+          instance: user.instance,
+          accessToken: user.accessToken,
+        }));
+      }
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  );
+
   // orderedLoginUsers は型としては配列だが、読み込み中はundefinedになるので、pageレベルでv-ifすること
   const orderedLoginUsers = computedAsync<ILoginUser[]>(async () => {
     const { $repositories } = useNuxtApp();
