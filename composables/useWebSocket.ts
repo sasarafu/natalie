@@ -10,35 +10,12 @@ export const useWebSocket = async (
   }
 
   const { $repositories } = useNuxtApp();
-  const user =
-    storeToRefs(useLoginUsersStore()).loginUsers.value[timeline.query.user];
+  const user = useLoginUsersStore().loginUsers[timeline.query.user];
 
-  switch (timeline.query.type) {
-    case 'home':
-      return await $repositories(user.instance.type).setHomeStreaming(
-        user,
-        callback,
-      );
-    case 'local':
-      return await $repositories(user.instance.type).setLocalStreaming(
-        user,
-        callback,
-      );
-    case 'federation':
-      return await $repositories(user.instance.type).setFederationStreaming(
-        user,
-        callback,
-      );
-    case 'list':
-      if (!timeline.query.option?.listId) {
-        throw new Error('no listId');
-      }
-      return await $repositories(user.instance.type).setListStreaming(
-        user,
-        timeline.query.option.listId,
-        callback,
-      );
-    case 'user':
-    // not implemented
-  }
+  // TODO: 型エラー解消
+  // @ts-ignore
+  return await $repositories(user.instance.type)[timeline.query.type]?.stream?.(
+    user,
+    callback,
+  );
 };
