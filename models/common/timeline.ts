@@ -1,14 +1,6 @@
 import type { UUID } from 'crypto';
 import type { ILoginUserInfo } from '~/models/common/user';
-
-export const timelineTypes = [
-  'home',
-  'local',
-  'federation',
-  'list',
-  'user',
-] as const;
-export type ITimelineType = (typeof timelineTypes)[number];
+import type { ITimelineType } from '../instances/instanceType';
 
 export type ITimeline = {
   id: UUID;

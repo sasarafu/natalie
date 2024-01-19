@@ -41,123 +41,77 @@ export const mastodonRepository = () => ({
       ...user,
     };
   },
-  getHomeTimeline: async (
-    user: ILoginUser,
-    params?: { sinceId?: string; untilId?: string },
-  ) => {
-    return (
-      await useApiClientsStore()
+  home: {
+    get: async (
+      user: ILoginUser,
+      params?: { sinceId?: string; untilId?: string },
+    ) => {
+      return (
+        await useApiClientsStore()
+          .get<'mastodon'>(user)
+          .api.v1.timelines.home.list({
+            maxId: params?.untilId,
+            minId: params?.sinceId,
+          })
+      ).map((toot) => mastodonConverter.statusToMessage(toot, user));
+    },
+    stream: async (user: ILoginUser, callback: (message: IMessage) => void) => {
+      for await (const entry of useApiClientsStore()
         .get<'mastodon'>(user)
-        .api.v1.timelines.home.list({
-          maxId: params?.untilId,
-          minId: params?.sinceId,
-        })
-    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
-  },
-  getLocalTimeline: async (
-    user: ILoginUser,
-    params?: { sinceId?: string; untilId?: string },
-  ) => {
-    return (
-      await useApiClientsStore()
-        .get<'mastodon'>(user)
-        .api.v1.timelines.public.list({
-          local: true,
-          maxId: params?.untilId,
-          minId: params?.sinceId,
-        })
-    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
-  },
-  getFedarationTimeline: async (
-    user: ILoginUser,
-    params?: { sinceId?: string; untilId?: string },
-  ) => {
-    return (
-      await useApiClientsStore()
-        .get<'mastodon'>(user)
-        .api.v1.timelines.public.list({
-          maxId: params?.untilId,
-          minId: params?.sinceId,
-        })
-    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
-  },
-  getListTimeline: async (
-    user: ILoginUser,
-    listId: string,
-    params?: { sinceId?: string; untilId?: string },
-  ) => {
-    return (
-      await useApiClientsStore()
-        .get<'mastodon'>(user)
-        .api.v1.timelines.list.$select(listId)
-        .list({
-          maxId: params?.untilId,
-          minId: params?.sinceId,
-        })
-    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
-  },
-  getUserTimeline: async (
-    user: ILoginUser,
-    userId: string,
-    params?: { sinceId?: string; untilId?: string },
-  ) => {
-    return (
-      await useApiClientsStore()
-        .get<'mastodon'>(user)
-        .api.v1.accounts.$select(userId)
-        .statuses.list({
-          maxId: params?.untilId,
-          minId: params?.sinceId,
-        })
-    ).map((toot) => mastodonConverter.statusToMessage(toot, user));
-  },
-  setHomeStreaming: async (
-    user: ILoginUser,
-    callback: (message: IMessage) => void,
-  ) => {
-    for await (const entry of useApiClientsStore()
-      .get<'mastodon'>(user)
-      .ws.user.subscribe()) {
-      if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload, user));
+        .ws.user.subscribe()) {
+        if (entry.event === 'update') {
+          callback(mastodonConverter.statusToMessage(entry.payload, user));
+        }
       }
-    }
+    },
   },
-  setLocalStreaming: async (
-    user: ILoginUser,
-    callback: (message: IMessage) => void,
-  ) => {
-    for await (const entry of useApiClientsStore()
-      .get<'mastodon'>(user)
-      .ws.public.local.subscribe()) {
-      if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload, user));
+  local: {
+    get: async (
+      user: ILoginUser,
+      params?: { sinceId?: string; untilId?: string },
+    ) => {
+      return (
+        await useApiClientsStore()
+          .get<'mastodon'>(user)
+          .api.v1.timelines.public.list({
+            local: true,
+            maxId: params?.untilId,
+            minId: params?.sinceId,
+          })
+      ).map((toot) => mastodonConverter.statusToMessage(toot, user));
+    },
+    stream: async (user: ILoginUser, callback: (message: IMessage) => void) => {
+      for await (const entry of useApiClientsStore()
+        .get<'mastodon'>(user)
+        .ws.public.local.subscribe()) {
+        if (entry.event === 'update') {
+          callback(mastodonConverter.statusToMessage(entry.payload, user));
+        }
       }
-    }
+    },
   },
-  setFederationStreaming: async (
-    user: ILoginUser,
-    callback: (message: IMessage) => void,
-  ) => {
-    for await (const entry of useApiClientsStore()
-      .get<'mastodon'>(user)
-      .ws.public.remote.subscribe()) {
-      if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload, user));
+  federation: {
+    get: async (
+      user: ILoginUser,
+      params?: { sinceId?: string; untilId?: string },
+    ) => {
+      return (
+        await useApiClientsStore()
+          .get<'mastodon'>(user)
+          .api.v1.timelines.public.list({
+            maxId: params?.untilId,
+            minId: params?.sinceId,
+          })
+      ).map((toot) => mastodonConverter.statusToMessage(toot, user));
+    },
+    stream: async (user: ILoginUser, callback: (message: IMessage) => void) => {
+      for await (const entry of useApiClientsStore()
+        .get<'mastodon'>(user)
+        .ws.public.remote.subscribe()) {
+        if (entry.event === 'update') {
+          callback(mastodonConverter.statusToMessage(entry.payload, user));
+        }
       }
-    }
-  },
-  setListStreaming: async (
-    user: ILoginUser,
-    listId: string,
-    callback: (message: IMessage) => void,
-  ) => {
-    for await (const entry of useApiClientsStore()
-      .get<'mastodon'>(user)
-      .ws.list.subscribe({ list: listId })) {
-      if (entry.event === 'update') {
-        callback(mastodonConverter.statusToMessage(entry.payload, user));
-      }
-    }
+    },
   },
 });
