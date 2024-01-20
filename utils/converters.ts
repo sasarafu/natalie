@@ -1,8 +1,32 @@
+import type * as Bsky from '@atproto/api';
 import type { mastodon as Mastodon } from 'masto';
 import type * as Misskey from 'misskey-js';
 import type { ILoginUser, IUser } from '~/models/common/user';
+import type { IBlueskyMessage } from '~/models/instances/bluesky/message';
 import type { IMastodonMessage } from '~/models/instances/mastodon/message';
 import type { IMisskeyMessage } from '~/models/instances/misskey/message';
+
+export const blueskyConverter = {
+  postToMessage: (
+    post: Bsky.AppBskyFeedDefs.FeedViewPost,
+    cursor: string | undefined,
+    user: ILoginUser,
+  ): IBlueskyMessage => ({
+    id: post.post.cid,
+    createdAt: new Date(post.post.indexedAt),
+    user: blueskyConverter.getUser(post),
+    via: user,
+    body: post,
+    cursor,
+    summary: {},
+  }),
+  getUser: (post: Bsky.AppBskyFeedDefs.FeedViewPost): IUser => ({
+    userid: post.post.author.did,
+    username: post.post.author.handle,
+    displayName: post.post.author.displayName ?? post.post.author.handle,
+    iconUrl: post.post.author.avatar ?? '',
+  }),
+};
 
 export const mastodonConverter = {
   statusToMessage: (

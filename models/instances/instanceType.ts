@@ -1,7 +1,8 @@
-export const instanceTypes = ['mastodon', 'misskey'] as const;
+export const instanceTypes = ['bluesky', 'mastodon', 'misskey'] as const;
 export type IInstanceType = (typeof instanceTypes)[number];
 
 export const timelineTypes = {
+  bluesky: ['home'],
   mastodon: ['home', 'local', 'federation'],
   misskey: ['home', 'local', 'global'],
 } as const satisfies { [key in IInstanceType]: string[] };

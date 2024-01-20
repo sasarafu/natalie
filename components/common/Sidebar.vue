@@ -67,6 +67,7 @@
 import type { ILoginUser } from '~/models/common/user';
 
 const composeComponents = {
+  bluesky: resolveComponent('BlueskySidebarCompose'),
   mastodon: resolveComponent('MastodonSidebarCompose'),
   misskey: resolveComponent('MisskeySidebarCompose'),
 };

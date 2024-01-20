@@ -61,10 +61,10 @@ export const useLoginUsersStore = defineStore('loginUsers', () => {
   };
 
   const updateToken = (
-    userId: ILoginUserInfo['id'],
+    selector: (users: ILoginUserInfo) => boolean,
     accessToken: ILoginUserInfo['accessToken'],
   ) => {
-    const user = storage.value.find((user) => user.id === userId);
+    const user = storage.value.find(selector);
     if (user) {
       user.accessToken = accessToken;
     }
