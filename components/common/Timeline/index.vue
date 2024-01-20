@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="user">
     <CommonPartsContainer
       class="h-full w-[330px] bg-base-100"
       @top="atTop"
