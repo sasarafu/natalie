@@ -28,11 +28,17 @@ export const useLoginUsersStore = defineStore('loginUsers', () => {
   // orderedLoginUsers は型としては配列だが、読み込み中はundefinedになるので、pageレベルでv-ifすること
   const orderedLoginUsers = computedAsync<ILoginUser[]>(async () => {
     const { $repositories } = useNuxtApp();
-    return await Promise.all(
+    const users = await Promise.all(
       storage.value.map(async (user) => {
-        return await $repositories(user.instance.type).getLoginUser(user);
+        try {
+          return await $repositories(user.instance.type).getLoginUser(user);
+        } catch {
+          return undefined;
+        }
       }),
     );
+
+    return users.filter((user) => !!user) as ILoginUser[];
   }, undefined);
 
   const loginUsers = computed(() => {
