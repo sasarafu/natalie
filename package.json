@@ -15,7 +15,7 @@
     "lint:nuxt": "nuxi typecheck",
     "lint": "npm run lint:ts && npm run lint:eslint && npm run lint:nuxt",
     "lintfix": "npm run lint:eslint -- --fix",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
@@ -39,7 +39,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^5.0.1",
-    "husky": "^8.0.3",
+    "husky": "^9.0.10",
     "nuxt": "^3.6.5",
     "typescript": "^5.2.2",
     "vue-tsc": "^1.8.19"
