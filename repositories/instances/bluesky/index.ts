@@ -99,7 +99,7 @@ export const blueskyRepository = () => ({
       setInterval(async () => {
         const ret = await useApiClientsStore()
           .get<'bluesky'>(user)
-          .getTimeline({});
+          .getTimeline({ limit: 10 });
 
         if (!ret.success) {
           useToastsStore().add({
