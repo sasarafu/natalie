@@ -128,7 +128,6 @@ const loadPast = async () => {
         (items.value[0] as IBlueskyMessage)?.cursor ?? items.value[0]?.id,
     });
 
-    console.log(messages)
     items.value.reverse().push(...messages);
     items.value.reverse();
 
@@ -152,8 +151,6 @@ onMounted(async () => {
 
     // 通知設定がオン かつ 自分自身のものでないとき、通知する
     if (props.timeline.notify && message.user.userid !== user.value.userid) {
-      console.log(message.user.userid, user.value.userid);
-
       notification.notify({
         title: message.summary.username,
         body: message.summary.message,
