@@ -143,6 +143,13 @@ const loadPast = async () => {
 
 onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
+    if (
+      items.value.find((item) => item.id === message.id) ||
+      queuingItems.value.find((item) => item.id === message.id)
+    ) {
+      return;
+    }
+
     // 通知設定がオン かつ 自分自身のものでないとき、通知する
     if (props.timeline.notify && message.user.userid !== user.value.userid) {
       console.log(message.user.userid, user.value.userid);
