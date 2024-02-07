@@ -77,19 +77,23 @@ export const blueskyRepository = () => ({
   },
   home: {
     get: async (user: ILoginUser, params?: { untilId?: string }) => {
-      const ret = await useApiClientsStore().get<'bluesky'>(user).getTimeline({
-        cursor: params?.untilId,
-      });
-      if (!ret.success) {
-        useToastsStore().add({
-          text: 'BlueskyのHome取得に失敗しました',
-          level: 'error',
+      try {
+        const ret = await useApiClientsStore().get<'bluesky'>(user).getTimeline({
+          cursor: params?.untilId,
         });
+        if (!ret.success) {
+          useToastsStore().add({
+            text: 'BlueskyのHome取得に失敗しました',
+            level: 'error',
+          });
+          return [];
+        }
+        return ret.data.feed.map((post) =>
+          blueskyConverter.postToMessage(post, ret.data.cursor, user),
+        );
+      } catch (e) {
         return [];
       }
-      return ret.data.feed.map((post) =>
-        blueskyConverter.postToMessage(post, ret.data.cursor, user),
-      );
     },
     stream: async (user: ILoginUser, callback: (message: IMessage) => void) => {
       setInterval(async () => {
