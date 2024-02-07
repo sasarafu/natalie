@@ -5,14 +5,14 @@
   >
     <template #undericon>
       <div class="flex flex-col items-end mt-1">
-        <div v-if="item.body.reblog" class="indicator">
+        <div v-if="item.body.reason" class="indicator">
           <span
             class="indicator-item indicator-bottom indicator-start badge badge-primary px-0 w-5 h-5"
           >
             <span class="material-symbols-outlined text-base">sync</span>
           </span>
           <CommonPartsRoundedIcon
-            :icon-url="item.user.iconUrl"
+            :icon-url="(item.body.reason?.by as any).avatar"
             class="w-6 h-6"
           />
         </div>
