@@ -22,10 +22,13 @@
     <p class="w-full break-words text-sm">
       {{ (actualItem.body.post.record as any).text }}
     </p>
+
+    <CommonTimelineItemMedia :media-list="mediaList" />
   </CommonTimelineItemContainer>
 </template>
 
 <script setup lang="ts">
+import type { IMedia } from '~/models/common/media';
 import type { IBlueskyMessage } from '~/models/instances/bluesky/message';
 
 const props = defineProps<{
@@ -33,4 +36,22 @@ const props = defineProps<{
 }>();
 
 const actualItem = computed(() => props.item);
+
+const mediaList = computed<IMedia[]>(() => {
+  const images = actualItem.value.body.post.embed?.images;
+  if (!images || !Array.isArray(images)) {
+    return [];
+  }
+
+  return images.map(
+    (image) =>
+      ({
+        type: 'image',
+        detailedType: '',
+        thumbnailUrl: image.thumb,
+        url: image.fullsize,
+        sensitive: false,
+      }) as IMedia,
+  );
+});
 </script>
