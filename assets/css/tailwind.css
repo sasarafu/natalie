@@ -11,9 +11,12 @@
   border-radius: 2px;
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: oklch(var(--p)) transparent;
+@-moz-document url-prefix() {
+  /* firefox only */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(var(--p)) transparent;
+  } 
 }
 
 .textarea {
