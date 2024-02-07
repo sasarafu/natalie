@@ -1,5 +1,6 @@
 import type * as Bsky from '@atproto/api';
 import { BskyAgent } from '@atproto/api';
+import type { IMessage } from '~/models/common/message';
 import type { ILoginUser, ILoginUserInfo } from '~/models/common/user';
 import { blueskyConverter } from '~/utils/converters';
 
@@ -92,6 +93,26 @@ export const blueskyRepository = () => ({
         blueskyConverter.postToMessage(post, ret.data.cursor, user),
       );
     },
-    stream: undefined,
+    stream: async (user: ILoginUser, callback: (message: IMessage) => void) => {
+      setInterval(async () => {
+        const ret = await useApiClientsStore()
+          .get<'bluesky'>(user)
+          .getTimeline({});
+
+        if (!ret.success) {
+          useToastsStore().add({
+            text: 'BlueskyのHome取得に失敗しました',
+            level: 'error',
+          });
+          return [];
+        }
+
+        ret.data.feed
+          .map((post) =>
+            blueskyConverter.postToMessage(post, ret.data.cursor, user),
+          )
+          .forEach(callback);
+      }, 10000);
+    },
   },
 });
