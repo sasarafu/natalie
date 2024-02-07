@@ -3,7 +3,6 @@ export const useNotification = () => {
   const isRequestable = ref(Notification.permission === 'default');
 
   const requestPermission = async () => {
-    console.log(isRequestable.value);
     if (Notification.permission !== 'default') {
       return;
     }

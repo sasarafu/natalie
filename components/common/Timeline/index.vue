@@ -68,6 +68,7 @@
 <script setup lang="ts">
 import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
+import type { IBlueskyMessage } from '~/models/instances/bluesky/message';
 
 const ITEM_COUNT_LIMIT = 40;
 
@@ -78,6 +79,7 @@ const props = defineProps<{
 const notification = useNotification();
 
 const columnItemComponents = {
+  bluesky: resolveComponent('BlueskyColumnItem'),
   mastodon: resolveComponent('MastodonColumnItem'),
   misskey: resolveComponent('MisskeyColumnItem'),
 };
@@ -122,8 +124,10 @@ const loadPast = async () => {
 
   try {
     const messages = await getTimeline(props.timeline, {
-      untilId: items.value[0]?.id,
+      untilId:
+        (items.value[0] as IBlueskyMessage)?.cursor ?? items.value[0]?.id,
     });
+
     items.value.reverse().push(...messages);
     items.value.reverse();
 
@@ -138,10 +142,15 @@ const loadPast = async () => {
 
 onMounted(async () => {
   await useWebSocket(props.timeline, (message: IMessage) => {
+    if (
+      items.value.find((item) => item.id === message.id) ||
+      queuingItems.value.find((item) => item.id === message.id)
+    ) {
+      return;
+    }
+
     // 通知設定がオン かつ 自分自身のものでないとき、通知する
     if (props.timeline.notify && message.user.userid !== user.value.userid) {
-      console.log(message.user.userid, user.value.userid);
-
       notification.notify({
         title: message.summary.username,
         body: message.summary.message,
