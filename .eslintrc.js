@@ -22,6 +22,7 @@ module.exports = {
       { args: 'all', argsIgnorePattern: '^_' },
     ],
     '@typescript-eslint/consistent-type-imports': 'error',
+    'no-console': 'warn',
     'no-empty': 'warn',
   },
 };

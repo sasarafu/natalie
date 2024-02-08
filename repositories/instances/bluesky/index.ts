@@ -70,9 +70,11 @@ export const blueskyRepository = () => ({
   home: {
     get: async (user: ILoginUser, params?: { untilId?: string }) => {
       try {
-        const ret = await useApiClientsStore().get<'bluesky'>(user).getTimeline({
-          cursor: params?.untilId,
-        });
+        const ret = await useApiClientsStore()
+          .get<'bluesky'>(user)
+          .getTimeline({
+            cursor: params?.untilId,
+          });
         if (!ret.success) {
           useToastsStore().add({
             text: 'BlueskyのHome取得に失敗しました',
