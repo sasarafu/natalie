@@ -40,11 +40,18 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "husky": "^9.0.10",
+    "lint-staged": "^15.2.2",
     "nuxt": "^3.6.5",
     "typescript": "^5.2.2",
     "vue-tsc": "^1.8.19"
   },
   "overrides": {
     "vue": "latest"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,vue}": [
+      "bash -c tsc -p tsconfig.json --noEmit",
+      "eslint --ext .ts,.js,.vue --ignore-path .gitignore"
+    ]
   }
 }
