@@ -5,11 +5,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: [
-    '@nuxt/eslint-config',
-    'plugin:nuxt/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['@nuxt/eslint-config', 'plugin:prettier/recommended'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
