@@ -53,13 +53,27 @@
           class="input input-bordered w-80 max-w-full"
           :class="{ 'input-primary': userid }"
         />
-        <input
-          v-model="password"
-          type="password"
-          placeholder="password"
-          class="input input-bordered w-80 max-w-full"
-          :class="{ 'input-primary': password }"
-        />
+        <div class="form-control">
+          <input
+            v-model="password"
+            type="password"
+            placeholder="password"
+            class="input input-bordered w-80 max-w-full"
+            :class="{ 'input-primary': password }"
+          />
+          <div class="label">
+            <span class="label-text-alt">
+              <NuxtLink
+                to="https://bsky.app/settings/app-passwords"
+                target="_blank"
+                class="text-primary"
+              >
+                AppPassword
+              </NuxtLink>
+              の利用を強く推奨します
+            </span>
+          </div>
+        </div>
         <button
           type="submit"
           class="btn btn-primary btn-circle"

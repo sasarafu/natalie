@@ -47,11 +47,18 @@
     <template v-if="selectedInstance">
       <p>アクセストークンを入力してください</p>
       <form class="flex flex-col items-end gap-y-2" @submit.prevent="login">
-        <input
-          v-model="accessToken"
-          class="input input-bordered w-80 max-w-full"
-          :class="{ 'input-primary': accessToken }"
-        />
+        <div class="form-control">
+          <input
+            v-model="accessToken"
+            class="input input-bordered w-80 max-w-full"
+            :class="{ 'input-primary': accessToken }"
+          />
+          <div class="label">
+            <span class="label-text-alt">
+              自分でアクセストークンを作成してください
+            </span>
+          </div>
+        </div>
         <button
           type="submit"
           class="btn btn-primary btn-circle"
