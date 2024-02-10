@@ -9,7 +9,6 @@ import { misskeyRepository } from '~/repositories/instances/misskey';
 
 type IRepository<T extends IInstanceType> = {
   client: (user: ILoginUserInfo) => any;
-  getAuthUrl: (instanceUrl: string, baseUrl: string) => string;
   getLoginUser: (user: ILoginUserInfo) => ILoginUser | Promise<ILoginUser>;
 } & {
   [timelineType in ITimelineType<T>]: {

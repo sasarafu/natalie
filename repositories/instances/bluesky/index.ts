@@ -41,14 +41,6 @@ export const blueskyRepository = () => ({
     agent.resumeSession(session);
     return agent;
   },
-  getAuthUrl: (
-    instanceUrl: string, // instance.example.com
-    callbackBaseUrl: string, // https://callback.example.com
-  ) => {
-    // 自分に返す(/callback/bluesky/[instance].vueを参照)
-    const url = new URL(`/callback/bluesky/${instanceUrl}`, callbackBaseUrl);
-    return url.toString();
-  },
   getLoginUser: async (user: ILoginUserInfo): Promise<ILoginUser> => {
     const session = parseAccessToken(user.accessToken);
     if (!session) {
