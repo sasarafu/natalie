@@ -3,7 +3,14 @@ import type { UUID } from 'crypto';
 type IModal = {
   id: UUID;
   component: ReturnType<typeof resolveComponent>;
-  props: {};
+  props: Record<string, unknown>;
+  options: {
+    closable: boolean;
+  };
+};
+
+const defaultOptions: IModal['options'] = {
+  closable: true,
 };
 
 export const useModalsStore = defineStore('modals', () => {
@@ -11,11 +18,17 @@ export const useModalsStore = defineStore('modals', () => {
 
   const modals = computed(() => store.value);
 
-  const add = (component: IModal['component'], props: IModal['props']) => {
+  const add = (
+    component: IModal['component'],
+    props: IModal['props'],
+    options?: Partial<IModal['options']>,
+  ) => {
+    console.log('test', component, props, options);
     store.value.push({
       id: crypto.randomUUID(),
       component,
       props,
+      options: { ...defaultOptions, ...options },
     });
   };
 

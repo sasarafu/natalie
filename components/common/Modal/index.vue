@@ -15,6 +15,7 @@
             <button
               type="button"
               class="btn btn-sm btn-square btn-ghost"
+              :disabled="!current.options.closable"
               @click="goBack"
             >
               <span class="material-symbols-outlined">
@@ -50,6 +51,9 @@ const goBack = () => {
 };
 
 const close = () => {
+  if (!current.value.options.closable) {
+    return;
+  }
   isShown.value = false;
   useModalsStore().clear();
 };
