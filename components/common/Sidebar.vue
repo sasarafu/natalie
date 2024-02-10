@@ -27,10 +27,10 @@
               class="menu dropdown-content bg-base-100 rounded-box w-48 z-[10]"
             >
               <li>
-                <NuxtLink to="/login">
+                <button type="button" @click="openLogin">
                   <span class="material-symbols-outlined">person_add</span>
                   add account
-                </NuxtLink>
+                </button>
               </li>
 
               <li>
@@ -79,6 +79,10 @@ const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
 const expandMenu = () => {
   config.value.sidebar.isExpanded = !config.value.sidebar.isExpanded;
+};
+
+const openLogin = () => {
+  useModalsStore().add(resolveComponent('CommonModalLogin'), {});
 };
 
 const openSettings = () => {

@@ -12,10 +12,10 @@
           <CommonMenu class="ml-auto" />
         </div>
       </div>
-
-      <CommonModal />
-      <CommonToast />
     </template>
+
+    <CommonModal />
+    <CommonToast />
   </div>
 </template>
 
@@ -28,7 +28,11 @@ watch(
   () => orderedLoginUsers.value,
   () => {
     if (orderedLoginUsers.value?.length === 0) {
-      navigateTo('/login');
+      useModalsStore().add(
+        resolveComponent('CommonModalLogin'),
+        {},
+        { closable: false },
+      );
     }
   },
 );
