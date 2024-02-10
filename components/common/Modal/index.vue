@@ -8,7 +8,7 @@
     @keydown.esc="close()"
   >
     <div v-if="current" class="modal-box border border-secondary" @click.stop>
-      <component :is="current.component" v-bind="current.props">
+      <component :is="current.component" v-bind="current.props" class="p-4">
         <!-- 必要があればslotでHeaderを読み込む -->
         <template #default="slotProps: SlotProps">
           <header class="flex items-center gap-x-2">
