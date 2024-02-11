@@ -1,5 +1,5 @@
 <template>
-  <CommonPartsContainer class="w-[80dvw] h-[80dvh] p-4">
+  <CommonPartsContainer class="w-[80dvw] h-[80dvh]">
     <template #header>
       <slot header-name="settings" />
       <div class="divider mt-2 mb-0"></div>

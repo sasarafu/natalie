@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modalMedia"
-    class="modal-size flex flex-col justify-center outline-none relative p-4"
+    class="modal-size flex flex-col justify-center outline-none relative"
     tabindex="0"
     @keydown.right="goNext"
     @keydown.left="goPrev"

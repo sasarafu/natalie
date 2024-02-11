@@ -2,19 +2,20 @@
   <div
     ref="modalRef"
     class="modal z-40 outline-none"
-    :class="{ 'modal-open': isShown }"
+    :class="{ 'modal-open': !!current }"
     tabindex="0"
     @click="close()"
     @keydown.esc="close()"
   >
     <div v-if="current" class="modal-box border border-secondary" @click.stop>
-      <component :is="current.component" v-bind="current.props">
+      <component :is="current.component" v-bind="current.props" class="p-4">
         <!-- 必要があればslotでHeaderを読み込む -->
         <template #default="slotProps: SlotProps">
           <header class="flex items-center gap-x-2">
             <button
               type="button"
               class="btn btn-sm btn-square btn-ghost"
+              :disabled="!current.options.closable"
               @click="goBack"
             >
               <span class="material-symbols-outlined">
@@ -34,11 +35,10 @@ type SlotProps = {
   headerName: string;
 };
 
-const { modals } = storeToRefs(useModalsStore());
+const modalsStore = useModalsStore();
+const { modals } = storeToRefs(modalsStore);
 const current = computed(() => modals.value.slice(-1)[0]);
 const existsPrev = computed(() => !!modals.value.slice(-2, -1)[0]);
-
-const isShown = ref(false);
 
 const modalRef = ref<HTMLElement>();
 const focusModal = () => {
@@ -46,22 +46,21 @@ const focusModal = () => {
 };
 
 const goBack = () => {
-  useModalsStore().pop();
+  modalsStore.pop();
 };
 
 const close = () => {
-  isShown.value = false;
-  useModalsStore().clear();
+  if (!current.value.options.closable) {
+    return;
+  }
+  modalsStore.clear();
 };
 
 watch(
   () => current.value,
   () => {
     if (current.value) {
-      isShown.value = true;
       focusModal();
-    } else {
-      isShown.value = false;
     }
   },
 );
