@@ -16,7 +16,7 @@
         <div class="basis-full"></div>
 
         <form
-          class="flex items-center relative"
+          class="flex items-center relative max-w-full"
           @submit.prevent="selectedInstance = instanceInput"
         >
           <input
@@ -47,7 +47,7 @@
     <template v-if="selectedInstance">
       <p>アクセストークンを入力してください</p>
       <form class="flex flex-col items-end gap-y-2" @submit.prevent="login">
-        <div class="form-control">
+        <div class="form-control max-w-full">
           <input
             v-model="accessToken"
             class="input input-bordered w-80 max-w-full"

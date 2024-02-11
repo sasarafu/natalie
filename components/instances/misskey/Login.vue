@@ -16,7 +16,7 @@
         <div class="basis-full"></div>
 
         <form
-          class="flex items-center relative"
+          class="flex items-center relative max-w-full"
           @submit.prevent="selectedInstance = instanceInput"
         >
           <input
