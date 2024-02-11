@@ -4,20 +4,23 @@
     :readonly="submitting"
     @submit="submit"
   />
-  <button
-    type="button"
-    class="btn btn-primary"
-    :disabled="submitting || message.length === 0"
-    @click="submit"
-  >
-    submit
-  </button>
 
-  <ComposeVisibility
-    :visibility="visibility"
-    :visibility-icons="visibilityIcons"
-    @select="selectVisibility"
-  />
+  <div class="flex gap-2">
+    <ComposeVisibility
+      :visibility="visibility"
+      :visibility-icons="visibilityIcons"
+      @select="selectVisibility"
+    />
+
+    <button
+      type="button"
+      class="btn btn-primary btn-circle ml-auto"
+      :disabled="submitting || message.length === 0"
+      @click="submit"
+    >
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">

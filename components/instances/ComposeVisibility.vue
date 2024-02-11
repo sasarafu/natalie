@@ -1,11 +1,11 @@
 <template>
-  <CommonPartsDetails class="dropdown">
-    <summary class="btn mb-1">
+  <CommonPartsDetails class="dropdown dropdown-end dropdown-right">
+    <summary class="btn btn-md btn-square mb-1">
       <span class="material-symbols-outlined">
         {{ visibilityIcons[visibility as VisibilityType] }}
       </span>
     </summary>
-    <ul class="dropdown-content menu z-[1] bg-base-100 rounded-box">
+    <ul class="dropdown-content menu z-[1] bg-base-100 w-fit rounded-box">
       <li v-for="(_, key) in visibilityIcons" :key="key">
         <button
           type="button"
