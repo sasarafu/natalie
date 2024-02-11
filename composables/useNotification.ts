@@ -1,4 +1,8 @@
 export const useNotification = () => {
+  if (!('notification' in window)) {
+    return undefined;
+  }
+
   // Notification.permission はリアクティブじゃないようなので、手動で値を書き換える
   const isRequestable = ref(Notification.permission === 'default');
 

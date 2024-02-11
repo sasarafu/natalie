@@ -12,11 +12,11 @@
         <button
           type="button"
           class="btn btn-primary"
-          :disabled="!notification.isRequestable.value"
-          @click="notification.requestPermission()"
+          :disabled="!notification?.isRequestable.value"
+          @click="notification?.requestPermission()"
         >
           {{
-            notification.isRequestable.value
+            notification?.isRequestable.value
               ? 'enable notification'
               : 'configured'
           }}

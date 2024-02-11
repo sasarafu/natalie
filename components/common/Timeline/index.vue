@@ -151,7 +151,7 @@ onMounted(async () => {
 
     // 通知設定がオン かつ 自分自身のものでないとき、通知する
     if (props.timeline.notify && message.user.userid !== user.value.userid) {
-      notification.notify({
+      notification?.notify({
         title: message.summary.username,
         body: message.summary.message,
         icon: message.summary.iconUrl,
