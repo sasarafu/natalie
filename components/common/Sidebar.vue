@@ -1,18 +1,16 @@
 <template>
-  <header class="flex gap-0.5">
-    <CommonPartsContainer class="h-screen items-center w-16 p-2 bg-neutral">
+  <header class="flex gap-0.5 max-sm:flex-col-reverse">
+    <CommonPartsContainer
+      class="items-center w-16 p-2 bg-neutral max-sm:flex-row-reverse max-sm:w-full"
+    >
       <template #header>
-        <div class="flex flex-col gap-y-2">
+        <div class="flex flex-col max-sm:flex-row-reverse gap-2">
           <button
             type="button"
             class="btn btn-circle btn-primary"
             @click="expandMenu"
           >
             <span class="material-symbols-outlined">edit_note</span>
-          </button>
-
-          <button type="button" class="btn btn-circle btn-info">
-            <span class="material-symbols-outlined">search</span>
           </button>
         </div>
       </template>
@@ -48,7 +46,7 @@
     <section
       v-if="activeLoginUser"
       v-show="config.sidebar.isExpanded"
-      class="flex flex-col gap-y-3 w-64 p-2 bg-neutral"
+      class="flex flex-col gap-y-3 w-64 p-2 bg-neutral max-sm:h-64 max-sm:w-full"
     >
       <CommonPartsUserSelector
         v-model="activeLoginUser"
