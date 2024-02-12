@@ -1,5 +1,6 @@
 <template>
   <textarea
+    ref="textareaRef"
     v-model="computedModelValue"
     :readonly="readonly"
     class="textarea w-full h-96"
@@ -24,8 +25,21 @@ const computedModelValue = computed({
   set: (value: string) => emits('update:modelValue', value),
 });
 
+const textareaRef = ref<HTMLTextAreaElement>();
+
 const handleKeydownEnter = (e: KeyboardEvent) => {
   if (!e.ctrlKey && !e.metaKey) return;
   emits('submit');
 };
+
+// focus on appeared
+const focus = () => textareaRef.value?.focus();
+const textareaObserver = new IntersectionObserver(focus);
+
+onMounted(() => {
+  textareaObserver.observe(textareaRef.value!);
+});
+onBeforeUnmount(() => {
+  textareaObserver.unobserve(textareaRef.value!);
+});
 </script>
