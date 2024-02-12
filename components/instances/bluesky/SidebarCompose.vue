@@ -1,6 +1,6 @@
 <template>
   <CommonSidebarComposeTextarea
-    v-model="message"
+    ref="textareaRef"
     :readonly="submitting"
     @submit="submit"
   />
@@ -18,14 +18,16 @@
 </template>
 
 <script setup lang="ts">
+import { CommonSidebarComposeTextarea } from '#components';
 import type { ILoginUser } from '~/models/common/user';
 
 const props = defineProps<{
   user: ILoginUser;
 }>();
 
-const message = ref<string>('');
+const textareaRef = ref<InstanceType<typeof CommonSidebarComposeTextarea>>();
 
+const message = ref<string>('');
 const submitting = ref<boolean>(false);
 
 const submit = async () => {
@@ -43,4 +45,7 @@ const submit = async () => {
 
   submitting.value = false;
 };
+
+const focus = () => textareaRef.value?.focus();
+onActivated(focus);
 </script>

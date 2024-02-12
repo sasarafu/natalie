@@ -1,5 +1,6 @@
 <template>
   <textarea
+    ref="textareaRef"
     v-model="model"
     :readonly="readonly"
     class="textarea w-full h-96"
@@ -19,8 +20,14 @@ const emits = defineEmits<{
   (e: 'submit'): void;
 }>();
 
+const textareaRef = ref<HTMLTextAreaElement>();
+
 const handleKeydownEnter = (e: KeyboardEvent) => {
   if (!e.ctrlKey && !e.metaKey) return;
   emits('submit');
 };
+
+defineExpose({
+  focus: () => textareaRef.value?.focus(),
+});
 </script>

@@ -1,6 +1,6 @@
 <template>
   <CommonSidebarComposeTextarea
-    v-model="message"
+    ref="textareaRef"
     :readonly="submitting"
     @submit="submit"
   />
@@ -24,12 +24,15 @@
 </template>
 
 <script setup lang="ts">
+import { CommonSidebarComposeTextarea } from '#components';
 import type * as Misskey from 'misskey-js';
 import type { ILoginUser } from '~/models/common/user';
 
 const props = defineProps<{
   user: ILoginUser;
 }>();
+
+const textareaRef = ref<InstanceType<typeof CommonSidebarComposeTextarea>>();
 
 const message = ref<string>('');
 const visibility = ref<Misskey.entities.Note['visibility']>('followers'); // TODO: preference
@@ -65,4 +68,7 @@ const submit = async () => {
 
   submitting.value = false;
 };
+
+const focus = () => textareaRef.value?.focus();
+onActivated(focus);
 </script>
