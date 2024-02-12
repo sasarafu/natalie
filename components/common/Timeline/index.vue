@@ -128,8 +128,7 @@ const loadPast = async () => {
         (items.value[0] as IBlueskyMessage)?.cursor ?? items.value[0]?.id,
     });
 
-    items.value.reverse().push(...messages);
-    items.value.reverse();
+    items.value.unshift(...messages.reverse());
 
     // レスポンスがなければ無限スクロールを終了
     if (messages.length === 0) {
