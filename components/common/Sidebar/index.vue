@@ -40,51 +40,25 @@
             </ul>
           </CommonPartsDetails>
         </div>
+
+        <CommonModalLogin
+          v-if="isOpenLoginModal"
+          @close="isOpenLoginModal = false"
+        />
+        <CommonModalConfig
+          v-if="isOpenSettingsModal"
+          @close="isOpenSettingsModal = false"
+        />
       </template>
     </CommonPartsContainer>
 
-    <section
-      v-if="activeLoginUser"
-      v-show="config.sidebar.isExpanded"
-      class="flex flex-col gap-y-3 w-64 p-2 bg-neutral max-sm:h-64 max-sm:w-full"
-    >
-      <CommonPartsUserSelector
-        v-model="activeLoginUser"
-        :users="orderedLoginUsers"
-      />
-
-      <KeepAlive>
-        <component
-          :is="composeComponents[activeLoginUser.instance.type]"
-          :user="activeLoginUser"
-        />
-      </KeepAlive>
-    </section>
-
-    <CommonModalLogin
-      v-if="isOpenLoginModal"
-      @close="isOpenLoginModal = false"
-    />
-    <CommonModalConfig
-      v-if="isOpenSettingsModal"
-      @close="isOpenSettingsModal = false"
-    />
+    <!-- 入力画面の開閉状態はコンポーネント側で行う -->
+    <CommonSidebarCompose />
   </header>
 </template>
 
 <script setup lang="ts">
-import type { ILoginUser } from '~/models/common/user';
-
-const composeComponents = {
-  bluesky: resolveComponent('BlueskySidebarCompose'),
-  mastodon: resolveComponent('MastodonSidebarCompose'),
-  misskey: resolveComponent('MisskeySidebarCompose'),
-};
-
-const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
-
 const { config } = storeToRefs(useConfigStore());
-const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
 const isOpenLoginModal = ref(false);
 const isOpenSettingsModal = ref(false);
