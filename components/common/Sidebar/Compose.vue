@@ -17,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ILoginUser } from '~/models/common/user';
-
 const composeComponents = {
   bluesky: resolveComponent('BlueskySidebarCompose'),
   mastodon: resolveComponent('MastodonSidebarCompose'),
@@ -28,5 +26,6 @@ const composeComponents = {
 const { config } = storeToRefs(useConfigStore());
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 
-const activeComposeUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
+const { activeComposeUser } = useCompose();
+activeComposeUser.value = orderedLoginUsers.value[0];
 </script>
