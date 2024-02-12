@@ -1,16 +1,15 @@
 <template>
   <textarea
-    :value="modelValue"
+    v-model="computedModelValue"
     :readonly="readonly"
     class="textarea w-full h-96"
-    @input="onInput"
     @keydown.enter.meta.exact="handleKeydownEnter"
-    @keydown.s.meta.exact="handleKeydownS"
+    @keydown.s.meta.exact.prevent
   />
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   modelValue: string;
   readonly: boolean;
 }>();
@@ -20,16 +19,13 @@ const emits = defineEmits<{
   (e: 'submit'): void;
 }>();
 
-const onInput = (event: Event) => {
-  emits('update:modelValue', (event.target as HTMLTextAreaElement).value);
-};
+const computedModelValue = computed({
+  get: () => props.modelValue,
+  set: (value: string) => emits('update:modelValue', value),
+});
 
 const handleKeydownEnter = (e: KeyboardEvent) => {
   if (!e.ctrlKey && !e.metaKey) return;
   emits('submit');
-};
-
-const handleKeydownS = (e: KeyboardEvent) => {
-  e.preventDefault();
 };
 </script>

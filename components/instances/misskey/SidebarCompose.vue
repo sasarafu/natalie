@@ -1,5 +1,5 @@
 <template>
-  <CommonPartsTextarea
+  <CommonSidebarComposeTextarea
     v-model="message"
     :readonly="submitting"
     @submit="submit"

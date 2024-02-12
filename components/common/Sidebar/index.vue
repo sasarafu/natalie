@@ -43,37 +43,13 @@
       </template>
     </CommonPartsContainer>
 
-    <section
-      v-if="activeLoginUser"
-      v-show="config.sidebar.isExpanded"
-      class="flex flex-col gap-y-3 w-64 p-2 bg-neutral max-sm:h-64 max-sm:w-full"
-    >
-      <CommonPartsUserSelector
-        v-model="activeLoginUser"
-        :users="orderedLoginUsers"
-      />
-
-      <component
-        :is="composeComponents[activeLoginUser.instance.type]"
-        :user="activeLoginUser"
-      />
-    </section>
+    <!-- 入力画面の開閉状態はコンポーネント側で行う -->
+    <CommonSidebarCompose />
   </header>
 </template>
 
 <script setup lang="ts">
-import type { ILoginUser } from '~/models/common/user';
-
-const composeComponents = {
-  bluesky: resolveComponent('BlueskySidebarCompose'),
-  mastodon: resolveComponent('MastodonSidebarCompose'),
-  misskey: resolveComponent('MisskeySidebarCompose'),
-};
-
-const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
-
 const { config } = storeToRefs(useConfigStore());
-const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
 const expandMenu = () => {
   config.value.sidebar.isExpanded = !config.value.sidebar.isExpanded;
