@@ -20,11 +20,11 @@
 
             <button
               type="button"
-              class="btn btn-ghost btn-square btn-sm w-fit"
+              class="btn btn-ghost btn-square btn-xs"
               tabindex="-1"
               @click.stop="toggleDetail"
             >
-              <span class="material-symbols-outlined text-lg">
+              <span class="material-symbols-outlined">
                 {{ isDetailExpanded ? 'expand_less' : 'expand_more' }}
               </span>
             </button>
