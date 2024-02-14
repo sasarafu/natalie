@@ -5,6 +5,9 @@
     tabindex="0"
     @keydown.right="goNext"
     @keydown.left="goPrev"
+    @touchstart="touchStart"
+    @touchmove="touchMove"
+    @touchend="touchEnd"
   >
     <video
       v-if="current.type === 'video'"
@@ -56,6 +59,10 @@ const props = defineProps<{
   initial: number;
 }>();
 
+const emits = defineEmits<{
+  (e: 'close'): void;
+}>();
+
 const modalMedia = ref<HTMLElement>();
 
 const index = ref(props.initial);
@@ -75,6 +82,36 @@ const goPrev = () => {
   index.value =
     (props.mediaList.length + index.value - 1) % props.mediaList.length;
   key.value = 0;
+};
+
+// smartphone swipe
+const start = ref<TouchEvent>();
+const move = ref<TouchEvent>();
+const touchStart = (e: TouchEvent) => {
+  start.value = e;
+};
+const touchMove = (e: TouchEvent) => {
+  move.value = e;
+};
+const touchEnd = () => {
+  if (!start.value || !move.value) {
+    return;
+  }
+
+  const diff = {
+    x: move.value.touches[0].pageX - start.value.touches[0].pageX,
+    y: move.value.touches[0].pageY - start.value.touches[0].pageY,
+  };
+
+  if (Math.abs(diff.x) > 100 && props.mediaList.length > 1) {
+    if (diff.x > 0) {
+      goNext();
+    } else {
+      goPrev();
+    }
+  } else if (Math.abs(diff.y) > 100) {
+    emits('close');
+  }
 };
 
 onMounted(() => {
