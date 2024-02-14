@@ -22,7 +22,7 @@
               <span class="material-symbols-outlined">settings</span>
             </summary>
             <ul
-              class="menu dropdown-content bg-base-100 rounded-box w-48 z-[10]"
+              class="menu dropdown-content bg-base-100 rounded-box w-max z-[10]"
             >
               <li>
                 <button type="button" @click="openLogin">
