@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modalMedia"
-    class="modal-size flex flex-col justify-center outline-none relative"
+    class="modal-size outline-none relative"
     tabindex="0"
     @keydown.right="goNext"
     @keydown.left="goPrev"
@@ -18,11 +18,9 @@
     </video>
     <img
       v-if="current.type === 'image'"
-      :key="key"
       :src="current.url"
-      class="media-size"
+      class="media-size inline-block"
       draggable="false"
-      @load="onload"
     />
     <audio
       v-if="current.type === 'audio'"
@@ -61,20 +59,12 @@ const modalMedia = ref<HTMLElement>();
 const index = ref(props.initial);
 const current = computed(() => props.mediaList[index.value]);
 
-// Safariでは画像のロード後に自動リサイズされないので、keyで再描画する
-const key = ref(0);
-const onload = () => {
-  key.value = 1;
-};
-
 const goNext = () => {
   index.value = (index.value + 1) % props.mediaList.length;
-  key.value = 0;
 };
 const goPrev = () => {
   index.value =
     (props.mediaList.length + index.value - 1) % props.mediaList.length;
-  key.value = 0;
 };
 
 onMounted(() => {

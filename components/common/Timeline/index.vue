@@ -20,11 +20,11 @@
 
             <button
               type="button"
-              class="btn btn-ghost btn-square btn-sm w-fit"
+              class="btn btn-ghost btn-square btn-xs"
               tabindex="-1"
               @click.stop="toggleDetail"
             >
-              <span class="material-symbols-outlined text-lg">
+              <span class="material-symbols-outlined">
                 {{ isDetailExpanded ? 'expand_less' : 'expand_more' }}
               </span>
             </button>
@@ -128,8 +128,7 @@ const loadPast = async () => {
         (items.value[0] as IBlueskyMessage)?.cursor ?? items.value[0]?.id,
     });
 
-    items.value.reverse().push(...messages);
-    items.value.reverse();
+    items.value.unshift(...messages.reverse());
 
     // レスポンスがなければ無限スクロールを終了
     if (messages.length === 0) {

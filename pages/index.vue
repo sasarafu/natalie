@@ -1,10 +1,8 @@
 <template>
   <div>
     <template v-if="orderedLoginUsers?.length">
-      <div
-        class="flex gap-1 h-screen w-screen bg-base-300 max-sm:flex-col-reverse"
-      >
-        <CommonSidebar />
+      <div class="flex gap-1 h-screen w-screen bg-base-300 max-sm:flex-col">
+        <CommonSidebar class="max-sm:order-last" />
         <div class="flex-auto flex gap-x-1 overflow-x-auto">
           <CommonTimeline
             v-for="timeline in timelines"
