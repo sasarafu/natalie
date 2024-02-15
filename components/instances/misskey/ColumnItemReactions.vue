@@ -6,7 +6,7 @@
       class="dropdown dropdown-top dropdown-center dropdown-hover"
     >
       <button
-        class="btn btn-xs no-animation py-0.5 gap-x-1"
+        class="btn btn-xs no-animation flex-nowrap py-0.5 gap-x-1"
         tabindex="-1"
         :class="[
           reaction.key === myReaction
