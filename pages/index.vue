@@ -10,7 +10,7 @@
             v-for="timeline in timelines"
             :key="timeline.id"
             :timeline="timeline"
-            class="max-sm:snap-center"
+            class="max-sm:snap-center max-sm:max-w-[100dvw]"
           />
           <CommonMenu class="ml-auto max-sm:snap-end" />
         </div>
