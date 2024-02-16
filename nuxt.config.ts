@@ -4,7 +4,13 @@ import { version as packageVersion } from './package.json';
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
-  modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@pinia/nuxt', 'dayjs-nuxt'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@vueuse/nuxt',
+    '@pinia/nuxt',
+    'dayjs-nuxt',
+    '@vite-pwa/nuxt',
+  ],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
   dayjs: {
     plugins: ['relativeTime'],
@@ -36,6 +42,10 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1',
         },
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest',
+        },
       ],
     },
   },
@@ -44,6 +54,20 @@ export default defineNuxtConfig({
       appName: 'Natalie',
       version: packageVersion,
       natalieEnv: 'dev',
+    },
+  },
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Natalie',
+      short_name: 'Natalie',
+      display: 'standalone',
+      start_url: '/',
+      theme_color: 'black',
+      icons: [],
+    },
+    devOptions: {
+      enabled: true,
     },
   },
 });
