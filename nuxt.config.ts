@@ -12,29 +12,6 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
   ],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
-  dayjs: {
-    plugins: ['relativeTime'],
-    defaultLocale: [
-      'en',
-      {
-        relativeTime: {
-          future: '-%s',
-          past: '%s',
-          s: '%ds',
-          m: '1m',
-          mm: '%dm',
-          h: '1h',
-          hh: '%dh',
-          d: '1d',
-          dd: '%dd',
-          M: '1mo',
-          MM: '%dmo',
-          y: '1y',
-          yy: '%dy',
-        },
-      },
-    ],
-  },
   app: {
     head: {
       link: [
@@ -69,5 +46,28 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: true,
     },
+  },
+  dayjs: {
+    plugins: ['relativeTime'],
+    defaultLocale: [
+      'en',
+      {
+        relativeTime: {
+          future: '-%s',
+          past: '%s',
+          s: '%ds',
+          m: '1m',
+          mm: '%dm',
+          h: '1h',
+          hh: '%dh',
+          d: '1d',
+          dd: '%dd',
+          M: '1mo',
+          MM: '%dmo',
+          y: '1y',
+          yy: '%dy',
+        },
+      },
+    ],
   },
 });
