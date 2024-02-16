@@ -4,8 +4,49 @@ import { version as packageVersion } from './package.json';
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
-  modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@pinia/nuxt', 'dayjs-nuxt'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@vueuse/nuxt',
+    '@pinia/nuxt',
+    'dayjs-nuxt',
+    '@vite-pwa/nuxt',
+  ],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1',
+        },
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest',
+        },
+      ],
+    },
+  },
+  runtimeConfig: {
+    public: {
+      appName: 'Natalie',
+      version: packageVersion,
+      natalieEnv: 'dev',
+    },
+  },
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Natalie',
+      short_name: 'Natalie',
+      display: 'standalone',
+      start_url: '/',
+      theme_color: 'black',
+      icons: [],
+    },
+    devOptions: {
+      enabled: true,
+    },
+  },
   dayjs: {
     plugins: ['relativeTime'],
     defaultLocale: [
@@ -28,22 +69,5 @@ export default defineNuxtConfig({
         },
       },
     ],
-  },
-  app: {
-    head: {
-      link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1',
-        },
-      ],
-    },
-  },
-  runtimeConfig: {
-    public: {
-      appName: 'Natalie',
-      version: packageVersion,
-      natalieEnv: 'dev',
-    },
   },
 });

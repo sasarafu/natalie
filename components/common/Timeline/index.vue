@@ -1,7 +1,7 @@
 <template>
   <section v-if="user">
     <CommonPartsContainer
-      class="h-full w-[330px] bg-base-100"
+      class="h-full w-[330px] bg-base-100 max-w-full"
       @top="atTop"
       @bottom="loadPast"
     >
