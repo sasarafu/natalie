@@ -2,6 +2,7 @@
   <CommonTimelineItemContainer
     :user="actualItem.user"
     :created-at="actualItem.createdAt"
+    @click-icon="openProfile"
   >
     <template #undericon>
       <div class="flex flex-col items-end mt-1">
@@ -81,6 +82,13 @@ const actualItem = computed(() => props.item);
 
 const cachedReposted = ref(props.item.body.post.viewer?.repost);
 const cachedLiked = ref(props.item.body.post.viewer?.like);
+
+const openProfile = () => {
+  useModalsStore().add(resolveComponent('BlueskyModalUserDetail'), {
+    userid: props.item.user.userid,
+    via: props.item.via,
+  });
+};
 
 const toggleRepost = async () => {
   try {
