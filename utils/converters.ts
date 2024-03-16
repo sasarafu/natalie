@@ -73,13 +73,13 @@ export const misskeyConverter = {
     return {
       username: actual.user.name || actual.user.username,
       message: actual.text ?? undefined,
-      iconUrl: actual.user.avatarUrl,
+      iconUrl: actual.user.avatarUrl ?? undefined,
     };
   },
   getUser: (note: Misskey.entities.Note): IUser => ({
     userid: note.user.id,
     username: note.user.username,
     displayName: note.user.name || note.user.username,
-    iconUrl: note.user.avatarUrl,
+    iconUrl: note.user.avatarUrl ?? undefined,
   }),
 };
