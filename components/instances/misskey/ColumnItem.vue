@@ -6,6 +6,7 @@
     <template #displayName>
       <span class="inline-block h-[1.25em]">
         <MisskeyMFM
+          v-if="actualItem.user.displayName"
           :value="actualItem.user.displayName"
           :base-url="item.via.instance.baseUrl"
           :is-simple="true"
@@ -139,18 +140,19 @@ const actualItem = computed(() =>
     : props.item,
 );
 
-const mediaList = computed<IMedia[]>(() =>
-  actualItem.value.body.files
-    .filter((file) =>
-      mediaTypes.some((mediaType) => file.type.startsWith(mediaType)),
-    )
-    .map<IMedia>((file) => ({
-      type: mediaTypes.find((mediaType) => file.type.startsWith(mediaType))!,
-      detailedType: file.type,
-      thumbnailUrl: file.thumbnailUrl ?? file.url,
-      url: file.url,
-      sensitive: file.isSensitive,
-    })),
+const mediaList = computed<IMedia[]>(
+  () =>
+    actualItem.value.body.files
+      ?.filter((file) =>
+        mediaTypes.some((mediaType) => file.type.startsWith(mediaType)),
+      )
+      .map<IMedia>((file) => ({
+        type: mediaTypes.find((mediaType) => file.type.startsWith(mediaType))!,
+        detailedType: file.type,
+        thumbnailUrl: file.thumbnailUrl ?? file.url,
+        url: file.url,
+        sensitive: file.isSensitive,
+      })) ?? [],
 );
 
 const isRenoted = ref(

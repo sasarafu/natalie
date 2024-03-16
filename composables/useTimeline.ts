@@ -16,5 +16,5 @@ export const getTimeline = async (
     $repositories(user.instance.type) as UnionToIntersection<
       ReturnType<IRepositories[IInstanceType]>
     >
-  )[timeline.query.type]?.get?.(user, params);
+  )[timeline.query.type]?.get?.(user, params ?? {});
 };

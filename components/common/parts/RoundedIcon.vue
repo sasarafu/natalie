@@ -1,9 +1,10 @@
 <template>
-  <img :src="iconUrl" class="rounded-full" draggable="false" />
+  <img v-if="iconUrl" :src="iconUrl" class="rounded-full" draggable="false" />
+  <div v-else class="rounded-full bg-neutral-content"></div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  iconUrl: string;
+  iconUrl: string | undefined;
 }>();
 </script>

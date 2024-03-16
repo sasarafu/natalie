@@ -19,20 +19,20 @@ export const misskeyRepository = () => ({
   getLoginUser: async (user: ILoginUserInfo): Promise<ILoginUser> => {
     const res = await useApiClientsStore()
       .get<'misskey'>(user)
-      .api.request('i');
+      .api.request('i', {});
 
     return {
       userid: res.id,
       username: res.username,
-      displayName: res.name,
-      iconUrl: res.avatarUrl,
+      displayName: res.name ?? undefined,
+      iconUrl: res.avatarUrl ?? undefined,
       ...user,
     };
   },
   home: {
     get: async (
       user: ILoginUser,
-      params?: { sinceId?: string; untilId?: string },
+      params: { sinceId?: string; untilId?: string },
     ) => {
       return (
         await useApiClientsStore()
@@ -52,7 +52,7 @@ export const misskeyRepository = () => ({
   local: {
     get: async (
       user: ILoginUser,
-      params?: { sinceId?: string; untilId?: string },
+      params: { sinceId?: string; untilId?: string },
     ) => {
       return (
         await useApiClientsStore()
@@ -72,7 +72,7 @@ export const misskeyRepository = () => ({
   global: {
     get: async (
       user: ILoginUser,
-      params?: { sinceId?: string; untilId?: string },
+      params: { sinceId?: string; untilId?: string },
     ) => {
       return (
         await useApiClientsStore()
