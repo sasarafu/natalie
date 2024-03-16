@@ -1,23 +1,18 @@
 <template>
-  <ul v-if="reactions.length > 0" class="flex flex-wrap gap-x-1">
-    <li
+  <div v-if="reactions.length > 0" class="flex flex-wrap gap-0.5">
+    <button
       v-for="reaction in shownReactions"
       :key="reaction.key"
-      class="dropdown dropdown-top dropdown-center dropdown-hover"
+      class="btn btn-xs flex-nowrap py-0.5 gap-x-1 dropdown dropdown-top dropdown-center dropdown-hover inline-flex"
+      tabindex="-1"
+      :class="[
+        reaction.key === myReaction ? 'btn-outline btn-success' : 'btn-neutral',
+      ]"
+      @click="selectReaction(reaction.key)"
     >
-      <button
-        class="btn btn-xs no-animation flex-nowrap py-0.5 gap-x-1"
-        tabindex="-1"
-        :class="[
-          reaction.key === myReaction
-            ? 'btn-outline btn-success'
-            : 'btn-neutral',
-        ]"
-        @click="selectReaction(reaction.key)"
-      >
-        <MisskeyMFMEmoji :emoji="reaction.key" :base-url="baseUrl" />
-        {{ reaction.count }}
-      </button>
+      <MisskeyMFMEmoji :emoji="reaction.key" :base-url="baseUrl" />
+      {{ reaction.count }}
+
       <span
         v-if="reaction.key.startsWith(':')"
         class="dropdown-content pointer-events-none flex flex-col items-center bg-neutral p-2 rounded-lg z-10"
@@ -29,17 +24,16 @@
           {{ reaction.key.replace('@.', '') }}
         </span>
       </span>
-    </li>
-    <li v-if="reactions.length > REACTIONS_LIMIT && !isShowAll">
-      <button
-        class="btn btn-xs btn-outline no-animation"
-        tabindex="-1"
-        @click="showMore"
-      >
-        +{{ reactions.length - REACTIONS_LIMIT }}
-      </button>
-    </li>
-  </ul>
+    </button>
+    <button
+      v-if="reactions.length > REACTIONS_LIMIT && !isShowAll"
+      class="btn btn-xs btn-outline no-animation"
+      tabindex="-1"
+      @click="showMore"
+    >
+      +{{ reactions.length - REACTIONS_LIMIT }}
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">
