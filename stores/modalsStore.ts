@@ -23,7 +23,6 @@ export const useModalsStore = defineStore('modals', () => {
     props: IModal['props'],
     options?: Partial<IModal['options']>,
   ) => {
-    console.log('test', component, props, options);
     store.value.push({
       id: crypto.randomUUID(),
       component,
