@@ -15,6 +15,28 @@
 </template>
 
 <script setup lang="ts">
+import {
+  MisskeyMFMBlockCenter,
+  MisskeyMFMBlockCode,
+  MisskeyMFMBlockMath,
+  MisskeyMFMBlockQuote,
+  MisskeyMFMBlockSearch,
+  MisskeyMFMInlineBold,
+  MisskeyMFMInlineCode,
+  MisskeyMFMInlineEmojiCode,
+  MisskeyMFMInlineFn,
+  MisskeyMFMInlineHashtag,
+  MisskeyMFMInlineItalic,
+  MisskeyMFMInlineLink,
+  MisskeyMFMInlineMath,
+  MisskeyMFMInlineMention,
+  MisskeyMFMInlinePlain,
+  MisskeyMFMInlineSmall,
+  MisskeyMFMInlineStrike,
+  MisskeyMFMInlineText,
+  MisskeyMFMInlineUnicodeEmoji,
+  MisskeyMFMInlineUrl,
+} from '#components';
 import type { MfmNode } from 'mfm-js';
 import { parse, parseSimple } from 'mfm-js';
 import type { IMisskeyMessage } from '~/models/instances/misskey/message';
@@ -39,28 +61,28 @@ const parsed = computed(() =>
 );
 
 const mfmComponents: {
-  [key in MfmNode['type']]: ReturnType<typeof resolveComponent>;
+  [key in MfmNode['type']]: Component;
 } = {
-  quote: resolveComponent('MisskeyMFMBlockQuote'),
-  search: resolveComponent('MisskeyMFMBlockSearch'),
-  blockCode: resolveComponent('MisskeyMFMBlockCode'),
-  mathBlock: resolveComponent('MisskeyMFMBlockMath'),
-  center: resolveComponent('MisskeyMFMBlockCenter'),
+  quote: MisskeyMFMBlockQuote,
+  search: MisskeyMFMBlockSearch,
+  blockCode: MisskeyMFMBlockCode,
+  mathBlock: MisskeyMFMBlockMath,
+  center: MisskeyMFMBlockCenter,
   // ↑ block / ↓ inline
-  unicodeEmoji: resolveComponent('MisskeyMFMInlineUnicodeEmoji'),
-  emojiCode: resolveComponent('MisskeyMFMInlineEmojiCode'),
-  bold: resolveComponent('MisskeyMFMInlineBold'),
-  small: resolveComponent('MisskeyMFMInlineSmall'),
-  italic: resolveComponent('MisskeyMFMInlineItalic'),
-  strike: resolveComponent('MisskeyMFMInlineStrike'),
-  inlineCode: resolveComponent('MisskeyMFMInlineCode'),
-  mathInline: resolveComponent('MisskeyMFMInlineMath'),
-  mention: resolveComponent('MisskeyMFMInlineMention'),
-  hashtag: resolveComponent('MisskeyMFMInlineHashtag'),
-  url: resolveComponent('MisskeyMFMInlineUrl'),
-  link: resolveComponent('MisskeyMFMInlineLink'),
-  fn: resolveComponent('MisskeyMFMInlineFn'),
-  plain: resolveComponent('MisskeyMFMInlinePlain'),
-  text: resolveComponent('MisskeyMFMInlineText'),
+  unicodeEmoji: MisskeyMFMInlineUnicodeEmoji,
+  emojiCode: MisskeyMFMInlineEmojiCode,
+  bold: MisskeyMFMInlineBold,
+  small: MisskeyMFMInlineSmall,
+  italic: MisskeyMFMInlineItalic,
+  strike: MisskeyMFMInlineStrike,
+  inlineCode: MisskeyMFMInlineCode,
+  mathInline: MisskeyMFMInlineMath,
+  mention: MisskeyMFMInlineMention,
+  hashtag: MisskeyMFMInlineHashtag,
+  url: MisskeyMFMInlineUrl,
+  link: MisskeyMFMInlineLink,
+  fn: MisskeyMFMInlineFn,
+  plain: MisskeyMFMInlinePlain,
+  text: MisskeyMFMInlineText,
 };
 </script>
