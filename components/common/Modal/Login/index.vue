@@ -51,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import { BlueskyLogin, MastodonLogin, MisskeyLogin } from '#components';
 import { instanceTypes } from '~/models/instances/instanceType';
 import type { IInstanceType } from '~/models/instances/instanceType';
 
@@ -62,9 +63,9 @@ defineEmits<{
 const selectedInstanceType = ref<IInstanceType | undefined>();
 
 const loginComponents = {
-  bluesky: resolveComponent('BlueskyLogin'),
-  mastodon: resolveComponent('MastodonLogin'),
-  misskey: resolveComponent('MisskeyLogin'),
+  bluesky: BlueskyLogin,
+  mastodon: MastodonLogin,
+  misskey: MisskeyLogin,
 };
 </script>
 
