@@ -51,10 +51,8 @@ const expand = () => {
   displayCount.value = props.mediaList.length;
 };
 
+const mediaModalStore = useMediaModalStore();
 const openModal = (index: number) => {
-  useModalsStore().add(resolveComponent('CommonModalMedia'), {
-    mediaList: props.mediaList,
-    initial: index,
-  });
+  mediaModalStore.open(props.mediaList, index);
 };
 </script>

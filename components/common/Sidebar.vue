@@ -25,14 +25,14 @@
               class="menu dropdown-content bg-base-100 rounded-box w-max z-[10]"
             >
               <li>
-                <button type="button" @click="openLogin">
+                <button type="button" @click="isOpenLoginModal = true">
                   <span class="material-symbols-outlined">person_add</span>
                   add account
                 </button>
               </li>
 
               <li>
-                <button type="button" @click="openSettings">
+                <button type="button" @click="isOpenSettingsModal = true">
                   <span class="material-symbols-outlined">settings</span>
                   settings
                 </button>
@@ -60,6 +60,15 @@
         />
       </KeepAlive>
     </section>
+
+    <CommonModalLogin
+      v-if="isOpenLoginModal"
+      @close="isOpenLoginModal = false"
+    />
+    <CommonModalConfig
+      v-if="isOpenSettingsModal"
+      @close="isOpenSettingsModal = false"
+    />
   </header>
 </template>
 
@@ -77,15 +86,10 @@ const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 const { config } = storeToRefs(useConfigStore());
 const activeLoginUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
 
+const isOpenLoginModal = ref(false);
+const isOpenSettingsModal = ref(false);
+
 const expandMenu = () => {
   config.value.sidebar.isExpanded = !config.value.sidebar.isExpanded;
-};
-
-const openLogin = () => {
-  useModalsStore().add(resolveComponent('CommonModalLogin'), {});
-};
-
-const openSettings = () => {
-  useModalsStore().add(resolveComponent('CommonModalConfig'), {});
 };
 </script>
