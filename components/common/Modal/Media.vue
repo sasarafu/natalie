@@ -50,6 +50,9 @@
   </Teleport>
 </template>
 
+<!-- 
+  NOTE: MediaはTimelineItemの下にあって消える可能性があるため、mediaModalStoreに保存すると表示できるようにしている
+ -->
 <script setup lang="ts">
 import type { IMedia } from '~/models/common/media';
 
