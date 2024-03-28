@@ -38,6 +38,14 @@ const emits = defineEmits<{
 const modalRef = ref<HTMLElement>();
 onClickOutside(modalRef, () => emits('close'));
 
+// simple focus-trap
+const { focused } = useFocusWithin(modalRef);
+watch(focused, (focused) => {
+  if (!focused) {
+    modalRef.value?.focus();
+  }
+});
+
 onMounted(() => modalRef.value?.focus());
 </script>
 
