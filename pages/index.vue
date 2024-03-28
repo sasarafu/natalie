@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="orderedLoginUsers?.length">
+    <template v-if="orderedLoginUsers?.length > 0">
       <div class="flex gap-1 h-screen w-screen bg-base-300 max-sm:flex-col">
         <CommonSidebar class="max-sm:order-last" />
         <div
@@ -15,28 +15,28 @@
           <CommonMenu class="ml-auto max-sm:snap-end" />
         </div>
       </div>
+
+      <CommonModalMedia
+        v-if="media"
+        :media-list="media.mediaList"
+        :initial="media.initial"
+        @close="mediaModalStore.close"
+      />
     </template>
 
     <CommonModal />
     <CommonToast />
+
+    <!-- 初回ログインモーダル -->
+    <CommonModalLogin v-if="orderedLoginUsers?.length === 0" />
   </div>
 </template>
 
 <script setup lang="ts">
+// orderedLoginUsers.valueは、undefinedでなく配列長が1以上であることを確認する
 const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
 const { timelines } = storeToRefs(useTimelinesStore());
 
-// orderedLoginUsers.valueは読み込み中はundefined
-watch(
-  () => orderedLoginUsers.value,
-  () => {
-    if (orderedLoginUsers.value?.length === 0) {
-      useModalsStore().add(
-        resolveComponent('CommonModalLogin'),
-        {},
-        { closable: false },
-      );
-    }
-  },
-);
+const mediaModalStore = useMediaModalStore();
+const { media } = storeToRefs(mediaModalStore);
 </script>

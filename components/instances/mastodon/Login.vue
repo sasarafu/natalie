@@ -72,6 +72,10 @@
 </template>
 
 <script setup lang="ts">
+const emits = defineEmits<{
+  (e: 'close'): void;
+}>();
+
 const selectedInstance = ref('');
 const instanceInput = ref('');
 
@@ -96,6 +100,6 @@ const login = async () => {
     accessToken: accessToken.value,
   });
 
-  useModalsStore().clear();
+  emits('close');
 };
 </script>

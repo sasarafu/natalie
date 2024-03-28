@@ -89,6 +89,10 @@
 <script setup lang="ts">
 import { BskyAgent } from '@atproto/api';
 
+const emits = defineEmits<{
+  (e: 'close'): void;
+}>();
+
 const selectedInstance = ref('');
 const instanceInput = ref('');
 
@@ -127,6 +131,6 @@ const login = async () => {
     accessToken: JSON.stringify(agent.session),
   });
 
-  useModalsStore().clear();
+  emits('close');
 };
 </script>
