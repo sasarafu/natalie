@@ -53,10 +53,12 @@
         :users="orderedLoginUsers"
       />
 
-      <component
-        :is="composeComponents[activeLoginUser.instance.type]"
-        :user="activeLoginUser"
-      />
+      <KeepAlive>
+        <component
+          :is="composeComponents[activeLoginUser.instance.type]"
+          :user="activeLoginUser"
+        />
+      </KeepAlive>
     </section>
   </header>
 </template>

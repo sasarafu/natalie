@@ -43,9 +43,6 @@ export default defineNuxtConfig({
       theme_color: 'black',
       icons: [],
     },
-    devOptions: {
-      enabled: true,
-    },
   },
   dayjs: {
     plugins: ['relativeTime'],

@@ -20,7 +20,7 @@
         <span class="h-8 w-max">
           <MisskeyMFMEmoji :emoji="reaction.key" :base-url="baseUrl" />
         </span>
-        <span class="text-sm">
+        <span class="text-sm text-base-content">
           {{ reaction.key.replace('@.', '') }}
         </span>
       </span>
