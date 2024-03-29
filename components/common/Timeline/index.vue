@@ -44,8 +44,7 @@
           v-for="(item, index) in items.slice().reverse()"
           :key="item.id"
         >
-          <component
-            :is="columnItemComponents[item.via.instance.type]"
+          <CommonTimelineItem
             :item="item"
             :is-last="index === items.length - 1"
           />
@@ -66,11 +65,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  BlueskyColumnItem,
-  MastodonColumnItem,
-  MisskeyColumnItem,
-} from '#components';
 import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
 import type { IBlueskyMessage } from '~/models/instances/bluesky/message';
@@ -82,12 +76,6 @@ const props = defineProps<{
 }>();
 
 const notification = useNotification();
-
-const columnItemComponents = {
-  bluesky: BlueskyColumnItem,
-  mastodon: MastodonColumnItem,
-  misskey: MisskeyColumnItem,
-};
 
 const items = ref<IMessage[]>([]);
 const queuingItems = ref<IMessage[]>([]);
