@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
     '@pinia/nuxt',
-    'dayjs-nuxt',
     '@vite-pwa/nuxt',
   ],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
@@ -43,28 +42,5 @@ export default defineNuxtConfig({
       theme_color: 'black',
       icons: [],
     },
-  },
-  dayjs: {
-    plugins: ['relativeTime'],
-    defaultLocale: [
-      'en',
-      {
-        relativeTime: {
-          future: '-%s',
-          past: '%s',
-          s: '%ds',
-          m: '1m',
-          mm: '%dm',
-          h: '1h',
-          hh: '%dh',
-          d: '1d',
-          dd: '%dd',
-          M: '1mo',
-          MM: '%dmo',
-          y: '1y',
-          yy: '%dy',
-        },
-      },
-    ],
   },
 });
