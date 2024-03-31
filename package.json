@@ -20,6 +20,7 @@
   "dependencies": {
     "@atproto/api": "^0.11.0",
     "@pinia/nuxt": "^0.5.1",
+    "dayjs": "^1.11.10",
     "masto": "^6.0.5",
     "mfm-js": "^0.24.0",
     "misskey-js": "^2024.3.1",
@@ -36,7 +37,6 @@
     "@vueuse/core": "^10.3.0",
     "@vueuse/nuxt": "^10.3.0",
     "daisyui": "^4.4.19",
-    "dayjs-nuxt": "^2.1.9",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
