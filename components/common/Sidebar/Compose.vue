@@ -12,6 +12,7 @@
     <KeepAlive>
       <component
         :is="composeComponents[activeComposeUser.instance.type]"
+        ref="composeComponentRef"
         :user="activeComposeUser"
       />
     </KeepAlive>
@@ -25,6 +26,7 @@ import {
   MisskeySidebarCompose,
 } from '#components';
 import type { ILoginUser } from '~/models/common/user';
+import type { ValueOf } from '~/types/ValueOf';
 
 const composeComponents = {
   bluesky: BlueskySidebarCompose,
@@ -32,8 +34,34 @@ const composeComponents = {
   misskey: MisskeySidebarCompose,
 };
 
+type IComposeComponent = InstanceType<ValueOf<typeof composeComponents>>;
+const composeComponentRef = ref<IComposeComponent>();
+
 const { config } = storeToRefs(useConfigStore());
-const { orderedLoginUsers } = storeToRefs(useLoginUsersStore());
+const { orderedLoginUsers, loginUsers } = storeToRefs(useLoginUsersStore());
 
 const activeComposeUser = ref<ILoginUser>(orderedLoginUsers.value[0]);
+
+// composeUserの切り替えやフォーカスの処理
+const { switchComposeData } = useCompose();
+watch(switchComposeData, (composeData) => {
+  if (!composeData) {
+    return;
+  }
+  if (composeData.data) {
+    activeComposeUser.value = loginUsers.value[composeData.data.userId];
+
+    // activeComposeUserを切り替えた後、Refが切り替わるまで待つ
+    nextTick(() => {
+      if (composeData.data) {
+        composeComponentRef.value?.setMessage(composeData.data.message);
+      }
+      composeComponentRef.value?.focus();
+      useCompose().clear();
+    });
+  } else {
+    composeComponentRef.value?.focus();
+    useCompose().clear();
+  }
+});
 </script>

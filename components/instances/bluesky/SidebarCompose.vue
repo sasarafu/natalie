@@ -1,6 +1,7 @@
 <template>
   <CommonSidebarComposeTextarea
     ref="textareaRef"
+    v-model="message.text"
     :readonly="submitting"
     @submit="submit"
   />
@@ -9,7 +10,7 @@
     <button
       type="button"
       class="btn btn-primary btn-circle ml-auto"
-      :disabled="submitting || message.length === 0"
+      :disabled="!isSubmitable"
       @click="submit"
     >
       <span class="material-symbols-outlined">arrow_forward</span>
@@ -19,6 +20,7 @@
 
 <script setup lang="ts">
 import { CommonSidebarComposeTextarea } from '#components';
+import type { IComposeMessage } from '~/models/common/composeMessage';
 import type { ILoginUser } from '~/models/common/user';
 
 const props = defineProps<{
@@ -27,20 +29,22 @@ const props = defineProps<{
 
 const textareaRef = ref<InstanceType<typeof CommonSidebarComposeTextarea>>();
 
-const message = ref<string>('');
+const message = ref<IComposeMessage>({});
 const submitting = ref<boolean>(false);
 
+const isSubmitable = computed(() => !submitting.value && message.value.text);
+
 const submit = async () => {
-  if (message.value.length === 0 || submitting.value) return;
+  if (!isSubmitable.value) return;
 
   submitting.value = true;
 
   try {
     await useApiClientsStore()
       .get<'bluesky'>(props.user)
-      .post({ text: message.value });
+      .post({ text: message.value.text });
 
-    message.value = '';
+    message.value = {};
   } catch (_) {}
 
   submitting.value = false;
@@ -48,4 +52,11 @@ const submit = async () => {
 
 const focus = () => textareaRef.value?.focus();
 onActivated(focus);
+
+defineExpose({
+  focus,
+  setMessage: (data: IComposeMessage) => {
+    message.value = data;
+  },
+});
 </script>
