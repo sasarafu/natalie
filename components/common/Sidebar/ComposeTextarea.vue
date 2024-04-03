@@ -1,35 +1,33 @@
 <template>
   <textarea
-    :value="modelValue"
+    ref="textareaRef"
+    v-model="model"
     :readonly="readonly"
     class="textarea w-full h-96"
-    @input="onInput"
     @keydown.enter.meta.exact="handleKeydownEnter"
-    @keydown.s.meta.exact="handleKeydownS"
+    @keydown.s.meta.exact.prevent
   />
 </template>
 
 <script setup lang="ts">
+const model = defineModel<string>();
+
 defineProps<{
-  modelValue: string;
   readonly: boolean;
 }>();
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
   (e: 'submit'): void;
 }>();
 
-const onInput = (event: Event) => {
-  emits('update:modelValue', (event.target as HTMLTextAreaElement).value);
-};
+const textareaRef = ref<HTMLTextAreaElement>();
 
 const handleKeydownEnter = (e: KeyboardEvent) => {
   if (!e.ctrlKey && !e.metaKey) return;
   emits('submit');
 };
 
-const handleKeydownS = (e: KeyboardEvent) => {
-  e.preventDefault();
-};
+defineExpose({
+  focus: () => textareaRef.value?.focus(),
+});
 </script>
