@@ -1,5 +1,5 @@
 <template>
-  <details ref="details" tabindex="-1" class="w-fit bg-red">
+  <details ref="details" tabindex="-1" class="w-fit">
     <slot />
   </details>
 </template>
