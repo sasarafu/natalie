@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
+    '@nuxtjs/i18n',
   ],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
   app: {
@@ -30,6 +31,26 @@ export default defineNuxtConfig({
       appName: 'Natalie',
       version: packageVersion,
       natalieEnv: 'dev',
+    },
+  },
+  i18n: {
+    locales: [
+      {
+        code: 'ja',
+        name: '日本語',
+        file: 'ja.ts',
+      },
+      {
+        code: 'en',
+        name: 'English',
+        file: 'en.ts',
+      },
+    ],
+    langDir: 'locales/',
+    defaultLocale: 'ja',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
     },
   },
   pwa: {
