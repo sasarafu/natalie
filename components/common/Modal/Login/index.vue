@@ -2,10 +2,14 @@
   <Teleport to="#modalIndex">
     <CommonModalBaseContainer
       closable
-      class="!w-[90dvw] !h-[90dvh] !max-w-[640px] !max-h-[480px] overflow-y-auto"
+      class="!w-[90dvw] !h-[90dvh] !max-w-[640px] !max-h-[540px] overflow-y-auto"
       @close="$emit('close')"
     >
       <div class="flex flex-col gap-2">
+        <template v-if="languageSelect">
+          <CommonPartsI18nSwitcher compact class="self-end p-0" />
+        </template>
+
         <p class="mb-2">どのアカウントを追加しますか？</p>
         <div class="flex flex-wrap justify-end gap-x-2 gap-y-1">
           <template v-if="!selectedInstanceType">
@@ -53,6 +57,10 @@
 <script setup lang="ts">
 import { instanceTypes } from '~/models/instances/instanceType';
 import type { IInstanceType } from '~/models/instances/instanceType';
+
+defineProps<{
+  languageSelect?: boolean;
+}>();
 
 // 閉じたくないとき、$emit('close')は実装しないこと
 defineEmits<{

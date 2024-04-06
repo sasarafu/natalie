@@ -8,6 +8,13 @@
     >
       <div class="overflow-y-auto">
         <div>
+          <h2 class="text-3xl font-bold mb-2">language</h2>
+
+          <CommonPartsI18nSwitcher horizontal />
+        </div>
+
+        <div class="divider"></div>
+        <div>
           <h2 class="text-3xl font-bold mb-2">notification</h2>
 
           <button

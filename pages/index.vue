@@ -28,7 +28,7 @@
     <CommonToast />
 
     <!-- 初回ログインモーダル -->
-    <CommonModalLogin v-if="orderedLoginUsers?.length === 0" />
+    <CommonModalLogin v-if="orderedLoginUsers?.length === 0" language-select />
   </div>
 </template>
 
