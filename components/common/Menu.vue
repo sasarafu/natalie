@@ -14,14 +14,14 @@
           <input v-model="timelineName" class="input input-sm w-full" />
         </div>
 
-        <div class="divider"></div>
+        <div class="divider" />
 
         <CommonPartsUserSelector
           v-model="activeLoginUser"
           :users="orderedLoginUsers"
         />
 
-        <div class="divider"></div>
+        <div class="divider" />
 
         <div class="flex w-full flex-wrap gap-1">
           <button

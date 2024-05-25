@@ -1,21 +1,21 @@
 <template>
   <div ref="container" class="common-container flex flex-col">
     <div class="common-container-header">
-      <slot name="header" class="common-container-header"></slot>
+      <slot name="header" class="common-container-header" />
     </div>
 
     <div class="common-container-body flex-auto overflow-y-auto">
-      <div ref="topElement" class="h-0"></div>
+      <div ref="topElement" class="h-0" />
 
-      <slot></slot>
+      <slot />
 
       <div ref="bottomElement">
-        <slot name="loading"></slot>
+        <slot name="loading" />
       </div>
     </div>
 
     <div>
-      <slot name="footer" class="common-container-footer"></slot>
+      <slot name="footer" class="common-container-footer" />
     </div>
   </div>
 </template>

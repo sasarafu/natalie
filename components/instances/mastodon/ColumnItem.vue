@@ -19,7 +19,7 @@
       </div>
     </template>
 
-    <p class="w-full break-words text-sm" v-html="sanitizedHTML"></p>
+    <p class="w-full break-words text-sm" v-html="sanitizedHTML" />
 
     <CommonTimelineItemMedia :media-list="mediaList" />
 

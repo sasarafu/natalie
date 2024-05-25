@@ -54,7 +54,7 @@
 
       <template v-if="isLoadable" #loading>
         <div class="p-3 text-center">
-          <span v-if="isLoading" class="loading loading-spinner"></span>
+          <span v-if="isLoading" class="loading loading-spinner" />
           <button v-else class="btn btn-neutral btn-sm" @click="loadPast">
             <!-- 1度読み込んだ後にまだ画面上にあった場合、再ロードされないのでボタンで手動ロードできるようにしておく -->
             <span>load more</span>

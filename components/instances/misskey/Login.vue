@@ -13,7 +13,7 @@
           <span class="text-lg">{{ instance }}</span>
         </button>
 
-        <div class="basis-full"></div>
+        <div class="basis-full" />
 
         <form
           class="flex items-center relative max-w-full"
