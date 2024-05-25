@@ -8,7 +8,7 @@ import { mastodonRepository } from '~/repositories/instances/mastodon';
 import { misskeyRepository } from '~/repositories/instances/misskey';
 
 type IRepository<T extends IInstanceType> = {
-  client: (user: ILoginUserInfo) => any;
+  client: (user: ILoginUserInfo) => unknown;
   getLoginUser: (user: ILoginUserInfo) => ILoginUser | Promise<ILoginUser>;
 } & {
   [timelineType in ITimelineType<T>]: {

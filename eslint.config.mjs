@@ -5,7 +5,6 @@ export default withNuxt({
   rules: {
     'no-console': 'warn',
     'no-empty': 'warn', // temporary
-    '@typescript-eslint/no-explicit-any': 'warn', // temporary
     '@typescript-eslint/ban-types': 'warn', // temporary
   },
 }).append({
