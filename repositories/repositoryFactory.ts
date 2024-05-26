@@ -12,8 +12,8 @@ type IRepository<T extends IInstanceType> = {
   getLoginUser: (user: ILoginUserInfo) => ILoginUser | Promise<ILoginUser>;
 } & {
   [timelineType in ITimelineType<T>]: {
-    get: Function | undefined;
-    stream: Function | undefined;
+    get: ((...args: never[]) => unknown) | undefined;
+    stream: ((...args: never[]) => unknown) | undefined;
   };
 };
 
