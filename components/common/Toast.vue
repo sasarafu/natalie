@@ -13,7 +13,7 @@
           class="radial-progress"
           style="--size: 1rem"
           :style="{ '--value': toast.percent }"
-        ></div>
+        />
       </div>
     </template>
   </div>

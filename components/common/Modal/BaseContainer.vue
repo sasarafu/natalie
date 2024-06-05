@@ -18,7 +18,7 @@
         <label class="text-xl font-bold">{{ title }}</label>
       </header>
 
-      <div class="divider mt-2"></div>
+      <div class="divider mt-2" />
     </template>
 
     <slot />

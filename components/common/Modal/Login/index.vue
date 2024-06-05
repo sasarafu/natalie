@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="divider"></div>
+      <div class="divider" />
 
       <component
         :is="loginComponents[selectedInstanceType]"

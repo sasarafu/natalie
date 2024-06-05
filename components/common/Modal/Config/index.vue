@@ -24,7 +24,7 @@
           </button>
         </div>
 
-        <div class="divider"></div>
+        <div class="divider" />
         <div>
           <h2 class="text-3xl font-bold mb-2">danger zone</h2>
 
@@ -44,7 +44,7 @@
           </CommonPartsDetails>
         </div>
 
-        <div class="divider"></div>
+        <div class="divider" />
         <div>
           <h2 class="text-3xl font-bold mb-2">version</h2>
           <p>
