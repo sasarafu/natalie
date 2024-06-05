@@ -2,21 +2,21 @@
   <div>
     <template v-if="orderedLoginUsers?.length > 0">
       <div class="flex gap-1 h-screen w-screen bg-base-300 max-sm:flex-col">
-        <CommonSidebar class="max-sm:order-last" />
+        <Sidebar class="max-sm:order-last" />
         <div
           class="flex-auto flex gap-x-1 overflow-x-auto overscroll-none max-sm:snap-x max-sm:snap-mandatory"
         >
-          <CommonTimeline
+          <Timeline
             v-for="timeline in timelines"
             :key="timeline.id"
             :timeline="timeline"
             class="max-sm:snap-center max-sm:max-w-[100dvw]"
           />
-          <CommonMenu class="ml-auto max-sm:snap-end" />
+          <TimelineAddMenu class="ml-auto max-sm:snap-end" />
         </div>
       </div>
 
-      <CommonModalMedia
+      <ModalMedia
         v-if="media"
         :media-list="media.mediaList"
         :initial="media.initial"
@@ -24,11 +24,11 @@
       />
     </template>
 
-    <CommonModal />
-    <CommonToast />
+    <Modal />
+    <Toast />
 
     <!-- 初回ログインモーダル -->
-    <CommonModalLogin v-if="orderedLoginUsers?.length === 0" />
+    <ModalLogin v-if="orderedLoginUsers?.length === 0" />
   </div>
 </template>
 

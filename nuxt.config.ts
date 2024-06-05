@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@pinia/nuxt',
   ],
-  components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
+  components: [{ path: '~/components', pathPrefix: false }],
   app: {
     head: {
       link: [
