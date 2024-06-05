@@ -69,6 +69,11 @@
 import type { IMessage } from '~/models/common/message';
 import type { ITimeline } from '~/models/common/timeline';
 import type { IBlueskyMessage } from '~/models/instances/bluesky/message';
+// import {
+//   TimelineItemBluesky,
+//   TimelineItemMastodon,
+//   TimelineItemMisskey,
+// } from '#components';
 
 const ITEM_COUNT_LIMIT = 40;
 
@@ -78,6 +83,7 @@ const props = defineProps<{
 
 const notification = useNotification();
 
+// TODO: #components から読み込んだものを使いたいが、型エラーが起きるのでそのままにする
 const columnItemComponents = {
   bluesky: resolveComponent('TimelineItemBluesky'),
   mastodon: resolveComponent('TimelineItemMastodon'),

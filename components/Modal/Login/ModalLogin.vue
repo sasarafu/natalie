@@ -53,6 +53,11 @@
 <script setup lang="ts">
 import { instanceTypes } from '~/models/instances/instanceType';
 import type { IInstanceType } from '~/models/instances/instanceType';
+import {
+  ModalLoginBluesky,
+  ModalLoginMastodon,
+  ModalLoginMisskey,
+} from '#components';
 
 // 閉じたくないとき、$emit('close')は実装しないこと
 defineEmits<{
@@ -62,9 +67,9 @@ defineEmits<{
 const selectedInstanceType = ref<IInstanceType | undefined>();
 
 const loginComponents = {
-  bluesky: resolveComponent('ModalLoginBluesky'),
-  mastodon: resolveComponent('ModalLoginMastodon'),
-  misskey: resolveComponent('ModalLoginMisskey'),
+  bluesky: ModalLoginBluesky,
+  mastodon: ModalLoginMastodon,
+  misskey: ModalLoginMisskey,
 };
 </script>
 
