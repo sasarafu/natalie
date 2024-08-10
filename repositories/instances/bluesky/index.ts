@@ -85,7 +85,7 @@ export const blueskyRepository = () => ({
         return ret.data.feed.map((post) =>
           blueskyConverter.postToMessage(post, ret.data.cursor, user),
         );
-      } catch (e) {
+      } catch {
         return [];
       }
     },

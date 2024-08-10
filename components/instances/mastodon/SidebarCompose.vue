@@ -55,7 +55,7 @@ const submit = async () => {
       });
 
     message.value = {};
-  } catch (_) {}
+  } catch {}
 
   submitting.value = false;
 };
