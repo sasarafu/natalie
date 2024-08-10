@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
     '@pinia/nuxt',
-    '@vite-pwa/nuxt',
   ],
   components: [{ path: '~/components/instances', prefix: '' }, '~/components'],
   app: {
@@ -31,17 +30,6 @@ export default defineNuxtConfig({
       appName: 'Natalie',
       version: packageVersion,
       natalieEnv: 'dev',
-    },
-  },
-  pwa: {
-    registerType: 'autoUpdate',
-    manifest: {
-      name: 'Natalie',
-      short_name: 'Natalie',
-      display: 'standalone',
-      start_url: '/',
-      theme_color: 'black',
-      icons: [],
     },
   },
 });
