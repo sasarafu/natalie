@@ -19,10 +19,6 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1',
         },
-        {
-          rel: 'manifest',
-          href: '/manifest.webmanifest',
-        },
       ],
     },
   },
