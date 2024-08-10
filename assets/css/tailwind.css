@@ -11,9 +11,14 @@
   border-radius: 2px;
 }
 
+*, *:hover {
+  scrollbar-width: unset;
+  scrollbar-color: unset;
+}
+
 @-moz-document url-prefix() {
   /* firefox only */
-  * {
+  *, *:hover {
     scrollbar-width: thin;
     scrollbar-color: oklch(var(--p)) transparent;
   } 
