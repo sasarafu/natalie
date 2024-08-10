@@ -1,28 +1,30 @@
 <template>
-  <div
-    ref="modalRef"
-    tabindex="-1"
-    class="modal-box border border-secondary outline-none p-4"
-    @keydown.esc="$emit('close')"
-  >
-    <template v-if="title">
-      <header class="flex items-center gap-x-2">
-        <button
-          type="button"
-          class="btn btn-sm btn-square btn-ghost"
-          :disabled="!closable"
-          @click="$emit('close')"
-        >
-          <span class="material-symbols-outlined">close</span>
-        </button>
-        <label class="text-xl font-bold">{{ title }}</label>
-      </header>
+  <Teleport to="#modalIndex">
+    <div
+      ref="modalRef"
+      tabindex="-1"
+      class="modal-box border border-secondary outline-none p-4"
+      @keydown.esc="$emit('close')"
+    >
+      <template v-if="title">
+        <header class="flex items-center gap-x-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-square btn-ghost"
+            :disabled="!closable"
+            @click="$emit('close')"
+          >
+            <span class="material-symbols-outlined">close</span>
+          </button>
+          <label class="text-xl font-bold">{{ title }}</label>
+        </header>
 
-      <div class="divider mt-2" />
-    </template>
+        <div class="divider mt-2" />
+      </template>
 
-    <slot />
-  </div>
+      <slot />
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
