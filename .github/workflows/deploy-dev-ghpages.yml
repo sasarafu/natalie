@@ -21,32 +21,17 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - run: corepack enable
+
       - name: setup nodejs
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: 'npm'
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: nuxt
+      - run: npm ci
 
-      - name: restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-            .nuxt
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
-          restore-keys: |
-            ${{ runner.os }}-nuxt-build-
-
-      - name: install dependencies
-        run: npm ci
-
-      - name: generate static files
-        run: npm run generate
+      - run: npx nuxt build --preset github_pages
 
       - name: upload artifact
         uses: actions/upload-pages-artifact@v3
