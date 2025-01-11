@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.7.5",
+		"@nuxtjs/tailwindcss": "^6.12.2",
+		"daisyui": "^4.12.23",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
