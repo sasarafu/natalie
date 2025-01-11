@@ -1,9 +1,10 @@
 {
   "name": "natalie",
-  "description": "a multi-column web client for Fediverse",
-  "version": "0.1.0",
+  "description": "a Fediverse Web client",
+  "version": "0.2.0",
   "author": "sasarafu <138344965+sasarafu@users.noreply.github.com>",
   "private": true,
+  "type": "module",
   "packageManager": "npm@10.5.0+sha256.17ca6e08e7633b624e8f870db81a78f46afe119de62bcaf0a7407574139198fc",
   "engines": {
     "node": "20"
@@ -13,49 +14,13 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "lint:ts": "tsc -p tsconfig.json --noEmit",
-    "lint:eslint": "eslint .",
-    "lint:nuxt": "nuxi typecheck",
-    "lint": "npm run lint:ts && npm run lint:eslint && npm run lint:nuxt",
-    "lintfix": "npm run lint:eslint -- --fix",
-    "prepare": "husky"
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@atproto/api": "^0.12.0",
-    "@pinia/nuxt": "^0.5.1",
-    "dayjs": "^1.11.10",
-    "masto": "^6.0.5",
-    "mfm-js": "^0.24.0",
-    "misskey-js": "^2024.3.1",
-    "pinia": "^2.1.6",
-    "sanitize-html": "^2.11.0"
+    "nuxt": "^3.15.1",
+    "vue": "latest",
+    "vue-router": "latest"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
-    "@nuxt/eslint": "^0.5.0",
-    "@nuxtjs/tailwindcss": "^6.8.0",
-    "@types/node": "^20",
-    "@types/sanitize-html": "^2.9.0",
-    "@vueuse/core": "^10.3.0",
-    "@vueuse/nuxt": "^10.3.0",
-    "daisyui": "^4.4.19",
-    "eslint": "^9.3.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.0.1",
-    "husky": "^9.0.10",
-    "lint-staged": "^15.2.2",
-    "nuxt": "^3.10.3",
-    "typescript": "^5.2.2",
-    "vue-tsc": "^2.0.6"
-  },
-  "overrides": {
-    "vue": "latest"
-  },
-  "lint-staged": {
-    "**/*.{js,ts,vue}": [
-      "bash -c tsc -p tsconfig.json --noEmit",
-      "eslint"
-    ]
   }
 }
