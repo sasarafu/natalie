@@ -14,7 +14,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare && lefthook install",
+    "check:eslint": "eslint",
+    "check:nuxt": "nuxi typecheck",
+    "check": "npm run check:eslint && npm run check:nuxt",
+    "checkfix": "npm run check:eslint -- --fix",
+    "test": "npm run check"
   },
   "dependencies": {
     "nuxt": "^3.15.1",
@@ -22,5 +27,11 @@
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@nuxt/eslint": "^0.7.5",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "lefthook": "^1.10.3",
+    "vue-tsc": "latest"
   }
 }
