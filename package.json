@@ -29,13 +29,13 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^0.7.5",
+    "@nuxt/eslint": "^1.1.0",
 		"@nuxtjs/tailwindcss": "^6.12.2",
 		"daisyui": "^4.12.23",
     "eslint": "^9.18.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-prettier": "^5.2.1",
     "lefthook": "^1.10.3",
-    "vue-tsc": "latest"
+    "vue-tsc": "2.2.4"
   }
 }
