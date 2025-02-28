@@ -1,0 +1,18 @@
+{
+  "client_id": "https://natalie.sasarafu.net/oauth/bsky-client-metadata.json",
+  "application_type": "web",
+  "client_name": "Natalie",
+  "client_uri": "https://natalie.sasarafu.net",
+  "logo_uri": "https://natalie.sasarafu.net/favicon.ico",
+  "dpop_bound_access_tokens": true,
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "redirect_uris": [
+    "https://natalie.sasarafu.net/oauth/callback/bsky"
+  ],
+  "response_types": ["code"],
+  "token_endpoint_auth_method": "none",
+  "scope": "atproto transition:generic"
+}
