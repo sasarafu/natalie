@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col h-full min-w-80 bg-base-200">
-    <header class="flex-none p-2 bg-base-300">header</header>
+    <header class="flex-none p-2 bg-base-300">
+      {{ timeline.name }}
+    </header>
     <main class="grow overflow-y-auto p-2">
       <TimelineItem v-for="post in posts" :key="post.id" :post="post" />
     </main>
@@ -9,6 +11,11 @@
 
 <script setup lang="ts">
 import type { Post } from '~/models/post';
+import type { Timeline } from '~/models/timeline';
+
+defineProps<{
+  timeline: Timeline;
+}>();
 
 const posts = computed<Post[]>(() => [
   {
