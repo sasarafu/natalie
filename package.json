@@ -5,9 +5,9 @@
   "author": "sasarafu <138344965+sasarafu@users.noreply.github.com>",
   "private": true,
   "type": "module",
-  "packageManager": "npm@10.5.0+sha256.17ca6e08e7633b624e8f870db81a78f46afe119de62bcaf0a7407574139198fc",
+  "packageManager": "npm@10.9.2+sha512.8ab88f10f224a0c614cb717a7f7c30499014f77134120e9c1f0211ea3cf3397592cbe483feb38e0c4b3be1c54e347292c76a1b5edb94a3289d5448484ab8ac81",
   "engines": {
-    "node": "20"
+    "node": "22"
   },
   "scripts": {
     "build": "nuxt build",
@@ -23,19 +23,19 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
-		"@vueuse/nuxt": "^12.4.0",
+    "@vueuse/nuxt": "^13.1.0",
     "nuxt": "^3.15.1",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.1.0",
-		"@nuxtjs/tailwindcss": "^6.12.2",
-		"daisyui": "^4.12.23",
+    "@nuxtjs/tailwindcss": "^6.12.2",
+    "daisyui": "^5.0.27",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-prettier": "^5.2.1",
     "lefthook": "^1.10.3",
-    "vue-tsc": "2.2.4"
+    "vue-tsc": "2.2.8"
   }
 }
