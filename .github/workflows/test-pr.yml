@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '22.x'
 
 jobs:
   test-pr:
@@ -29,5 +29,5 @@ jobs:
       - name: npm ci
         run: npm ci
 
-      - name: lint
-        run: npm run lint
+      - name: test
+        run: npm run check
